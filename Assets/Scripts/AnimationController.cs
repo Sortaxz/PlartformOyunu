@@ -105,7 +105,7 @@ public class AnimationController : MonoBehaviour
                 jumpSpritesCount = 0;
             }
         }
-        
+
         #endregion
 
         #region  Karakterimiz'in Desh Animasyonu'nun kodlari
@@ -121,7 +121,16 @@ public class AnimationController : MonoBehaviour
         }   
         #endregion
 
-       
+        if(character.readyToAttack)
+        {
+            characteSPR.sprite = attackSprites[attackSpritesCount++];
+
+            if(attackSpritesCount == attackSprites.Length - 1)
+            {
+                attackSpritesCount = 0;
+                character.attack = false;
+            }
+        }
         
     }
 

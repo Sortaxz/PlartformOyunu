@@ -14,6 +14,8 @@ public class CharacterControl : MonoBehaviour
     bool isJumping = false;
     public bool isCharacterAbove  =false;
     public bool isCharacterSlidDown = false;
+    public bool readyToAttack = false;
+    public bool attack = false;
     private void Awake() 
     {
         rb2D = GetComponent<Rigidbody2D>();
@@ -39,7 +41,17 @@ public class CharacterControl : MonoBehaviour
         CharacterMovement();    
         JumpingMovement();
     }
-   
+
+    private void OnCollisionEnter2D(Collision2D other) 
+    {
+        if(other.collider)
+        {
+            jumpCounter = 0;
+            isCharacterAbove = false;
+        }    
+
+        
+    }
 
     void JumpingMovement()
     {
@@ -50,14 +62,6 @@ public class CharacterControl : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D other) 
-    {
-        if(other.collider)
-        {
-            jumpCounter = 0;
-            isCharacterAbove = false;
-        }    
-    }
     private void MovementInputController()
     {
         if (Input.GetKeyDown(KeyCode.A))
@@ -85,6 +89,17 @@ public class CharacterControl : MonoBehaviour
         else if(Input.GetKeyUp(KeyCode.S))
         {
             isCharacterSlidDown = false;
+        }
+
+        if(Input.GetMouseButtonDown(0) && !attack)
+        {
+            attack = true;
+            readyToAttack = true;
+        }
+        if(Input.GetMouseButtonUp(0))
+        {
+            readyToAttack = false;
+
         }
         
     }

@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 2010948801021296029}
   m_Layer: 0
   m_Name: Character
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -159,7 +159,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &7701891207121582956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,7 +174,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpingPower: 200
   characterSpeed: 8
+  isCharacterAbove: 0
   isCharacterSlidDown: 0
+  readyToAttack: 0
+  attack: 0
 --- !u!114 &2010948801021296029
 MonoBehaviour:
   m_ObjectHideFlags: 0
