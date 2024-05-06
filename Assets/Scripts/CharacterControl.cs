@@ -12,6 +12,7 @@ public class CharacterControl : MonoBehaviour
     bool isToLeft = false;
     bool isToRight = false;
     bool isJumping = false;
+    public bool isCharacterAbove  =false;
     public bool isCharacterSlidDown = false;
     private void Awake() 
     {
@@ -28,6 +29,7 @@ public class CharacterControl : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Space) && jumpCounter != 2)
         {
             isJumping = true;
+            isCharacterAbove  =true;
             jumpCounter++;
         }
     }
@@ -53,6 +55,7 @@ public class CharacterControl : MonoBehaviour
         if(other.collider)
         {
             jumpCounter = 0;
+            isCharacterAbove = false;
         }    
     }
     private void MovementInputController()
@@ -75,6 +78,14 @@ public class CharacterControl : MonoBehaviour
             isToRight = false;
         }
 
+        if(Input.GetKeyDown(KeyCode.S))
+        {
+            isCharacterSlidDown  =true;
+        }
+        else if(Input.GetKeyUp(KeyCode.S))
+        {
+            isCharacterSlidDown = false;
+        }
         
     }
 
