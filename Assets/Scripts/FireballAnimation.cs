@@ -4,15 +4,46 @@ using UnityEngine;
 
 public class FireballAnimation : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private Sprite[] fireballSprites;
+    
+    float fireballTimerCounter = 0f;
+    private int fireballIndex = 0;
+
+    SpriteRenderer fireballSPR;
+
+    private void Awake() 
     {
-        
+        fireballSPR = GetComponent<SpriteRenderer>();    
     }
 
-    // Update is called once per frame
+    void Start()
+    {
+        FireballDeletion();
+    }
+
     void Update()
     {
+        FireballAnimasyon();
+    }
+
+    void FireballDeletion()
+    {
+        Destroy(gameObject,10);
+    }
+
+    void FireballAnimasyon()
+    {
+        fireballTimerCounter += Time.deltaTime;
         
+        if(fireballTimerCounter > 0.2f)
+        {
+            fireballTimerCounter = 0f;
+            fireballSPR.sprite = fireballSprites[fireballIndex++];
+
+            if(fireballIndex == fireballSprites.Length - 1)
+            {
+                fireballIndex = 0;
+            }
+        }
     }
 }

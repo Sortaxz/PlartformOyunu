@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 253559431093630539}
   m_Layer: 0
   m_Name: fireball
-  m_TagString: Untagged
+  m_TagString: fireball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -172,6 +172,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5b814974c1807842ab4c416cd584a31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fireballSprites:
+  - {fileID: 21300000, guid: c8307a4528f7acd4f8fd04dad4794113, type: 3}
+  - {fileID: 21300000, guid: 4c7f18f1274f4084d98959dd8fa5b0f5, type: 3}
+  - {fileID: 21300000, guid: e12def1f392e15740bf167c1e2512f53, type: 3}
+  - {fileID: 21300000, guid: 05270ae50883518448c456db9c8d82b8, type: 3}
 --- !u!114 &253559431093630539
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,3 +189,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 007c3970368d8ee479e5a93000b8a349, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fireballSpeed: 0
+  birKereYonAlindi: 0

@@ -8,14 +8,36 @@ using UnityEditor;
 
 public class Spawner : MonoBehaviour
 {
-    GameManager gameManager;
+    private static Spawner intance;
+    public static Spawner Instance
+    {
+        get
+        {
+            if (intance == null)
+            {
+                intance = FindAnyObjectByType<Spawner>();
+            }
+            return intance;
+        }
+    }
+    List<FireballController> fireballs = new List<FireballController>();
     Transform[] spawnPoint;
+
+    GameManager gameManager;
     [SerializeField]private GameObject character;
     [SerializeField]private GameObject fireball;
+    public GameObject Fireball
+    {
+        get { return fireball; }
+    }
+
     [SerializeField]private Transform fireballPosition;
 
     [SerializeField] private Vector3 cameraMesafesi;
+
+    [SerializeField] private float timerCounter;
     private int currentSpawnIndex = 0;
+    
     private void Awake()
     {
         gameManager = GameManager.Instance;
@@ -57,12 +79,16 @@ public class Spawner : MonoBehaviour
         gameManager.RegisteMainCharacter(spawnCharacter.GetComponent<CharacterControl>());
     }
 
-    void SpawnFireball()
-    {
+    private void SpawnFireball()
+    {   
+        
         if(GameManager.Instance.mainCharacter.fireballReady)
         {
             GameObject newFireBall = Instantiate(fireball,fireballPosition.position,Quaternion.identity);
-            GameManager.Instance.mainCharacter.fireballReady = false;
+            newFireBall.GetComponent<FireballController>().birKereYonAlindi = false;
+            
+            gameManager.mainCharacter.fireballReady = false;
+            fireballs.Add(newFireBall.GetComponent<FireballController>());
             
             if(gameManager.mainCharacter.fireballLocalScale)
             {
@@ -72,8 +98,10 @@ public class Spawner : MonoBehaviour
             {
                 newFireBall.transform.localScale = new Vector3(1,1,1);
             }
+
         }
     }
+
 
 
     #if UNITY_EDITOR
@@ -109,6 +137,7 @@ class SpawnerEditor : Editor
         }
         EditorGUILayout.PropertyField(serializedObject.FindProperty("cameraMesafesi"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("fireball"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("timerCounter"));
         serializedObject.ApplyModifiedProperties();
         serializedObject.Update();
     }

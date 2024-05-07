@@ -199,7 +199,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCharacter: {fileID: 0}
-  fireballPosition: {fileID: 0}
+  fireballSpeed: 800
+  fireballTimerCounter: 10
 --- !u!1 &967173488
 GameObject:
   m_ObjectHideFlags: 0
@@ -736,8 +737,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2f4762a8ec80494cb4a2e2e589800df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fireballs: []
   character: {fileID: 0}
+  fireball: {fileID: 0}
+  fireballPosition: {fileID: 0}
   cameraMesafesi: {x: 1, y: 2, z: -30}
+  timerCounter: 0
 --- !u!1 &1478125796
 GameObject:
   m_ObjectHideFlags: 0

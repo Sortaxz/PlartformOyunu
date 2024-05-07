@@ -81,8 +81,8 @@ public class CharacterControl : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.D))
         {
-            isToRight = true;
             fireballLocalScale = false;
+            isToRight = true;
         }
         else if (Input.GetKeyUp(KeyCode.D))
         {
@@ -107,14 +107,10 @@ public class CharacterControl : MonoBehaviour
             else
             {
                 readyToFireballAttack = true;
+                Spawner.Instance.Fireball.GetComponent<FireballController>().birKereYonAlindi = false;
             }
         }
-        /*
-        if(Input.GetMouseButtonUp(0))
-        {
-            readyToAttack = false;
-        }
-        */
+        
     }
 
     

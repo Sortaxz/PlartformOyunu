@@ -25,10 +25,12 @@ public class Enemy : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D other) 
     {
-        if(other.collider.CompareTag("Player") && dead !=1 )
+        if(other.collider.CompareTag("Player") || other.collider.CompareTag("fireball")  && dead !=1 )
         {
             dead++;
             isEnemyDead = true;
-        }    
+        }   
+
+        
     }
 }

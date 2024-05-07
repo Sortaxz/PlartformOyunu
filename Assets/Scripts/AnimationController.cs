@@ -178,8 +178,5 @@ public class AnimationController : MonoBehaviour
         #endregion
 
     }   
-    IEnumerator Timer(float time)
-    {
-        yield return new WaitForSeconds(time * Time.deltaTime);
-    }
+   
 }
