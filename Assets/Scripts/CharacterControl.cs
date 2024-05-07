@@ -15,7 +15,12 @@ public class CharacterControl : MonoBehaviour
     public bool isCharacterAbove  =false;
     public bool isCharacterSlidDown = false;
     public bool readyToAttack = false;
-    public bool attack = false;
+
+    public bool readyToFireballAttack = false;
+    public bool fireballReady = false;
+
+    public bool fireballLocalScale = false;
+    
     private void Awake() 
     {
         rb2D = GetComponent<Rigidbody2D>();
@@ -67,6 +72,7 @@ public class CharacterControl : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.A))
         {
             isToLeft = true;
+            fireballLocalScale = true;
         }
         else if (Input.GetKeyUp(KeyCode.A))
         {
@@ -76,6 +82,7 @@ public class CharacterControl : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.D))
         {
             isToRight = true;
+            fireballLocalScale = false;
         }
         else if (Input.GetKeyUp(KeyCode.D))
         {
@@ -91,17 +98,23 @@ public class CharacterControl : MonoBehaviour
             isCharacterSlidDown = false;
         }
 
-        if(Input.GetMouseButtonDown(0) && !attack)
+        if(Input.GetMouseButtonDown(0) )
         {
-            attack = true;
-            readyToAttack = true;
+            if(UIAnimation.Instance.SwordAttackBegin == true)
+            {
+                readyToAttack = true;
+            }
+            else
+            {
+                readyToFireballAttack = true;
+            }
         }
+        /*
         if(Input.GetMouseButtonUp(0))
         {
             readyToAttack = false;
-
         }
-        
+        */
     }
 
     

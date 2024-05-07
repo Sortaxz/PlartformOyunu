@@ -39,7 +39,7 @@ public class EnemyAnimationController : MonoBehaviour
                 {
                     deadSpritesCount = 0;
                     enemy.isEnemyDead =false;
-                    Destroy(enemy.gameObject,2);
+                    Destroy(enemy.gameObject,1);
                 }
             }
         }

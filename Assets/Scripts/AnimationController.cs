@@ -1,22 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Animations;
 using UnityEngine;
 
 public class AnimationController : MonoBehaviour
 {
+    private static AnimatorController instance;
+    public static AnimatorController Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindAnyObjectByType<AnimatorController>();
+            }
+            return instance;
+        }
+    }
+
     [SerializeField] private Sprite[] idleSprites;
     [SerializeField] private Sprite[] runSprites;
     [SerializeField] private Sprite[] jumpSprites;
     [SerializeField] private Sprite[] deshSprites;
     [SerializeField] private Sprite[] attackSprites;
+    [SerializeField] private Sprite[] fireballSkillSprites;
+    [SerializeField] private Sprite[] fireballSprites;
     
     public CharacterControl character;
     
-    Rigidbody2D charcterRb2D;
     [SerializeField ]SpriteRenderer characteSPR; // character'ın SpriteRenderer'ı
 
     private float idleSpritesTimeCounter = 0f;
     private float runSpritesTimeCounter = 0f;
+    private float fireballSkillSpritesTimeCounter = 0f;
     private float attackSpritesTimeCounter = 0f;
     
     
@@ -26,16 +42,16 @@ public class AnimationController : MonoBehaviour
     private int jumpSpritesCount = 0;
     private int deshSpritesCount = 0;
     private int attackSpritesCount = 0;
+    private int fireballSkillSpritesCount = 0;
 
     private float horizontal;
     private void Awake() 
     {
-        character = GetComponent<CharacterControl>();
         characteSPR = GetComponent<SpriteRenderer>();
-        charcterRb2D = GetComponent<Rigidbody2D>();
     }
     void Start()
     {
+        character = GameManager.Instance.mainCharacter;
     }
 
     void Update()
@@ -120,18 +136,50 @@ public class AnimationController : MonoBehaviour
             
         }   
         #endregion
-
+        
+        #region  Karakterimiz'in Atak Animasyonu'nun kodlari
         if(character.readyToAttack)
         {
-            characteSPR.sprite = attackSprites[attackSpritesCount++];
-
-            if(attackSpritesCount == attackSprites.Length - 1)
+            attackSpritesTimeCounter += Time.deltaTime;
+            
+            if(attackSpritesTimeCounter > 0.07f)
             {
-                attackSpritesCount = 0;
-                character.attack = false;
+                characteSPR.sprite = attackSprites[attackSpritesCount++];
+
+                if(attackSpritesCount == attackSprites.Length - 1)
+                {
+                    attackSpritesCount = 0;
+                    character.readyToAttack = false;
+                }
+                attackSpritesTimeCounter = 0f;
             }
         }
-        
-    }
+        #endregion
 
+
+        #region  Karakterimiz'in Ateş Topu Atmaya Hazilanma Animasyonu
+        if(character.readyToFireballAttack)
+        {
+            fireballSkillSpritesTimeCounter += Time.deltaTime;
+            if(fireballSkillSpritesTimeCounter > 0.2f)
+            {
+                characteSPR.sprite = fireballSkillSprites[fireballSkillSpritesCount++];
+
+                if(fireballSkillSpritesCount == fireballSkillSprites.Length - 1)
+                {
+                    fireballSkillSpritesCount = 0;
+                    character.readyToFireballAttack = false;
+                    character.fireballReady = true;
+                }
+                fireballSkillSpritesTimeCounter = 0f;
+            }
+
+        }
+        #endregion
+
+    }   
+    IEnumerator Timer(float time)
+    {
+        yield return new WaitForSeconds(time * Time.deltaTime);
+    }
 }
