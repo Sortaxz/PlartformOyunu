@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 
 public class CharacterControl : MonoBehaviour
@@ -8,19 +9,20 @@ public class CharacterControl : MonoBehaviour
     Vector3 movement=  Vector3.zero;
     [SerializeField] private float jumpingPower;
     [SerializeField] private float characterSpeed; 
-    int jumpCounter = 0;
-    bool isToLeft = false;
-    bool isToRight = false;
-    bool isJumping = false;
+    private int jumpCounter = 0;
+    private bool isToLeft = false;
+    private bool isToRight = false;
+    private bool isJumping = false;
     public bool isCharacterAbove  =false;
     public bool isCharacterSlidDown = false;
     public bool readyToAttack = false;
 
     public bool readyToFireballAttack = false;
-    public bool fireballReady = false;
-
-    public bool fireballLocalScale = false;
     
+    public bool fireballLocalScale = false;
+
+    private  int spawnPointSiblingIndex = default;
+   
     private void Awake() 
     {
         rb2D = GetComponent<Rigidbody2D>();
@@ -54,10 +56,17 @@ public class CharacterControl : MonoBehaviour
             jumpCounter = 0;
             isCharacterAbove = false;
         }    
-
-        
     }
 
+    private void OnTriggerEnter2D(Collider2D other) 
+    {
+        if(other.CompareTag("CheckPoint"))
+        {
+            spawnPointSiblingIndex =  other.transform.GetSiblingIndex();
+            PlayerPrefs.SetInt("CheckPoint",spawnPointSiblingIndex);
+        }    
+    }
+    
     void JumpingMovement()
     {
         if(isJumping)

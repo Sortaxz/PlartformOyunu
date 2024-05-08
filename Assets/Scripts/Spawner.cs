@@ -20,10 +20,14 @@ public class Spawner : MonoBehaviour
             return intance;
         }
     }
-    List<FireballController> fireballs = new List<FireballController>();
-    Transform[] spawnPoint;
+    private Transform[] spawnPoint;
 
-    GameManager gameManager;
+    public Transform[] SpawnPoint
+    {
+        get { return spawnPoint; }
+    }
+
+    private GameManager gameManager;
     [SerializeField]private GameObject character;
     [SerializeField]private GameObject fireball;
     public GameObject Fireball
@@ -35,15 +39,14 @@ public class Spawner : MonoBehaviour
 
     [SerializeField] private Vector3 cameraMesafesi;
 
-    [SerializeField] private float timerCounter;
-    private int currentSpawnIndex = 0;
+    private static int currentSpawnIndex = 0;
     
     private void Awake()
     {
-        gameManager = GameManager.Instance;
         Resource();
         SpawPointDizileme();
-        SpawnCharacter();
+        gameManager = GameManager.Instance;
+
     }
 
     private void Resource()
@@ -63,6 +66,7 @@ public class Spawner : MonoBehaviour
 
     void Start()
     {
+        SpawnCharacter();
         fireballPosition = gameManager.mainCharacter.transform.GetChild(0).transform; 
     }
 
@@ -73,22 +77,28 @@ public class Spawner : MonoBehaviour
 
     public void SpawnCharacter()
     {
+        currentSpawnIndex = PlayerPrefs.GetInt("CheckPoint");
         GameObject spawnCharacter = Instantiate(character, spawnPoint[currentSpawnIndex].position,Quaternion.identity);
         Camera.main.transform.parent =spawnCharacter.transform;
         Camera.main.transform.localPosition = cameraMesafesi;
-        gameManager.RegisteMainCharacter(spawnCharacter.GetComponent<CharacterControl>());
+        
+        
+
+        gameManager.RegisterMainCharacter(spawnCharacter.GetComponent<CharacterControl>());
     }
+    
+   
+    
 
     private void SpawnFireball()
     {   
         
-        if(GameManager.Instance.mainCharacter.fireballReady)
+        if(AnimationController.Instance.fireballReady)
         {
             GameObject newFireBall = Instantiate(fireball,fireballPosition.position,Quaternion.identity);
             newFireBall.GetComponent<FireballController>().birKereYonAlindi = false;
             
-            gameManager.mainCharacter.fireballReady = false;
-            fireballs.Add(newFireBall.GetComponent<FireballController>());
+            AnimationController.Instance.fireballReady = false;
             
             if(gameManager.mainCharacter.fireballLocalScale)
             {
@@ -128,16 +138,18 @@ class SpawnerEditor : Editor
     {
         Spawner spawner = (Spawner)target;
 
-        if(GUILayout.Button("Spaw Poin Üret",GUILayout.MinWidth(100),GUILayout.MaxWidth(300)))
+        if(GUILayout.Button("Spaw Point Üret",GUILayout.MinWidth(100),GUILayout.MaxWidth(300)))
         {
             GameObject spawnPoint = new GameObject();
+            spawnPoint.transform.tag = "CheckPoint";
             spawnPoint.transform.name = spawner.transform.childCount.ToString();
             spawnPoint.transform.parent = spawner.transform;
             spawnPoint.transform.position = spawner.transform.position;
+            spawnPoint.AddComponent<CircleCollider2D>();
+            spawnPoint.GetComponent<CircleCollider2D>().isTrigger = true;
         }
         EditorGUILayout.PropertyField(serializedObject.FindProperty("cameraMesafesi"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("fireball"));
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("timerCounter"));
         serializedObject.ApplyModifiedProperties();
         serializedObject.Update();
     }

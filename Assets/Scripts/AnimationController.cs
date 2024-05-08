@@ -5,14 +5,14 @@ using UnityEngine;
 
 public class AnimationController : MonoBehaviour
 {
-    private static AnimatorController instance;
-    public static AnimatorController Instance
+    private static AnimationController instance;
+    public static AnimationController Instance
     {
         get
         {
             if (instance == null)
             {
-                instance = FindAnyObjectByType<AnimatorController>();
+                instance = FindAnyObjectByType<AnimationController>();
             }
             return instance;
         }
@@ -29,6 +29,9 @@ public class AnimationController : MonoBehaviour
     public CharacterControl character;
     
     [SerializeField ]SpriteRenderer characteSPR; // character'ın SpriteRenderer'ı
+
+    public bool fireballReady = false;
+
 
     private float idleSpritesTimeCounter = 0f;
     private float runSpritesTimeCounter = 0f;
@@ -169,7 +172,7 @@ public class AnimationController : MonoBehaviour
                 {
                     fireballSkillSpritesCount = 0;
                     character.readyToFireballAttack = false;
-                    character.fireballReady = true;
+                    fireballReady = true;
                 }
                 fireballSkillSpritesTimeCounter = 0f;
             }
