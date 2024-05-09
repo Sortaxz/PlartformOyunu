@@ -179,7 +179,7 @@ MonoBehaviour:
   isCharacterSlidDown: 0
   readyToAttack: 0
   readyToFireballAttack: 0
-  fireballReady: 0
+  fireballLocalScale: 0
 --- !u!114 &2010948801021296029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -233,8 +233,10 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 42e58c862487351449fe1788b73961cb, type: 3}
   - {fileID: 21300000, guid: ef15c95532a07034d81a1ad104693e97, type: 3}
   - {fileID: 21300000, guid: fbb98615f43f06b479717d629ebfe3f3, type: 3}
+  fireballSprites: []
   character: {fileID: 0}
   characteSPR: {fileID: 0}
+  fireballReady: 0
 --- !u!1 &6978600773877102869
 GameObject:
   m_ObjectHideFlags: 0

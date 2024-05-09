@@ -21,6 +21,15 @@ public class CharacterControl : MonoBehaviour
     
     public bool fireballLocalScale = false;
 
+    private bool isCharacterDead  =false;
+    public bool IsCharacterDead
+    {
+        get
+        {
+            return isCharacterDead;
+        }
+    }
+
     private  int spawnPointSiblingIndex = default;
    
     private void Awake() 
@@ -55,16 +64,24 @@ public class CharacterControl : MonoBehaviour
         {
             jumpCounter = 0;
             isCharacterAbove = false;
-        }    
-    }
+        } 
 
+        if(other.collider.CompareTag("obstacle"))
+        {
+            isCharacterDead = true;
+            GameManager.Instance.isCharacterOnPoint = false;
+        }
+        
+    }
+    //oyun başlark en son ki temas etti spanw objesinden doğucak
     private void OnTriggerEnter2D(Collider2D other) 
     {
-        if(other.CompareTag("CheckPoint"))
+        if(other.CompareTag("SpawnPoint"))
         {
             spawnPointSiblingIndex =  other.transform.GetSiblingIndex();
-            PlayerPrefs.SetInt("CheckPoint",spawnPointSiblingIndex);
-        }    
+            PlayerPrefs.SetInt("SpawnPoint",spawnPointSiblingIndex);
+        } 
+        
     }
     
     void JumpingMovement()

@@ -20,16 +20,12 @@ public class Spawner : MonoBehaviour
             return intance;
         }
     }
-    private Transform[] spawnPoint;
-
-    public Transform[] SpawnPoint
-    {
-        get { return spawnPoint; }
-    }
-
+    public List<Transform> spawnPoints = new List<Transform>();
+    //private Transform[] spawnPoint;
     private GameManager gameManager;
     [SerializeField]private GameObject character;
     [SerializeField]private GameObject fireball;
+    [SerializeField]private GameObject checkPoint;
     public GameObject Fireball
     {
         get { return fireball; }
@@ -45,22 +41,24 @@ public class Spawner : MonoBehaviour
     {
         Resource();
         SpawPointDizileme();
+        SpawnCheckPoint();
         gameManager = GameManager.Instance;
 
     }
 
     private void Resource()
     {
-        character = Resources.Load<CharacterControl>("Prefabs/Character").gameObject;
+        character = Resources.Load<GameObject>("Prefabs/Character");
         fireball = Resources.Load<GameObject>("Prefabs/fireball");
+        checkPoint = Resources.Load<GameObject>("Prefabs/CheckPoint");
     }
 
     private void SpawPointDizileme()
     {
-        spawnPoint = new Transform[transform.childCount];
-        for (int i = 0; i < spawnPoint.Length; i++)
+        //spawnPoint = new Transform[transform.childCount];
+        for (int i = 0; i < spawnPoints.Count; i++)
         {
-            spawnPoint[i] = transform.GetChild(i).transform;
+            spawnPoints[i] = transform.GetChild(i).transform;
         }
     }
 
@@ -77,22 +75,16 @@ public class Spawner : MonoBehaviour
 
     public void SpawnCharacter()
     {
-        currentSpawnIndex = PlayerPrefs.GetInt("CheckPoint");
-        GameObject spawnCharacter = Instantiate(character, spawnPoint[currentSpawnIndex].position,Quaternion.identity);
+        currentSpawnIndex = PlayerPrefs.GetInt("SpawnPoint");
+        GameObject spawnCharacter = Instantiate(character, spawnPoints[currentSpawnIndex].position,Quaternion.identity);
         Camera.main.transform.parent =spawnCharacter.transform;
         Camera.main.transform.localPosition = cameraMesafesi;
         
-        
-
         gameManager.RegisterMainCharacter(spawnCharacter.GetComponent<CharacterControl>());
     }
-    
-   
-    
 
     private void SpawnFireball()
     {   
-        
         if(AnimationController.Instance.fireballReady)
         {
             GameObject newFireBall = Instantiate(fireball,fireballPosition.position,Quaternion.identity);
@@ -112,6 +104,15 @@ public class Spawner : MonoBehaviour
         }
     }
 
+
+    private void SpawnCheckPoint()
+    {
+        for (int i = 0; i < spawnPoints.Count; i++)
+        {
+            GameObject spawnCheckPoint = Instantiate(checkPoint,spawnPoints[i].transform.position,Quaternion.identity,spawnPoints[i].transform);
+            spawnCheckPoint.transform.name = "Check Point"  + i;
+        }
+    }
 
 
     #if UNITY_EDITOR
@@ -137,14 +138,18 @@ class SpawnerEditor : Editor
     public override void OnInspectorGUI()
     {
         Spawner spawner = (Spawner)target;
-
+    
         if(GUILayout.Button("Spaw Point Üret",GUILayout.MinWidth(100),GUILayout.MaxWidth(300)))
         {
             GameObject spawnPoint = new GameObject();
+
+            Spawner.Instance.spawnPoints.Add(spawnPoint.transform);
+
             spawnPoint.transform.tag = "CheckPoint";
             spawnPoint.transform.name = spawner.transform.childCount.ToString();
             spawnPoint.transform.parent = spawner.transform;
             spawnPoint.transform.position = spawner.transform.position;
+
             spawnPoint.AddComponent<CircleCollider2D>();
             spawnPoint.GetComponent<CircleCollider2D>().isTrigger = true;
         }
