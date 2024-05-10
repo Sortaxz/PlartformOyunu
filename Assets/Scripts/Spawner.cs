@@ -21,7 +21,6 @@ public class Spawner : MonoBehaviour
         }
     }
     public List<Transform> spawnPoints = new List<Transform>();
-    //private Transform[] spawnPoint;
     private GameManager gameManager;
     [SerializeField]private GameObject character;
     [SerializeField]private GameObject fireball;
@@ -55,7 +54,6 @@ public class Spawner : MonoBehaviour
 
     private void SpawPointDizileme()
     {
-        //spawnPoint = new Transform[transform.childCount];
         for (int i = 0; i < spawnPoints.Count; i++)
         {
             spawnPoints[i] = transform.GetChild(i).transform;

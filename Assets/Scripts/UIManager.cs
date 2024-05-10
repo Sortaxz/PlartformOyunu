@@ -19,7 +19,8 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    
+    [SerializeField] private GameObject itemCreationPoint;
+
     [SerializeField] private Image itemImage;
     public Image ItemImage
     {
@@ -43,9 +44,9 @@ public class UIManager : MonoBehaviour
     private void SpawnImageAndPositionSetings()
     {
         itemImage = Resources.Load<Image>("Prefabs/Item");
-        spawnItemImage = Instantiate(itemImage, transform);
-        //spawnItemImage.rectTransform.position = new Vector3(516.5f, 188.5f, 0.00f);
-        //spawnItemImage.rectTransform.localPosition = new Vector3(900, 400, 0.00f);
+        Vector3 itemImagePosition =Camera.main.WorldToScreenPoint(itemCreationPoint.transform.position);
+        spawnItemImage = Instantiate(itemImage,itemImagePosition,Quaternion.identity, transform);
+       
     }
 
     void Start()

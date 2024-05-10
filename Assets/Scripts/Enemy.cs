@@ -4,14 +4,10 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    Rigidbody2D enemyRb2D;
     int dead = 0;
     public  bool isEnemyDead = false;
-    BoxCollider2D enemyBoxCollider;
     private void Awake() 
     {
-        enemyRb2D = GetComponent<Rigidbody2D>();    
-        enemyBoxCollider = GetComponent<BoxCollider2D>();
     }
 
     void Start()

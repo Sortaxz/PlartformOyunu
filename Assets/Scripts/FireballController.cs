@@ -47,6 +47,12 @@ public class FireballController : MonoBehaviour
             Destroy(other.gameObject,1);
             isCollider = true;
         }    
+
+        if(other.collider.CompareTag("obstacle"))
+        {
+            Destroy(other.gameObject);
+            Destroy(gameObject);
+        }
     }
 
     
