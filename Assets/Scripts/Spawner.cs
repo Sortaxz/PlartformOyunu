@@ -32,7 +32,6 @@ public class Spawner : MonoBehaviour
 
     [SerializeField]private Transform fireballPosition;
 
-    [SerializeField] private Vector3 cameraMesafesi;
 
     private static int currentSpawnIndex = 0;
     
@@ -75,8 +74,8 @@ public class Spawner : MonoBehaviour
     {
         currentSpawnIndex = PlayerPrefs.GetInt("SpawnPoint");
         GameObject spawnCharacter = Instantiate(character, spawnPoints[currentSpawnIndex].position,Quaternion.identity);
-        Camera.main.transform.parent =spawnCharacter.transform;
-        Camera.main.transform.localPosition = cameraMesafesi;
+        //Camera.main.transform.parent =spawnCharacter.transform;
+        //Camera.main.transform.localPosition = cameraMesafesi;
         
         gameManager.RegisterMainCharacter(spawnCharacter.GetComponent<CharacterControl>());
     }
@@ -126,8 +125,6 @@ public class Spawner : MonoBehaviour
 
     
 }
-
-
 #if UNITY_EDITOR
 [CustomEditor(typeof(Spawner))]
 [System.Serializable]
@@ -151,12 +148,9 @@ class SpawnerEditor : Editor
             spawnPoint.AddComponent<CircleCollider2D>();
             spawnPoint.GetComponent<CircleCollider2D>().isTrigger = true;
         }
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("cameraMesafesi"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("fireball"));
         serializedObject.ApplyModifiedProperties();
         serializedObject.Update();
     }
 }
-
-
 #endif

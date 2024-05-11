@@ -168,9 +168,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCharacter: {fileID: 0}
+  cameraMesafesi: {x: 1, y: 2, z: -30}
   fireballSpeed: 800
-  isCharacterOnPoint: 0
   fireballTimerCounter: 10
+  isCharacterOnPoint: 0
+  cameraScaleChangeTime: 0.01
 --- !u!1 &713350862
 GameObject:
   m_ObjectHideFlags: 0

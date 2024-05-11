@@ -48,19 +48,11 @@ public class UIManager : MonoBehaviour
         spawnItemImage = Instantiate(itemImage,itemImagePosition,Quaternion.identity, transform);
        
     }
-
-    void Start()
-    {
-        
-    }
-
     void Update()
     {
         if(Input.GetMouseButtonDown(2) )
         {
             hasItemChange = !hasItemChange;
         }
-       
     }
-
 }

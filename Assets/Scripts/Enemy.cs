@@ -26,7 +26,5 @@ public class Enemy : MonoBehaviour
             dead++;
             isEnemyDead = true;
         }   
-
-        
     }
 }

@@ -17,23 +17,16 @@ public class GameManager : MonoBehaviour
         }
     }
     public CharacterControl mainCharacter;
+    [SerializeField] private Vector3 cameraMesafesi;
     [SerializeField] private float fireballSpeed;
-    public bool isCharacterOnPoint = false;
     public float FireballSpeed
     {
         get { return fireballSpeed; }
     }
     [SerializeField]private float fireballTimerCounter;
-    private void Awake() 
-    {
-    }
-
-    void Start()
-    {
-
-    }
-    
-
+    public bool isCharacterOnPoint = false;
+    private  bool scaleOfCameraChanged = false;
+    [SerializeField] private float cameraScaleChangeTime;
     void Update()
     {
         if(!isCharacterOnPoint)
@@ -45,14 +38,17 @@ public class GameManager : MonoBehaviour
             }
             isCharacterOnPoint = true;
         }
+        CameraPositionControl();
     }
-
-   
     public void RegisterMainCharacter(CharacterControl character)
     {
         mainCharacter = null;
         mainCharacter = character;
     }
-    
+
+    private void CameraPositionControl()
+    {
+        Camera.main.transform.position = mainCharacter.transform.position + cameraMesafesi;
+    }
     
 }

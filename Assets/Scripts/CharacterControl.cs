@@ -11,6 +11,10 @@ public class CharacterControl : MonoBehaviour
     [SerializeField] private float characterSpeed; 
     private int jumpCounter = 0;
     private bool isToLeft = false;
+    public bool IsToLeft
+    {
+        get { return isToLeft; }
+    }
     private bool isToRight = false;
     private bool isJumping = false;
     public bool isCharacterAbove  =false;
@@ -29,6 +33,17 @@ public class CharacterControl : MonoBehaviour
             return isCharacterDead;
         }
     }
+    
+    //private bool cameraParentChanged = false;
+    /*
+    public bool CameraParentChanged
+    {
+        get
+        {
+            return cameraParentChanged;
+        }
+    }
+    */
 
     private  int spawnPointSiblingIndex = default;
    
@@ -73,7 +88,8 @@ public class CharacterControl : MonoBehaviour
         }
         
     }
-    //oyun başlark en son ki temas etti spanw objesinden doğucak
+
+
     private void OnTriggerEnter2D(Collider2D other) 
     {
         if(other.CompareTag("SpawnPoint"))
@@ -129,9 +145,11 @@ public class CharacterControl : MonoBehaviour
             if(UIAnimation.Instance.SwordAttackBegin == true)
             {
                 readyToAttack = true;
+                isCharacterAbove = false;
             }
             else
             {
+                isCharacterAbove = false;
                 readyToFireballAttack = true;
                 Spawner.Instance.Fireball.GetComponent<FireballController>().birKereYonAlindi = false;
             }
@@ -146,13 +164,13 @@ public class CharacterControl : MonoBehaviour
         {
             movement = new Vector3(-characterSpeed,0,0);
             transform.position += movement * Time.fixedDeltaTime;
-            transform.localScale = new Vector3(-1,1,1);
+            transform.rotation = Quaternion.Euler(0,-180 ,0);
         }
         if(isToRight)
         {
             movement =new Vector3(characterSpeed,0,0);
             transform.position += movement * Time.fixedDeltaTime;
-            transform.localScale = new Vector3(1,1,1);
+            transform.rotation = Quaternion.Euler(0,0,0);
         }
     }
 }

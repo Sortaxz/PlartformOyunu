@@ -114,7 +114,6 @@ public class AnimationController : MonoBehaviour
         #endregion
 
         #region  Karakterimiz'in Ziplama Animasyonu'nun kodlari
-
         if(character.isCharacterAbove)
         {
             characteSPR.sprite = jumpSprites[jumpSpritesCount++];
@@ -128,16 +127,19 @@ public class AnimationController : MonoBehaviour
         #endregion
 
         #region  Karakterimiz'in Desh Animasyonu'nun kodlari
-        if(character.isCharacterSlidDown)
+        if(!character.isCharacterAbove)
         {
-            characteSPR.sprite = deshSprites[deshSpritesCount++];
-
-            if(deshSpritesCount == deshSprites.Length - 1)
+            if(character.isCharacterSlidDown)
             {
-                deshSpritesCount = 0;
-            }
-            
-        }   
+                characteSPR.sprite = deshSprites[deshSpritesCount++];
+
+                if(deshSpritesCount == deshSprites.Length - 1)
+                {
+                    deshSpritesCount = 0;
+                }
+                
+            }   
+        }
         #endregion
         
         #region  Karakterimiz'in Atak Animasyonu'nun kodlari
@@ -164,7 +166,7 @@ public class AnimationController : MonoBehaviour
         if(character.readyToFireballAttack)
         {
             fireballSkillSpritesTimeCounter += Time.deltaTime;
-            if(fireballSkillSpritesTimeCounter > 0.2f)
+            if(fireballSkillSpritesTimeCounter > 0.01f)
             {
                 characteSPR.sprite = fireballSkillSprites[fireballSkillSpritesCount++];
 
@@ -179,7 +181,6 @@ public class AnimationController : MonoBehaviour
 
         }
         #endregion
-
     }   
    
 }
