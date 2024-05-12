@@ -25,7 +25,6 @@ public class GameManager : MonoBehaviour
     }
     [SerializeField]private float fireballTimerCounter;
     public bool isCharacterOnPoint = false;
-    private  bool scaleOfCameraChanged = false;
     [SerializeField] private float cameraScaleChangeTime;
     void Update()
     {

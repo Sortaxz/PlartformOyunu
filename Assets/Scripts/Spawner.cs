@@ -74,8 +74,6 @@ public class Spawner : MonoBehaviour
     {
         currentSpawnIndex = PlayerPrefs.GetInt("SpawnPoint");
         GameObject spawnCharacter = Instantiate(character, spawnPoints[currentSpawnIndex].position,Quaternion.identity);
-        //Camera.main.transform.parent =spawnCharacter.transform;
-        //Camera.main.transform.localPosition = cameraMesafesi;
         
         gameManager.RegisterMainCharacter(spawnCharacter.GetComponent<CharacterControl>());
     }
