@@ -6,7 +6,7 @@ using UnityEngine;
 public class CharacterControl : MonoBehaviour
 {
     private Rigidbody2D rb2D;
-    Vector3 movement=  Vector3.zero;
+    Vector3 movement =  Vector3.zero;
     [SerializeField] private float jumpingPower;
     [SerializeField] private float characterSpeed; 
     private int jumpCounter = 0;
@@ -33,38 +33,18 @@ public class CharacterControl : MonoBehaviour
             return isCharacterDead;
         }
     }
-    
-    //private bool cameraParentChanged = false;
-    /*
-    public bool CameraParentChanged
-    {
-        get
-        {
-            return cameraParentChanged;
-        }
-    }
-    */
-
+    public bool jumpAnimationResume = false;
     private  int spawnPointSiblingIndex = default;
    
     private void Awake() 
     {
         rb2D = GetComponent<Rigidbody2D>();
-    }
 
-    void Start()
-    {
     }
 
     void Update()
     {
         MovementInputController();
-        if(Input.GetKeyDown(KeyCode.Space) && jumpCounter != 2)
-        {
-            isJumping = true;
-            isCharacterAbove  =true;
-            jumpCounter++;
-        }
     }
 
     private void FixedUpdate() 
@@ -75,20 +55,32 @@ public class CharacterControl : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other) 
     {
-        if(other.collider)
+        if(other.collider.CompareTag("Zemin") || other.collider.CompareTag("Moving Grass"))
         {
             jumpCounter = 0;
             isCharacterAbove = false;
+            jumpAnimationResume = false;
         } 
-
+        
         if(other.collider.CompareTag("obstacle"))
         {
             isCharacterDead = true;
             GameManager.Instance.isCharacterOnPoint = false;
+            jumpAnimationResume = false;
+
         }
         
     }
 
+
+    private void OnCollisionStay2D(Collision2D other) 
+    {
+        if(other.collider.CompareTag("Zemin") || other.collider.CompareTag("Moving Grass"))
+        {
+           
+            jumpAnimationResume = false;
+        } 
+    }
 
     private void OnTriggerEnter2D(Collider2D other) 
     {
@@ -97,7 +89,12 @@ public class CharacterControl : MonoBehaviour
             spawnPointSiblingIndex =  other.transform.GetSiblingIndex();
             PlayerPrefs.SetInt("SpawnPoint",spawnPointSiblingIndex);
         } 
-        
+        if(other.CompareTag("Cranboline"))
+        {
+            jumpCounter = 0;
+            isCharacterAbove = false;
+            jumpAnimationResume = false;
+        }
     }
     
     void JumpingMovement()
@@ -108,7 +105,6 @@ public class CharacterControl : MonoBehaviour
             isJumping =false;
         }
     }
-
     private void MovementInputController()
     {
         if (Input.GetKeyDown(KeyCode.A))
@@ -151,13 +147,19 @@ public class CharacterControl : MonoBehaviour
             {
                 isCharacterAbove = false;
                 readyToFireballAttack = true;
-                Spawner.Instance.Fireball.GetComponent<FireballController>().birKereYonAlindi = false;
+                Spawner.Instance.Fireball.GetComponent<FireballController>().birKereYonAlindi = false;// düzeltilicek field olarak tanımla
             }
         }
         
+
+        if(Input.GetKeyDown(KeyCode.Space) && jumpCounter != 2)
+        {
+            isJumping = true;
+            isCharacterAbove  =true;
+            jumpCounter++;
+        }    
     }
 
-    
     void CharacterMovement()
     {
         if(isToLeft)

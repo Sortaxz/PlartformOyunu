@@ -70,6 +70,7 @@ public class Spawner : MonoBehaviour
         SpawnFireball();
     }
 
+    //oyun başlar başlamaz karakterimiz spawnPoint'in ilk elamının posizyonunda spanlamasını sağlıyor.
     public void SpawnCharacter()
     {
         currentSpawnIndex = PlayerPrefs.GetInt("SpawnPoint");
@@ -81,12 +82,12 @@ public class Spawner : MonoBehaviour
     private void SpawnFireball()
     {   
         if(AnimationController.Instance.fireballReady)
-        {
+        {   
             GameObject newFireBall = Instantiate(fireball,fireballPosition.position,Quaternion.identity);
             newFireBall.GetComponent<FireballController>().birKereYonAlindi = false;
             
             AnimationController.Instance.fireballReady = false;
-            
+            gameManager.mainCharacter.jumpAnimationResume = true;
             if(gameManager.mainCharacter.fireballLocalScale)
             {
                 newFireBall.transform.localScale = new Vector3(-1,1,1);
@@ -108,6 +109,10 @@ public class Spawner : MonoBehaviour
             spawnCheckPoint.transform.name = "Check Point"  + i;
         }
     }
+
+
+
+
 
 
     #if UNITY_EDITOR

@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.TextCore;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    
     private static GameManager instance;
     public static GameManager Instance
     {
@@ -39,6 +42,7 @@ public class GameManager : MonoBehaviour
         }
         CameraPositionControl();
     }
+
     public void RegisterMainCharacter(CharacterControl character)
     {
         mainCharacter = null;

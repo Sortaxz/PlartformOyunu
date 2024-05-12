@@ -173,7 +173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c2e3661ab5832146ad816ea3e1a3f00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpingPower: 200
+  jumpingPower: 250
   characterSpeed: 8
   isCharacterAbove: 0
   isCharacterSlidDown: 0

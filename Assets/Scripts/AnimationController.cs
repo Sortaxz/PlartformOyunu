@@ -32,12 +32,11 @@ public class AnimationController : MonoBehaviour
 
     public bool fireballReady = false;
 
-
     private float idleSpritesTimeCounter = 0f;
     private float runSpritesTimeCounter = 0f;
     private float fireballSkillSpritesTimeCounter = 0f;
     private float attackSpritesTimeCounter = 0f;
-    
+    private float horizontal;
     
 
     private int idleSpritesCount = 0;
@@ -46,11 +45,11 @@ public class AnimationController : MonoBehaviour
     private int deshSpritesCount = 0;
     private int attackSpritesCount = 0;
     private int fireballSkillSpritesCount = 0;
-
-    private float horizontal;
+    private int jumpingContinueIndex; 
     private void Awake() 
     {
         characteSPR = GetComponent<SpriteRenderer>();
+        jumpingContinueIndex = jumpSprites.Length-1;
     }
     void Start()
     {
@@ -59,12 +58,12 @@ public class AnimationController : MonoBehaviour
 
     void Update()
     {
-        horizontal = Input.GetAxis("Horizontal") ;
         AnimationControl();
     }
 
     void AnimationControl()
     {
+        horizontal = Input.GetAxis("Horizontal") ;
         #region  Karakterimiz idle ve run animasyon kodlari
         if(horizontal == 0)
         {
@@ -114,9 +113,11 @@ public class AnimationController : MonoBehaviour
         #endregion
 
         #region  Karakterimiz'in Ziplama Animasyonu'nun kodlari
-        if(character.isCharacterAbove)
+        if(character.isCharacterAbove )
         {
             characteSPR.sprite = jumpSprites[jumpSpritesCount++];
+
+              
 
             if(jumpSpritesCount == jumpSprites.Length - 1)
             {
@@ -125,6 +126,18 @@ public class AnimationController : MonoBehaviour
         }
 
         #endregion
+
+        if(character.jumpAnimationResume)
+        {
+            characteSPR.sprite = jumpSprites[jumpingContinueIndex--];
+
+              
+
+            if(jumpingContinueIndex == 0)
+            {
+                jumpingContinueIndex = jumpSprites.Length - 1;
+            }
+        }
 
         #region  Karakterimiz'in Desh Animasyonu'nun kodlari
         if(!character.isCharacterAbove)
@@ -166,7 +179,7 @@ public class AnimationController : MonoBehaviour
         if(character.readyToFireballAttack)
         {
             fireballSkillSpritesTimeCounter += Time.deltaTime;
-            if(fireballSkillSpritesTimeCounter > 0.01f)
+            if(fireballSkillSpritesTimeCounter > 0.05f)
             {
                 characteSPR.sprite = fireballSkillSprites[fireballSkillSpritesCount++];
 
@@ -177,6 +190,7 @@ public class AnimationController : MonoBehaviour
                     fireballReady = true;
                 }
                 fireballSkillSpritesTimeCounter = 0f;
+
             }
 
         }

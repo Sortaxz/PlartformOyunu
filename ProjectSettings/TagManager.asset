@@ -9,6 +9,9 @@ TagManager:
   - CheckPoint
   - SpawnPoint
   - obstacle
+  - Zemin
+  - Cranboline
+  - Moving Grass
   layers:
   - Default
   - TransparentFX
