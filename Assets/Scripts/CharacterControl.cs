@@ -26,14 +26,17 @@ public class CharacterControl : MonoBehaviour
     public bool fireballLocalScale = false;
 
     private bool isCharacterDead  =false;
-    public bool IsCharacterDead
-    {
-        get
-        {
-            return isCharacterDead;
-        }
-    }
-    public bool jumpAnimationResume = false;
+    public bool IsCharacterDead {get => isCharacterDead; set => isCharacterDead = value; }
+        public bool jumpAnimationResume = false;
+
+    private bool characterHealthDecrease = false;
+    public bool CharacterHealthDecrease { get => characterHealthDecrease; set => characterHealthDecrease = value; }
+
+    private bool hitObstacle = false;
+    public bool HitObstacle { get => hitObstacle; set => hitObstacle = value; }
+
+    private bool hitEnemy = false;
+    public bool HitEnemy { get => hitEnemy; set => hitEnemy = value; }
     private  int spawnPointSiblingIndex = default;
    
     private void Awake() 
@@ -64,12 +67,16 @@ public class CharacterControl : MonoBehaviour
         
         if(other.collider.CompareTag("obstacle"))
         {
-            isCharacterDead = true;
-            GameManager.Instance.isCharacterOnPoint = false;
             jumpAnimationResume = false;
-
+            characterHealthDecrease = true;
+            hitObstacle =true;
+            isCharacterAbove =false;
         }
-        
+        if(other.collider.CompareTag("Enemy"))
+        {
+            characterHealthDecrease = true;
+            hitEnemy =true;
+        }
     }
 
 
@@ -80,8 +87,31 @@ public class CharacterControl : MonoBehaviour
            
             jumpAnimationResume = false;
         } 
+        if(other.collider.CompareTag("obstacle"))
+        {
+            characterHealthDecrease  =false;
+            hitObstacle = false;
+            isCharacterAbove = false;
+        }
+        if(other.collider.CompareTag("Enemy"))
+        {
+            characterHealthDecrease  =false;
+            hitEnemy = false;
+        }
     }
-
+    private void OnCollisionExit2D(Collision2D other) 
+    {
+        if(other.collider.CompareTag("obstacle"))
+        {
+            characterHealthDecrease  =false;
+            hitObstacle = false;
+        } 
+        if(other.collider.CompareTag("Enemy"))
+        {
+            characterHealthDecrease  =false;
+            hitEnemy = false;
+        }    
+    }
     private void OnTriggerEnter2D(Collider2D other) 
     {
         if(other.CompareTag("SpawnPoint"))
