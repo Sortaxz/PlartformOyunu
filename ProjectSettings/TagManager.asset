@@ -12,6 +12,7 @@ TagManager:
   - Zemin
   - Cranboline
   - Moving Grass
+  - SlidingFloor
   layers:
   - Default
   - TransparentFX

@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 2725474864848376570}
   - component: {fileID: 3230777811517411060}
   - component: {fileID: 7562595170466426651}
+  - component: {fileID: 5277763520281212657}
   m_Layer: 0
-  m_Name: Obstacle
+  m_Name: Spake
   m_TagString: obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 8830342982773592107}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.465142, y: -2, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -133,3 +134,17 @@ PolygonCollider2D:
       - {x: -0.5, y: -0.28866667}
       - {x: 0.5, y: -0.28866667}
   m_UseDelaunayMesh: 0
+--- !u!114 &5277763520281212657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8830342982773592107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37a3a5ff394d80b49a2406dc98a3677d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spakeDuration: 0
+  spakeDurationTime: 0

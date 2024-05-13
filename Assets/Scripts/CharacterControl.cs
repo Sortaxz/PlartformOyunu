@@ -9,6 +9,7 @@ public class CharacterControl : MonoBehaviour
     Vector3 movement =  Vector3.zero;
     [SerializeField] private float jumpingPower;
     [SerializeField] private float characterSpeed; 
+    public float CharacterSpeed {get { return characterSpeed;} set { characterSpeed = value; } }
     private int jumpCounter = 0;
     private bool isToLeft = false;
     public bool IsToLeft
@@ -58,7 +59,7 @@ public class CharacterControl : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other) 
     {
-        if(other.collider.CompareTag("Zemin") || other.collider.CompareTag("Moving Grass"))
+        if(other.collider.CompareTag("Zemin") || other.collider.CompareTag("Moving Grass") || other.collider.CompareTag("SlidingFloor"))
         {
             jumpCounter = 0;
             isCharacterAbove = false;
@@ -82,7 +83,7 @@ public class CharacterControl : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D other) 
     {
-        if(other.collider.CompareTag("Zemin") || other.collider.CompareTag("Moving Grass"))
+        if(other.collider.CompareTag("Zemin") || other.collider.CompareTag("Moving Grass") || other.collider.CompareTag("SlidingFloor"))
         {
            
             jumpAnimationResume = false;

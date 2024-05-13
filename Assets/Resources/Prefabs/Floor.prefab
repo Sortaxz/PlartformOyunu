@@ -5533,7 +5533,7 @@ GameObject:
   m_Component:
   - component: {fileID: 654022590445176571}
   m_Layer: 0
-  m_Name: Zemin
+  m_Name: Floor
   m_TagString: Zemin
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

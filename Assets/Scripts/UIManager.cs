@@ -41,19 +41,13 @@ public class UIManager : MonoBehaviour
         }
     }
     private bool characterLifeReset = false;
+    public bool CharacterLifeReset { get; set; }
     private void Awake()
     {
         gameManager = GameManager.Instance;
     }
 
-    private void SpawnImageAndPositionSetings()
-    {
-        itemImage = Resources.Load<Image>("Prefabs/Item");
-        Vector3 itemImagePosition =Camera.main.WorldToScreenPoint(itemCreationPoint.transform.position);
-        spawnItemImage = Instantiate(itemImage,itemImagePosition,Quaternion.identity, transform);
-       
-    }
-
+   
     
     void Update()
     {
@@ -72,9 +66,10 @@ public class UIManager : MonoBehaviour
         }
         else
         {
-            HeartFillAmountReset();
             GameManager.Instance.isCharacterOnPoint = true;
             gameManager.mainCharacter.IsCharacterDead = false;
+            HeartFillAmountReset();
+            characterLifeReset = false;
         }
     }
 
