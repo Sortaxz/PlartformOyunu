@@ -28,7 +28,7 @@ public class CharacterControl : MonoBehaviour
 
     private bool isCharacterDead  =false;
     public bool IsCharacterDead {get => isCharacterDead; set => isCharacterDead = value; }
-        public bool jumpAnimationResume = false;
+    public bool jumpAnimationResume = false;
 
     private bool characterHealthDecrease = false;
     public bool CharacterHealthDecrease { get => characterHealthDecrease; set => characterHealthDecrease = value; }
@@ -83,11 +83,11 @@ public class CharacterControl : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D other) 
     {
-        if(other.collider.CompareTag("Zemin") || other.collider.CompareTag("Moving Grass") || other.collider.CompareTag("SlidingFloor"))
+        
+        if(other.collider.gameObject.layer == 3)
         {
-           
             jumpAnimationResume = false;
-        } 
+        }
         if(other.collider.CompareTag("obstacle"))
         {
             characterHealthDecrease  =false;
