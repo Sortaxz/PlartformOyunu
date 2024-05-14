@@ -13,11 +13,14 @@ TagManager:
   - Cranboline
   - Moving Grass
   - SlidingFloor
+  - 'StonyFloor '
+  - PassableFloor
+  - AbsorbingObject
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Zemin
   - Water
   - UI
   - 

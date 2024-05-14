@@ -59,12 +59,12 @@ public class CharacterControl : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other) 
     {
-        if(other.collider.CompareTag("Zemin") || other.collider.CompareTag("Moving Grass") || other.collider.CompareTag("SlidingFloor"))
+        if(other.collider.gameObject.layer == 3)
         {
             jumpCounter = 0;
             isCharacterAbove = false;
             jumpAnimationResume = false;
-        } 
+        }
         
         if(other.collider.CompareTag("obstacle"))
         {
