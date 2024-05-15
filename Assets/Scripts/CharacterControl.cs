@@ -11,12 +11,11 @@ public class CharacterControl : MonoBehaviour
     [SerializeField] private float characterSpeed; 
     public float CharacterSpeed {get { return characterSpeed;} set { characterSpeed = value; } }
     private int jumpCounter = 0;
+
     private bool isToLeft = false;
-    public bool IsToLeft
-    {
-        get { return isToLeft; }
-    }
+
     private bool isToRight = false;
+
     private bool isJumping = false;
     public bool isCharacterAbove  =false;
     public bool isCharacterSlidDown = false;

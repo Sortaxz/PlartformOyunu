@@ -37,7 +37,7 @@ public class AnimationController : MonoBehaviour
     private float fireballSkillSpritesTimeCounter = 0f;
     private float attackSpritesTimeCounter = 0f;
     private float horizontal;
-    
+    public float Horizontal{get{ return horizontal;}}
 
     private int idleSpritesCount = 0;
     private int runSpritesCount = 0;

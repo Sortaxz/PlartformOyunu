@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//enemyFireball
 public class FireballController : MonoBehaviour
 {
     private Rigidbody2D fireballRb2D;
@@ -37,42 +37,78 @@ public class FireballController : MonoBehaviour
     private void FixedUpdate()
     {
         FireballMovement();
+        EnemyFireballMovement();
     }
     
     private void OnCollisionEnter2D(Collision2D other) 
     {
-        if(other.collider.CompareTag("Enemy"))
+        if(transform.tag == "fireball")
         {
-            Destroy(gameObject);
-            Destroy(other.gameObject,1);
-            isCollider = true;
-        }    
+            if(other.collider.CompareTag("Enemy"))
+            {
+                Destroy(gameObject);
+                Destroy(other.gameObject,1);
+                isCollider = true;
+            }    
 
-        if(other.collider.CompareTag("obstacle"))
-        {
-            Destroy(other.gameObject);
-            Destroy(gameObject);
+            if(other.collider.CompareTag("obstacle"))
+            {
+                Destroy(other.gameObject);
+                Destroy(gameObject);
+            }
         }
+        if(transform.tag == "enemyFireball")
+        {
+            if(other.collider.CompareTag("Player"))
+            {
+                gameManager.CreateEnemyFireball = true;
+                gameManager.CreateWind = true;
+                Destroy(gameObject);
+            } 
+        } 
     }
 
-    
+   
 
     private void FireballMovement()
     {
-        if(!birKereYonAlindi)
+        if(transform.tag =="fireball")
         {
-            if (gameManager.mainCharacter.fireballLocalScale)
+            if(!birKereYonAlindi)
             {
-                yon = Vector3.left;
-            }
-            else
-            {
-                yon = Vector3.right;
-            }
+                if (gameManager.mainCharacter.fireballLocalScale)
+                {
+                    yon = Vector3.left;
+                }
+                else
+                {
+                    yon = Vector3.right;
+                }
 
-            birKereYonAlindi = true;
-            fireballRb2D.AddForce(yon* fireballSpeed);
+                birKereYonAlindi = true;
+                fireballRb2D.AddForce(yon* fireballSpeed);
+            }
         }
-        
+
+    }
+    private void EnemyFireballMovement()
+    {
+        if(transform.tag =="enemyFireball")
+        {
+            if(gameManager.FireballWasFired)
+            {
+                if(gameManager.EnemyFireballLeftGo)
+                {
+                    fireballRb2D.AddForce(Vector2.left * gameManager.EnemyFireballSpeed);
+                    transform.localScale = new Vector3(-1, 1,1);
+                }   
+                if(gameManager.EnemyFireballRightGo)
+                {
+                    fireballRb2D.AddForce(Vector2.right * gameManager.EnemyFireballSpeed);
+                    transform.localScale = new Vector3(1, 1,1);
+                }
+                gameManager.FireballWasFired = false;
+            }
+        }
     }
 }

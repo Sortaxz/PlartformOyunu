@@ -5,7 +5,6 @@ using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
-//0.5 / 2 / 0 localScale
 public class PlartformManager : MonoBehaviour
 {
     private static PlartformManager instance;
@@ -20,6 +19,7 @@ public class PlartformManager : MonoBehaviour
             return instance;
         }
     }
+  
 
     #region  SpakeObject Members
 
@@ -61,6 +61,7 @@ public class PlartformManager : MonoBehaviour
         GetSpakeDuration();
         CreateMovingFloor();
     }
+
 
     private void CreateMovingFloor()
     {
@@ -114,7 +115,16 @@ class PlartformManagerEditor : Editor
         EditorGUILayout.PropertyField(serializedObject.FindProperty("SpakeDuration"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("spakeDurationTime"));
 
+
+
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("MovingFloorPrefab"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("movingFloors"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("numberMovementGroundPoints"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("movingGroundPositions"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("movingFloorDirectionMovement"));
+       
         PlartformManager plartformManager = (PlartformManager)target;
+       
         if(GUILayout.Button("Generate Motion Floor",GUILayout.MinWidth(100),GUILayout.MaxWidth(300)))
         {
             GameObject movingFloor = new GameObject();
@@ -129,12 +139,6 @@ class PlartformManagerEditor : Editor
           
         }
 
-
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("MovingFloorPrefab"));
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("movingFloors"));
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("numberMovementGroundPoints"));
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("movingGroundPositions"));
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("movingFloorDirectionMovement"));
         serializedObject.ApplyModifiedProperties();
         serializedObject.Update();
     }

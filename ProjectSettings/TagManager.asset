@@ -16,6 +16,7 @@ TagManager:
   - 'StonyFloor '
   - PassableFloor
   - AbsorbingObject
+  - enemyFireball
   layers:
   - Default
   - TransparentFX

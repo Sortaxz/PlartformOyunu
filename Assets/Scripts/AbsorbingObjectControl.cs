@@ -2,17 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SideElementsControl : MonoBehaviour
+public class AbsorbingObjectControl : MonoBehaviour
 {
+    private PlartformManager plartformManager;
+    private GameObject windObject;
     [SerializeField] private GameObject WithdrawnCenter;
     [SerializeField] private SpriteRenderer WithdrawnCenterSPR;
     [SerializeField] private SpriteRenderer AbsorbingObjectSPR;
     [SerializeField] private float pullingForce;
-
     private void Awake()
     {
         IsAbsorbingObject();
-
+        plartformManager = PlartformManager.Instance;
     }
 
     private void IsAbsorbingObject()
@@ -24,16 +25,7 @@ public class SideElementsControl : MonoBehaviour
             AbsorbingObjectSPR = GetComponent<SpriteRenderer>();
         }
     }
-
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
-    }
+    
     private void OnTriggerEnter2D(Collider2D other) 
     {
         if(other.CompareTag("Player"))
@@ -47,7 +39,7 @@ public class SideElementsControl : MonoBehaviour
                     AbsorbingObjectSPR.enabled = true;
                     Rigidbody2D otherRb2D = other.GetComponent<Rigidbody2D>();
                     float distanceX = WithdrawnCenter.transform.position.x - other.transform.position.x;    
-                    
+
                     if(distanceX>0)
                     {
                         AbsorbingObjectForce(otherRb2D,Vector3.right,pullingForce);
