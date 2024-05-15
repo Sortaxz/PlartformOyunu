@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GroundControl : MonoBehaviour
@@ -11,15 +12,18 @@ public class GroundControl : MonoBehaviour
     private bool goUp = true;
     private bool moveRight = false;
     private bool goRight = true;
+    private bool characterParentChanged = false;
     float positionMaxX;
     float positionMinX;
-    
     private void Awake()
     {
         PassableFloorColliderControl();
         FindMovingFloorMaxMinX();
     }
-
+    private void Start() 
+    {
+           
+    }
     private void FindMovingFloorMaxMinX()
     {
         if (!movementDirectionUp)
@@ -37,7 +41,15 @@ public class GroundControl : MonoBehaviour
         }
     }
 
-  
+    private void Update() 
+    {
+        /*
+        if(characterParentChanged)
+        {
+            GameManager.Instance.mainCharacter.transform.SetParent(GameManager.Instance.transform.parent);
+        }
+        */
+    }
 
     void FixedUpdate()
     {
@@ -129,24 +141,32 @@ public class GroundControl : MonoBehaviour
             {
                 other.transform.GetComponent<CharacterControl>().CharacterSpeed = 4;
             }
-            if(movementDirectionUp == true)
+            if(movementDirectionUp == true && transform.tag == "Moving Grass")
             {
                 moveUp = true;
-                other.transform.parent = transform;
             }
-            if(!movementDirectionUp)
+            if(!movementDirectionUp && transform.tag == "Moving Grass")
             {
                 moveRight = true;
-                other.transform.parent = transform;
+                if(gameObject.activeInHierarchy)
+                {
+                    other.transform.SetParent(transform);
+                }
             }
         }
         
     }
     private void OnCollisionStay2D(Collision2D other) 
     {
-        if(!movementDirectionUp && transform.tag == "Moving Grass")
+        if(other.collider.CompareTag("Player"))
         {
-            other.transform.parent = transform;
+            if(!movementDirectionUp && transform.tag == "Moving Grass")
+            {
+                if(gameObject.activeInHierarchy)
+                {
+                    other.transform.SetParent(transform);
+                }
+            }
         }
     }
     private void OnCollisionExit2D(Collision2D other) 
@@ -168,7 +188,10 @@ public class GroundControl : MonoBehaviour
             if(!movementDirectionUp && transform.tag == "Moving Grass")
             {
                 moveRight = false;
-                other.transform.SetParent(null);
+                if(gameObject.activeInHierarchy)
+                {
+                    other.transform.SetParent(transform.parent.parent.parent.parent);
+                }
             }
         }
         

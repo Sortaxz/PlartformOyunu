@@ -38,7 +38,11 @@ public class CharacterControl : MonoBehaviour
 
     private bool hitEnemy = false;
     public bool HitEnemy { get => hitEnemy; set => hitEnemy = value; }
+    
+    private bool hitAbsorbingObject = false;
+    public bool HitAbsorbingObject {get => hitAbsorbingObject; set => hitAbsorbingObject = value;}
     private  int spawnPointSiblingIndex = default;
+
    
     private void Awake() 
     {

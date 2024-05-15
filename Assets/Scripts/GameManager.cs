@@ -29,6 +29,10 @@ public class GameManager : MonoBehaviour
     [SerializeField]private float fireballTimerCounter;
     public bool isCharacterOnPoint = false;
     [SerializeField] private float cameraScaleChangeTime;
+    
+    private void Start() 
+    {
+    }
     void Update()
     {
         if(!isCharacterOnPoint)

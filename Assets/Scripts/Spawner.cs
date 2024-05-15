@@ -32,7 +32,8 @@ public class Spawner : MonoBehaviour
 
     [SerializeField]private Transform fireballPosition;
 
-
+    private Transform charcterParent;
+    public Transform CharacterParent { get => charcterParent; }
     private static int currentSpawnIndex = 0;
     
     private void Awake()
@@ -75,7 +76,7 @@ public class Spawner : MonoBehaviour
     {
         currentSpawnIndex = PlayerPrefs.GetInt("SpawnPoint");
         GameObject spawnCharacter = Instantiate(character, spawnPoints[currentSpawnIndex].position,Quaternion.identity);
-        
+        charcterParent = spawnCharacter.transform.parent;
         gameManager.RegisterMainCharacter(spawnCharacter.GetComponent<CharacterControl>());
     }
 
@@ -143,7 +144,7 @@ class SpawnerEditor : Editor
 
             Spawner.Instance.spawnPoints.Add(spawnPoint.transform);
 
-            spawnPoint.transform.tag = "CheckPoint";
+            spawnPoint.transform.tag = "SpawnPoint";
             spawnPoint.transform.name = spawner.transform.childCount.ToString();
             spawnPoint.transform.parent = spawner.transform;
             spawnPoint.transform.position = spawner.transform.position;
@@ -152,6 +153,7 @@ class SpawnerEditor : Editor
             spawnPoint.GetComponent<CircleCollider2D>().isTrigger = true;
         }
         EditorGUILayout.PropertyField(serializedObject.FindProperty("fireball"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("spawnPoints"));
         serializedObject.ApplyModifiedProperties();
         serializedObject.Update();
     }

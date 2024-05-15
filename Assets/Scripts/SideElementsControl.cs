@@ -40,6 +40,7 @@ public class SideElementsControl : MonoBehaviour
         {
             if(transform.tag =="AbsorbingObject")
             {
+                GameManager.Instance.mainCharacter.HitAbsorbingObject = true;
                 if(other.GetComponent<Rigidbody2D>() != null)
                 {
                     WithdrawnCenterSPR.enabled = true;
@@ -59,12 +60,23 @@ public class SideElementsControl : MonoBehaviour
             }
         }
     }
+    private void OnTriggerStay2D(Collider2D other) 
+    {
+        if(other.CompareTag("Player"))
+        {
+            if(transform.tag =="AbsorbingObject")
+            {
+                GameManager.Instance.mainCharacter.HitAbsorbingObject = false;
+            }
+        }   
+    }
     private void OnTriggerExit2D(Collider2D other) 
     {
         if(other.CompareTag("Player"))
         {
             if(transform.tag =="AbsorbingObject")
             {
+                GameManager.Instance.mainCharacter.HitAbsorbingObject = false;
                 if(other.GetComponent<Rigidbody2D>() != null)
                 {
                     WithdrawnCenterSPR.enabled = false;
