@@ -49,8 +49,7 @@ public class PlartformManager : MonoBehaviour
         get { return movingGroundPositions; }
         set { movingGroundPositions = value;}
     }
-    [SerializeField] private Vector2[] movementGroundPoints;
-    public Vector2[] MovementGroundPoints {get => movementGroundPoints; set { movementGroundPoints = value;}}
+   
     [SerializeField] private bool[] movingFloorDirectionMovement; 
     public bool[] MovingFloorDirectionMovement{ get => movingFloorDirectionMovement; set { movingFloorDirectionMovement = value;}}
 
@@ -61,7 +60,6 @@ public class PlartformManager : MonoBehaviour
         CreateSpakeObject();
         GetSpakeDuration();
         CreateMovingFloor();
-        //SetMovingFloorPoints();
     }
 
     private void CreateMovingFloor()
@@ -70,30 +68,11 @@ public class PlartformManager : MonoBehaviour
         {
             movingFloors[i] = Instantiate(MovingFloorPrefab,movingGroundPositions[i],Quaternion.identity,movingFloors[i].transform);
             movingFloors[i].transform.position = movingGroundPositions[i];
-            movingFloors[i].GetComponent<GroundControl>().MovementDirectionUp = MovingFloorDirectionMovement[i];
+            movingFloors[i].GetComponent<MovingFloorControl>().MovementDirectionUp = MovingFloorDirectionMovement[i];
         }
     }
 
-    private void SetMovingFloorPoints()
-    {
-       // int j = 0;
-        for (int i = 0; i < MovementGroundPoints.Length; i++)
-        {
-            if(i % 2 == 0)
-            {
-                movementGroundPoints[i] = movingGroundPositions[i];
-            }
-            else
-            {
-                continue;
-            }
-
-            if(i == movementGroundPoints.Length - 1)
-            {
-                break;
-            }
-        }
-    }
+   
 
     private void GetSpakeDuration()
     {
@@ -118,15 +97,6 @@ public class PlartformManager : MonoBehaviour
         
     }
 
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
-    }
     
 
 }
@@ -153,7 +123,6 @@ class PlartformManagerEditor : Editor
             plartformManager.MovingFloors.Add(movingFloor);
             
             plartformManager.MovingGroundPositions = new Vector2[plartformManager.MovingFloors.Count];
-            plartformManager.MovementGroundPoints = new Vector2[plartformManager.MovingFloors.Count * plartformManager.NumberMovementGroundPoints];
             
             plartformManager.MovingFloorDirectionMovement = new bool[plartformManager.MovingFloors.Count];
 
@@ -165,7 +134,6 @@ class PlartformManagerEditor : Editor
         EditorGUILayout.PropertyField(serializedObject.FindProperty("movingFloors"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("numberMovementGroundPoints"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("movingGroundPositions"));
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("movementGroundPoints"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("movingFloorDirectionMovement"));
         serializedObject.ApplyModifiedProperties();
         serializedObject.Update();

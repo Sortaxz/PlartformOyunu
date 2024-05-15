@@ -179,6 +179,7 @@ GameObject:
   - component: {fileID: 3589700882249246487}
   - component: {fileID: 6869997381896924542}
   - component: {fileID: 1021754162454359996}
+  - component: {fileID: 8150939197139007793}
   m_Layer: 3
   m_Name: Moving Grass
   m_TagString: Moving Grass
@@ -258,12 +259,25 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5151351972468534921}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a626737c45d44a9488572bd1d709c708, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   passebleBoxCollide2D: {fileID: 0}
+  movementDirectionUp: 0
+--- !u!114 &8150939197139007793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5151351972468534921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1000f9dae00d9594b8df2ba634e67336, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   movementDirectionUp: 0
 --- !u!1 &6985795575231911233
 GameObject:

@@ -71,13 +71,14 @@ public class Spawner : MonoBehaviour
         SpawnFireball();
     }
 
-    //oyun başlar başlamaz karakterimiz spawnPoint'in ilk elamının posizyonunda spanlamasını sağlıyor.
     public void SpawnCharacter()
     {
-        currentSpawnIndex = PlayerPrefs.GetInt("SpawnPoint");
-        GameObject spawnCharacter = Instantiate(character, spawnPoints[currentSpawnIndex].position,Quaternion.identity);
-        charcterParent = spawnCharacter.transform.parent;
-        gameManager.RegisterMainCharacter(spawnCharacter.GetComponent<CharacterControl>());
+        if(currentSpawnIndex >= 0 && currentSpawnIndex < spawnPoints.Count)
+        {
+            GameObject spawnCharacter = Instantiate(character, spawnPoints[currentSpawnIndex].position, Quaternion.identity);
+            charcterParent = spawnCharacter.transform.parent;
+            gameManager.RegisterMainCharacter(spawnCharacter.GetComponent<CharacterControl>());
+        }
     }
 
     private void SpawnFireball()
