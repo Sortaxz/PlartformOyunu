@@ -37,7 +37,10 @@ public class CharacterControl : MonoBehaviour
 
     private bool hitEnemy = false;
     public bool HitEnemy { get => hitEnemy; set => hitEnemy = value; }
-    
+
+    private bool hitEnemyFireball = false;
+    public bool HitEnemyFireball { get => hitEnemyFireball; set => hitEnemyFireball = value; }    
+
     private bool hitAbsorbingObject = false;
     public bool HitAbsorbingObject {get => hitAbsorbingObject; set => hitAbsorbingObject = value;}
     private  int spawnPointSiblingIndex = default;
@@ -81,6 +84,12 @@ public class CharacterControl : MonoBehaviour
             characterHealthDecrease = true;
             hitEnemy =true;
         }
+        if(other.collider.CompareTag("enemyFireball"))
+        {
+            characterHealthDecrease = true;
+            hitEnemyFireball = true;
+            hitEnemyFireball = false;
+        }
     }
 
 
@@ -102,6 +111,7 @@ public class CharacterControl : MonoBehaviour
             characterHealthDecrease  =false;
             hitEnemy = false;
         }
+        
     }
     private void OnCollisionExit2D(Collision2D other) 
     {
@@ -115,6 +125,12 @@ public class CharacterControl : MonoBehaviour
             characterHealthDecrease  =false;
             hitEnemy = false;
         }    
+        if(other.collider.CompareTag("enemyFireball"))
+        {
+            characterHealthDecrease = false;
+            hitEnemyFireball = false;
+        }
+        
     }
     private void OnTriggerEnter2D(Collider2D other) 
     {

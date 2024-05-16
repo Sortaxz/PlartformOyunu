@@ -66,6 +66,10 @@ public class UIManager : MonoBehaviour
             if(gameManager.mainCharacter.HitAbsorbingObject)
             {
                 HeartFillAmountControl(0.03f);
+            }
+            if(gameManager.mainCharacter.HitEnemyFireball)
+            {
+                HeartFillAmountControl(0.045f);
 
             }
         }

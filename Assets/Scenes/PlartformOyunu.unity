@@ -482,7 +482,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  enemyFireballSpeed: 200
+  enemyFireballSpeed: 500
 --- !u!1 &713350862
 GameObject:
   m_ObjectHideFlags: 0

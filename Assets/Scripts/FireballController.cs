@@ -65,6 +65,13 @@ public class FireballController : MonoBehaviour
                 gameManager.CreateWind = true;
                 Destroy(gameObject);
             } 
+            if(other.collider.CompareTag("obstacle"))
+            {
+                gameManager.CreateEnemyFireball = true;
+                gameManager.CreateWind = true;
+                Destroy(other.gameObject);
+                Destroy(gameObject);
+            }
         } 
     }
 

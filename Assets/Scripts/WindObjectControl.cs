@@ -27,7 +27,7 @@ public class WindObjectControl : MonoBehaviour
     {
         WindMovement();
     }
-    private void OnCollisionEnter2D(Collision2D other) 
+    private void OnCollisionExit2D(Collision2D other) 
     {
         if(other.collider.CompareTag("Player"))
         {
@@ -37,14 +37,7 @@ public class WindObjectControl : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
-    private void OnCollisionExit2D(Collision2D other) 
-    {
-        if(other.collider.CompareTag("Player"))
-        {
-        }    
-    }   
-
+    
     public  void WindMovement()
     {
         if(gameManager.WindLeftGo)
