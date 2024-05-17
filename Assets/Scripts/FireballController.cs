@@ -42,6 +42,11 @@ public class FireballController : MonoBehaviour
     
     private void OnCollisionEnter2D(Collision2D other) 
     {
+        if(other.gameObject.CompareTag("leftControl") || other.gameObject.CompareTag("rightControl"))
+        {
+            Destroy(gameObject);
+        }
+
         if(transform.tag == "fireball")
         {
             if(other.collider.CompareTag("Enemy"))
@@ -57,13 +62,15 @@ public class FireballController : MonoBehaviour
                 Destroy(gameObject);
             }
         }
+
         if(transform.tag == "enemyFireball")
         {
             if(other.collider.CompareTag("Player"))
             {
                 gameManager.CreateEnemyFireball = true;
                 gameManager.CreateWind = true;
-                Destroy(gameObject);
+                gameManager.mainCharacter.HitEnemyFireball = false;
+                Destroy(gameObject,0.01f);
             } 
             if(other.collider.CompareTag("obstacle"))
             {
@@ -71,6 +78,25 @@ public class FireballController : MonoBehaviour
                 gameManager.CreateWind = true;
                 Destroy(other.gameObject);
                 Destroy(gameObject);
+            }
+            if(other.collider.tag != "Player" && other.collider.tag != "CheckPoint"  && other.gameObject.layer !=3 )
+            {
+                if(other.collider.tag != "Cranboline")
+                {
+                    gameManager.CreateEnemyFireball = true;
+                    gameManager.CreateWind = true;
+                    Destroy(other.collider.gameObject);
+                    Destroy(gameObject);
+                }
+                /*
+                else
+                {
+                    gameManager.CreateEnemyFireball = true;
+                    gameManager.CreateWind = true;
+                    Destroy(other.collider.gameObject);
+                    Destroy(gameObject);
+                }
+                */
             }
         } 
     }

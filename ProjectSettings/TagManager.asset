@@ -17,6 +17,10 @@ TagManager:
   - PassableFloor
   - AbsorbingObject
   - enemyFireball
+  - leftControl
+  - rightControl
+  - downControl
+  - Wind
   layers:
   - Default
   - TransparentFX

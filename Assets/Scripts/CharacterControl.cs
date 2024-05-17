@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 
 public class CharacterControl : MonoBehaviour
@@ -43,6 +42,9 @@ public class CharacterControl : MonoBehaviour
 
     private bool hitAbsorbingObject = false;
     public bool HitAbsorbingObject {get => hitAbsorbingObject; set => hitAbsorbingObject = value;}
+
+    private bool lifeDwindling = false;
+    public bool LifeDwindling {get => lifeDwindling; }
     private  int spawnPointSiblingIndex = default;
 
    
@@ -88,7 +90,6 @@ public class CharacterControl : MonoBehaviour
         {
             characterHealthDecrease = true;
             hitEnemyFireball = true;
-            hitEnemyFireball = false;
         }
     }
 
@@ -105,6 +106,7 @@ public class CharacterControl : MonoBehaviour
             characterHealthDecrease  =false;
             hitObstacle = false;
             isCharacterAbove = false;
+            lifeDwindling = true;
         }
         if(other.collider.CompareTag("Enemy"))
         {
@@ -117,6 +119,7 @@ public class CharacterControl : MonoBehaviour
     {
         if(other.collider.CompareTag("obstacle"))
         {
+            lifeDwindling = false;
             characterHealthDecrease  =false;
             hitObstacle = false;
         } 

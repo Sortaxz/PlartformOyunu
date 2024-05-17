@@ -30,7 +30,6 @@ public class UIManager : MonoBehaviour
     {
         get { return itemImage; }
     }
-    Image spawnItemImage;
 
     bool hasItemChange = false;
     public bool HasItemChange 
@@ -71,6 +70,10 @@ public class UIManager : MonoBehaviour
             {
                 HeartFillAmountControl(0.045f);
 
+            }
+            if(gameManager.mainCharacter.LifeDwindling)
+            {
+                HeartFillAmountControl(0.001f);
             }
         }
         else
