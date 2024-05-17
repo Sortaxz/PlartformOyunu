@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.TextCore;
 using UnityEngine.UI;
-
 public class GameManager : MonoBehaviour
 {
     
@@ -109,7 +108,6 @@ public class GameManager : MonoBehaviour
             if (mainCharacter.IsCharacterDead)
             {
                 mainCharacter.transform.position = CheckPointController.CheckPointPosition();
-
             }
             isCharacterOnPoint = true;
         }

@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class CharacterControl : MonoBehaviour
 {
     private Rigidbody2D rb2D;
@@ -200,6 +199,7 @@ public class CharacterControl : MonoBehaviour
             {
                 isCharacterAbove = false;
                 readyToFireballAttack = true;
+                jumpAnimationResume = false;
                 Spawner.Instance.Fireball.GetComponent<FireballController>().birKereYonAlindi = false;// düzeltilicek field olarak tanımla
             }
         }

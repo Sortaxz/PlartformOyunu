@@ -35,13 +35,14 @@ public class Spawner : MonoBehaviour
     private Transform charcterParent;
     public Transform CharacterParent { get => charcterParent; }
     private static int currentSpawnIndex = 0;
-    
+    GameObject spawnCharacter;
     private void Awake()
     {
         Resource();
         SpawPointDizileme();
         SpawnCheckPoint();
         gameManager = GameManager.Instance;
+        SpawnCharacter();
 
     }
 
@@ -62,7 +63,6 @@ public class Spawner : MonoBehaviour
 
     void Start()
     {
-        SpawnCharacter();
         fireballPosition = gameManager.mainCharacter.transform.GetChild(0).transform; 
     }
 
@@ -70,12 +70,13 @@ public class Spawner : MonoBehaviour
     {
         SpawnFireball();
     }
-
     public void SpawnCharacter()
     {
         if(currentSpawnIndex >= 0 && currentSpawnIndex < spawnPoints.Count)
         {
-            GameObject spawnCharacter = Instantiate(character, spawnPoints[currentSpawnIndex].position, Quaternion.identity);
+            currentSpawnIndex = PlayerPrefs.GetInt("SpawnPoint");
+            spawnCharacter = Instantiate(character, spawnPoints[currentSpawnIndex].position, Quaternion.identity);
+            
             charcterParent = spawnCharacter.transform.parent;
             gameManager.RegisterMainCharacter(spawnCharacter.GetComponent<CharacterControl>());
         }

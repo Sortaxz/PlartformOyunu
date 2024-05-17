@@ -46,32 +46,37 @@ public class UIManager : MonoBehaviour
         gameManager = GameManager.Instance;
     }
 
-   
-    
     void Update()
     {
         UIInputControl();
-        if(!characterLifeReset)
+        LifeDecreaseAndReset();
+    }
+
+    
+    
+    private void LifeDecreaseAndReset()
+    {
+        if (!characterLifeReset)
         {
-            if(gameManager.mainCharacter.HitObstacle)
+            if (gameManager.mainCharacter.HitObstacle)
             {
                 HeartFillAmountControl(0.02f);
             }
-            if(gameManager.mainCharacter.HitEnemy)
+            if (gameManager.mainCharacter.HitEnemy)
             {
                 HeartFillAmountControl(0.04f);
 
             }
-            if(gameManager.mainCharacter.HitAbsorbingObject)
+            if (gameManager.mainCharacter.HitAbsorbingObject)
             {
                 HeartFillAmountControl(0.03f);
             }
-            if(gameManager.mainCharacter.HitEnemyFireball)
+            if (gameManager.mainCharacter.HitEnemyFireball)
             {
                 HeartFillAmountControl(0.045f);
 
             }
-            if(gameManager.mainCharacter.LifeDwindling)
+            if (gameManager.mainCharacter.LifeDwindling)
             {
                 HeartFillAmountControl(0.001f);
             }

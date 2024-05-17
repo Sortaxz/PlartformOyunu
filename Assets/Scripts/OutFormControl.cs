@@ -10,8 +10,8 @@ public class OutFormControl : MonoBehaviour
     {
         gameManager = GameManager.Instance;    
     }
-
-    private void OnCollisionEnter2D(Collision2D other) 
+    
+    private void OnTriggerEnter2D(Collider2D other) 
     {
         if (other.gameObject.CompareTag("Wind"))
         {
@@ -25,6 +25,11 @@ public class OutFormControl : MonoBehaviour
             gameManager.CreateEnemyFireball = true;
             gameManager.CreateWind = true;
             Destroy(other.gameObject);
+        }  
+        if(other.gameObject.CompareTag("Player"))
+        {
+            gameManager.mainCharacter.IsCharacterDead = true;
+            gameManager.isCharacterOnPoint = false;
         }
     }
 }
