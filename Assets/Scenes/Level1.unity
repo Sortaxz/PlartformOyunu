@@ -1760,13 +1760,15 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 0}
   SpakeObjectPositons:
   - {x: -5, y: -2}
   - {x: 15, y: -2}
   - {x: 25, y: -2}
   - {x: 47, y: -2}
   - {x: 60, y: -2}
-  SpakeDuration: 0100010001
+  - {x: 90, y: -2}
+  SpakeDuration: 010001000100
   spakeDurationTime: 3
   MovingFloorPrefab: {fileID: 5151351972468534921, guid: b3fa8f322dd5aea4cbb54e493b9642d2, type: 3}
   movingFloors:
@@ -3125,7 +3127,6 @@ SceneRoots:
   - {fileID: 1460046093}
   - {fileID: 1234273665}
   - {fileID: 1286193986}
-  - {fileID: 1185307392}
   - {fileID: 642502839}
   - {fileID: 1279780930}
   - {fileID: 861215150}
@@ -3133,3 +3134,4 @@ SceneRoots:
   - {fileID: 1485157368}
   - {fileID: 1303378447}
   - {fileID: 611093300}
+  - {fileID: 1185307392}

@@ -61,6 +61,10 @@ public class FireballController : MonoBehaviour
                 Destroy(other.gameObject);
                 Destroy(gameObject);
             }
+            if(!other.collider.CompareTag("Player"))
+            {
+                Destroy(gameObject);
+            }
         }
 
         if(transform.tag == "enemyFireball")
@@ -88,15 +92,10 @@ public class FireballController : MonoBehaviour
                     Destroy(other.collider.gameObject);
                     Destroy(gameObject);
                 }
-                /*
                 else
                 {
-                    gameManager.CreateEnemyFireball = true;
-                    gameManager.CreateWind = true;
-                    Destroy(other.collider.gameObject);
                     Destroy(gameObject);
                 }
-                */
             }
         } 
     }

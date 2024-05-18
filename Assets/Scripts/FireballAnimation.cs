@@ -28,12 +28,7 @@ public class FireballAnimation : MonoBehaviour
 
     void FireballDeletion()
     {
-        /*
-        if(transform.tag == "fireball")
-        {
-            Destroy(gameObject,10);
-        }
-        */
+        
     }
 
     void FireballAnimasyon()
