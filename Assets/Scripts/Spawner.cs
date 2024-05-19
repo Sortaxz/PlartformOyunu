@@ -48,9 +48,9 @@ public class Spawner : MonoBehaviour
 
     private void Resource()
     {
-        character = Resources.Load<GameObject>("Prefabs/Character");
-        fireball = Resources.Load<GameObject>("Prefabs/fireball");
-        checkPoint = Resources.Load<GameObject>("Prefabs/CheckPoint");
+        character = Resources.Load<GameObject>("Prefabs/Character/Character");
+        fireball = Resources.Load<GameObject>("Prefabs/Fireball/fireball");
+        checkPoint = Resources.Load<GameObject>("Prefabs/CheckPoint/CheckPoint");
     }
 
     private void SpawPointDizileme()
