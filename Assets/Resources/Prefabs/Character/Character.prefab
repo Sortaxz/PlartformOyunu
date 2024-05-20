@@ -180,6 +180,7 @@ MonoBehaviour:
   readyToAttack: 0
   readyToFireballAttack: 0
   fireballLocalScale: 0
+  jumpAnimationResume: 0
 --- !u!114 &2010948801021296029
 MonoBehaviour:
   m_ObjectHideFlags: 0

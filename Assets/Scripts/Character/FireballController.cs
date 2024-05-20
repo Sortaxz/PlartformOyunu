@@ -94,6 +94,8 @@ public class FireballController : MonoBehaviour
                 }
                 else
                 {
+                    gameManager.CreateEnemyFireball = true;
+                    gameManager.CreateWind = true;
                     Destroy(gameObject);
                 }
             }

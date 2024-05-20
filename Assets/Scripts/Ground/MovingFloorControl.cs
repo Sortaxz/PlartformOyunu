@@ -15,6 +15,7 @@ public class MovingFloorControl : MonoBehaviour
     private void Awake() 
     {
         FindMovingFloorMaxMinX();
+
     }
    
     void FixedUpdate()
@@ -105,25 +106,6 @@ public class MovingFloorControl : MonoBehaviour
     #region  Control with Collision and Trigger
     private void OnCollisionEnter2D(Collision2D other) 
     {
-        if(other.collider.CompareTag("Player"))
-        {
-            if(movementDirectionUp)
-            {
-                moveUp = true;
-                if(gameObject.activeInHierarchy)
-                {
-                    other.transform.SetParent(transform);
-                }
-            }
-            if(!movementDirectionUp )
-            {
-                moveRight = true;
-                if(gameObject.activeInHierarchy)
-                {
-                    other.transform.SetParent(transform);
-                }
-            }
-        }
         
     }
     private void OnCollisionStay2D(Collision2D other) 
@@ -132,6 +114,9 @@ public class MovingFloorControl : MonoBehaviour
         {
             if(movementDirectionUp )
             {
+                // deneme
+                moveUp = true;
+                //deneme bitti
                 if(gameObject.activeInHierarchy)
                 {
                     other.transform.SetParent(transform);
@@ -139,6 +124,9 @@ public class MovingFloorControl : MonoBehaviour
             }
             if(!movementDirectionUp )
             {
+                 // deneme
+                moveRight = true;
+                //deneme bitti
                 if(gameObject.activeInHierarchy)
                 {
                     other.transform.SetParent(transform);
@@ -167,7 +155,7 @@ public class MovingFloorControl : MonoBehaviour
                 }
             }
         }
-        
+   
     }
     #endregion
 }
