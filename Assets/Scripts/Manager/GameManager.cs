@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.TextCore;
 using UnityEngine.UI;
 public class GameManager : MonoBehaviour
@@ -35,6 +37,7 @@ public class GameManager : MonoBehaviour
     #region WindObject members
 
     [SerializeField] private GameObject windPrefab; 
+    [SerializeField] private GameObject aerialWindPrefab; 
     [SerializeField] private GameObject[] windObjects;
 
     private bool createWind= true;
@@ -52,6 +55,9 @@ public class GameManager : MonoBehaviour
     private bool windLeftGo = false;
     public bool WindLeftGo { get {return windLeftGo;} }
     
+    private bool finish = false;
+    public bool Finish {get {return finish;} set {finish = value;}}
+    public bool newSceneCharacterPos = false;
     private float createWindObjectTimer = 0f;
 
     [SerializeField] private float windSpeed;
@@ -91,6 +97,8 @@ public class GameManager : MonoBehaviour
     {
         LeftWindPosition = transform.GetChild(0);
         RightWindPosition = transform.GetChild(1);
+
+        
     }
 
     void Update()
@@ -99,6 +107,8 @@ public class GameManager : MonoBehaviour
         CameraPositionControl();
         CreateWindObject();
         CreateEnemyFireballObject();
+        
+        LoadScene();
     }
 
     private void CharcterCheckPoint()
@@ -108,6 +118,7 @@ public class GameManager : MonoBehaviour
             if (mainCharacter.IsCharacterDead)
             {
                 mainCharacter.transform.position = CheckPointController.CheckPointPosition();
+                mainCharacter.IsCharacterDead = false;
             }
             isCharacterOnPoint = true;
         }
@@ -121,66 +132,138 @@ public class GameManager : MonoBehaviour
 
     private void CameraPositionControl()
     {
-        Camera.main.transform.position = mainCharacter.transform.position + cameraMesafesi;
+        if(mainCharacter != null)
+        {
+            Camera.main.transform.position = mainCharacter.transform.position + cameraMesafesi;
+        }
+        
     }
     
     void CreateWindObject()
     {
-        if(createWind)
+        if(!finish)
         {
-            if(i < windObjects.Length)
+            if(createWind)
             {
-                createWindObjectTimer += Time.deltaTime;
-                if(createWindObjectTimer <= 50)
+                if(i < windObjects.Length)
                 {
-                    createWindObjectTimer = 0f;
-                    if(leftHandSide)
+                    createWindObjectTimer += Time.deltaTime;
+                    if(createWindObjectTimer <= 50)
                     {
-                        windObjects[i++] = Instantiate(windPrefab,new Vector2(LeftWindPosition.position.x,-0.9681435f),Quaternion.identity,LeftWindPosition);
-                        leftHandSide = false;
-                        windRightGo = true;
-                        windLeftGo = false;
+                        createWindObjectTimer = 0f;
+                        if(leftHandSide)
+                        {
+                            //windObjects[i++] = Instantiate(windPrefab,new Vector2(LeftWindPosition.position.x,-0.9681435f),Quaternion.identity,LeftWindPosition);
+                            
+                            if(!mainCharacter.IsAerialWind)
+                            {
+                                windObjects[i++] = Instantiate(windPrefab,new Vector2(LeftWindPosition.position.x,-0.9681435f),Quaternion.identity,LeftWindPosition);
+                            }
+                            else
+                            {
+                                windObjects[i++] = Instantiate(aerialWindPrefab,new Vector2(LeftWindPosition.position.x,mainCharacter.transform.position.y),Quaternion.identity,LeftWindPosition);
+                            }
+                            leftHandSide = false;
+                            windRightGo = true;
+                            windLeftGo = false;
+                        }
+                        else if(!leftHandSide)
+                        {
+                            //windObjects[i++] = Instantiate(windPrefab,new Vector2(RightWindPosition.position.x,-0.9681435f),Quaternion.identity,RightWindPosition);
+
+                            if(!mainCharacter.IsAerialWind)
+                            {
+                                windObjects[i++] = Instantiate(windPrefab,new Vector2(RightWindPosition.position.x,-0.9681435f),Quaternion.identity,RightWindPosition);
+                            }
+                            else
+                            {
+                                windObjects[i++] = Instantiate(aerialWindPrefab,new Vector2(RightWindPosition.position.x,mainCharacter.transform.position.y),Quaternion.identity,RightWindPosition);
+                            }
+
+                            leftHandSide = true;
+                            windLeftGo = true;
+                            windRightGo =false;
+                        }
                     }
-                    else if(!leftHandSide)
-                    {
-                        windObjects[i++] = Instantiate(windPrefab,new Vector2(RightWindPosition.position.x,-0.9681435f),Quaternion.identity,RightWindPosition);
-                        leftHandSide = true;
-                        windLeftGo = true;
-                        windRightGo =false;
-                    }
+
                 }
+                createWind = false;
             }
-            createWind = false;
         }
     }
     void CreateEnemyFireballObject()
     {
-        if(!createEnemyFireball)
+        if(!finish)
         {
-            if(j < windObjects.Length)
+            if(!createEnemyFireball)
             {
-                createEnemyFireballObjectTimer += Time.deltaTime;
-                if(createEnemyFireballObjectTimer <= 50)
+                if(j < enemyFireballObjects.Length)
                 {
-                    createEnemyFireballObjectTimer = 0f;
-                    if(enemyFireballRightHandSide)
+                    createEnemyFireballObjectTimer += Time.deltaTime;
+                    if(createEnemyFireballObjectTimer <= 50)
                     {
-                        enemyFireballObjects[j++] = Instantiate(enemyFireballPrefab,new Vector2(RightWindPosition.position.x,-0.9681435f),Quaternion.identity,RightWindPosition);
-                        enemyFireballRightHandSide = false;
-                        enemyFireballRightGo = false;
-                        enemyFireballLeftGo = true;
-                    }
-                    else if(!enemyFireballRightHandSide)
-                    {
-                        enemyFireballObjects[j++] = Instantiate(enemyFireballPrefab,new Vector2(LeftWindPosition.position.x,-0.9681435f),Quaternion.identity,LeftWindPosition);
-                        enemyFireballRightHandSide = true;
-                        enemyFireballRightGo = true;
-                        enemyFireballLeftGo =false;
+                        createEnemyFireballObjectTimer = 0f;
+                        if(enemyFireballRightHandSide)
+                        {
+                            //enemyFireballObjects[j++] = Instantiate(enemyFireballPrefab,new Vector2(RightWindPosition.position.x,-0.9681435f),Quaternion.identity,RightWindPosition);
+                            enemyFireballObjects[j++] = Instantiate(enemyFireballPrefab,new Vector2(RightWindPosition.position.x,mainCharacter.transform.position.y),Quaternion.identity,RightWindPosition);
+
+                            enemyFireballRightHandSide = false;
+                            enemyFireballRightGo = false;
+                            enemyFireballLeftGo = true;
+                        }
+                        else if(!enemyFireballRightHandSide)
+                        {
+                            //enemyFireballObjects[j++] = Instantiate(enemyFireballPrefab,new Vector2(LeftWindPosition.position.x,-0.9681435f),Quaternion.identity,LeftWindPosition);
+                            enemyFireballObjects[j++] = Instantiate(enemyFireballPrefab,new Vector2(LeftWindPosition.position.x,mainCharacter.transform.position.y),Quaternion.identity,LeftWindPosition);
+
+
+                            enemyFireballRightHandSide = true;
+                            enemyFireballRightGo = true;
+                            enemyFireballLeftGo =false;
+                        }
                     }
                 }
+                createEnemyFireball = true;
             }
-            createEnemyFireball = true;
+        }  
+    }
+    
+
+    void LoadScene()
+    {
+        FinishControl();
+
+    }
+
+    private void FinishControl()
+    {
+        if (finish)
+        {
+            StartCoroutine(NewLevel());
+            PlayerPrefs.DeleteAll();
+            finish = false;
         }
     }
-   
+
+    IEnumerator NewLevel()
+    {
+        
+        yield return null;
+        int loadSceneIndex = SceneManager.GetActiveScene().buildIndex ; 
+        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(1,LoadSceneMode.Single);
+
+        while(!asyncOperation.isDone)
+        {
+            
+           yield return null;
+           
+        }
+        if(asyncOperation.isDone)
+        {
+            finish = false;
+            newSceneCharacterPos = true;
+        }
+    }
+
 }

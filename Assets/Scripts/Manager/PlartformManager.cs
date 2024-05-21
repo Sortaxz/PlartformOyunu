@@ -19,8 +19,10 @@ public class PlartformManager : MonoBehaviour
             return instance;
         }
     }
-    
 
+    private GameObject floorPrefab;
+    
+    
     #region  SpakeObject Members
 
     [SerializeField] private GameObject SpakePrefab;
@@ -33,7 +35,8 @@ public class PlartformManager : MonoBehaviour
     #endregion
     
     #region  MovingFloor Object Members
-    [SerializeField] private GameObject MovingFloorPrefab;
+    [SerializeField] private GameObject movingFloorPrefab;
+    public GameObject MovingFloorPrefab {get { return movingFloorPrefab;} set {movingFloorPrefab = value;}}
     [SerializeField] private List<GameObject> movingFloors;
     public List<GameObject> MovingFloors
     {
@@ -113,7 +116,6 @@ public class PlartformManager : MonoBehaviour
     #endregion
 
 
-
     #region  StonyFloor
 
     [SerializeField] private GameObject stonyFloorPrefab;
@@ -136,27 +138,71 @@ public class PlartformManager : MonoBehaviour
     #endregion
 
 
+    #region  Inhaling Bomb
+
+    [SerializeField] private GameObject inhalingBombPrefab;
+    public GameObject InhalingBombPrefab { get {return inhalingBombPrefab;} set { inhalingBombPrefab = value;}}
+
+    [SerializeField] private List<GameObject> inhalingBombs;
+    public  List<GameObject> InhalingBombs {get { return inhalingBombs; } set { inhalingBombs = value;}}
+
+     private List<Vector2> saveInhalingBombPositions;
+    public List<Vector2> SaveInhalingBombPositions {get { return saveInhalingBombPositions;} set { saveInhalingBombPositions = value;}}
+
+    [SerializeField] private Vector2[] inhalingBombPositions;
+    public Vector2[] InhalingBombsPositions {get { return inhalingBombPositions;} set { inhalingBombPositions = value;}}
+     [SerializeField]private bool startCreateInhalingBomb = false;
+    public bool StartCreateInhalingBomb {get {return startCreateInhalingBomb;} set { startCreateInhalingBomb = value;}}
+
+    [SerializeField] private bool inhalingBombbuttonClose = false;
+    public bool InhalingBombbuttonClose { get {return inhalingBombbuttonClose;} set {inhalingBombbuttonClose = value;}}
+
+    #endregion
+
+
+    #region  Cranboline
+
+    [SerializeField] private GameObject cranbolinePrefab;
+    public GameObject CranbolinePrefab { get {return cranbolinePrefab;} set { cranbolinePrefab = value;}}
+
+    [SerializeField] private List<GameObject> cranbolines;
+    public  List<GameObject> Cranbolines{get { return cranbolines; } set { cranbolines = value;}}
+
+     private List<Vector2> saveCranbolinePositions;
+    public List<Vector2> SaveCranbolinePositions {get { return saveCranbolinePositions;} set { saveCranbolinePositions = value;}}
+
+    [SerializeField] private Vector2[] cranbolinePositions;
+    public Vector2[] CranbolinePositions {get { return cranbolinePositions;} set { cranbolinePositions = value;}}
+     [SerializeField]private bool startCreateCranboline = false;
+    public bool StartCreateCranboline {get {return startCreateCranboline;} set { startCreateCranboline = value;}}
+
+    [SerializeField] private bool cranbolinebuttonClose = false;
+    public bool CranbolinebuttonClose { get {return cranbolinebuttonClose;} set {cranbolinebuttonClose = value;}}
+
+    #endregion
+
+
     private void Awake()
     {
         CreateSpakeObject();
         GetSpakeDuration();
     }
 
+  
 
     public void CreateMovingFloor()
     {
         for (int i = 0; i < movingFloors.Count; i++)
         {
-            movingFloors[i] = Instantiate(MovingFloorPrefab,movingGroundPositions[i],Quaternion.identity,movingFloors[i].transform);
-           
             movingFloors[i].transform.position = movingGroundPositions[i];
             movingFloors[i].GetComponent<MovingFloorControl>().MovementDirectionUp = MovingFloorDirectionMovement[i];
 
-            
+            if(i == movingFloors.Count - 1)
+            {
+                startCreateMovingFloor = false;
+            }
         }
     }
-
-   
 
     private void GetSpakeDuration()
     {
@@ -212,7 +258,8 @@ public class PlartformManager : MonoBehaviour
            
         }
     }
-     public void CreateStonyObject()
+    
+    public void CreateStonyObject()
     {
         for (int i = 0; i < stonyFloors.Count; i++)
         {
@@ -228,6 +275,36 @@ public class PlartformManager : MonoBehaviour
         }
     }
 
+
+    public void CreateInhalingBombObject()
+    {
+        for (int i = 0; i < inhalingBombs.Count; i++)
+        {
+            inhalingBombs[i].transform.position = inhalingBombPositions[i];
+            inhalingBombs[i].transform.rotation = Quaternion.identity;
+
+            if(i == inhalingBombs.Count-1)
+            {
+                startCreateInhalingBomb = false;
+            }
+        }
+    }
+
+    public void CreateCranbolineObject()
+    {
+        for (int i = 0; i < cranbolines.Count; i++)
+        {
+            cranbolines[i].transform.position = CranbolinePositions[i];
+            cranbolines[i].transform.rotation = Quaternion.identity;
+
+            if(i == cranbolines.Count-1)
+            {
+                startCreateCranboline = false;
+            }
+        }
+    }
+
+
 }
 #if UNITY_EDITOR
 [CustomEditor(typeof(PlartformManager))]
@@ -238,7 +315,7 @@ class PlartformManagerEditor : Editor
     
     public override void OnInspectorGUI()
     {
-        #region  SpakeObject has a Members
+        #region  SpakeObject has  Members
 
         EditorGUILayout.PropertyField(serializedObject.FindProperty("SpakePrefab"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("SpakeObject"));
@@ -252,9 +329,9 @@ class PlartformManagerEditor : Editor
         EditorGUILayout.Space();
         EditorGUILayout.Space();
 
-        #region  MovingFloor has a Members
+        #region  MovingFloor has  Members
 
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("MovingFloorPrefab"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("movingFloorPrefab"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("movingFloors"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("numberMovementGroundPoints"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("movingGroundPositions"));
@@ -272,7 +349,10 @@ class PlartformManagerEditor : Editor
         {
             if(GUILayout.Button("Generate Motion Floor",GUILayout.MinWidth(100),GUILayout.MaxWidth(300)))
             {   
-                GameObject movingFloor = new GameObject();
+                plartformManager.MovingFloorPrefab = Resources.Load<GameObject>("Prefabs/Ground/Moving Grass");
+                GameObject movingFloor = Instantiate(plartformManager.MovingFloorPrefab);
+
+
                 movingFloor.transform.parent = plartformManager.transform.GetChild(1);
                 movingFloor.transform.name = "MovingFloor" +" " +movingFloor.transform.GetSiblingIndex();
                 plartformManager.MovingFloors.Add(movingFloor);
@@ -289,7 +369,6 @@ class PlartformManagerEditor : Editor
             if(plartformManager.StartCreateMovingFloor)
             {
                 plartformManager.CreateMovingFloor();
-                plartformManager.StartCreateMovingFloor = false;
             }
         }
         
@@ -300,7 +379,7 @@ class PlartformManagerEditor : Editor
         EditorGUILayout.Space();
         EditorGUILayout.Space();    
 
-        #region  PassableFloor has a Members
+        #region  PassableFloor has  Members
         
         EditorGUILayout.PropertyField (serializedObject.FindProperty("passableFloorPrefab"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("passableFloors"));
@@ -349,7 +428,7 @@ class PlartformManagerEditor : Editor
         EditorGUILayout.Space(); 
 
 
-        #region  SlidingFloor has a Members
+        #region  SlidingFloor has  Members
 
         EditorGUILayout.PropertyField (serializedObject.FindProperty("slidingFloorPrefab"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("slidingFloors"));
@@ -392,49 +471,92 @@ class PlartformManagerEditor : Editor
 
         #endregion
 
-        #region  StonyFloor has a Members
+        EditorGUILayout.Space();
+        EditorGUILayout.Space();
+        EditorGUILayout.Space(); 
 
-        EditorGUILayout.PropertyField (serializedObject.FindProperty("stonyFloorPrefab"));
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("stonyFloors"));
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("stonyFloorPositions"));
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("startCreateStonyFloor"));
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("stonyFloorbuttonClose"));
+        #region  InhalingBomb has Members
+
+        EditorGUILayout.PropertyField (serializedObject.FindProperty("inhalingBombPrefab"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("inhalingBombs"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("inhalingBombPositions"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("startCreateInhalingBomb"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("inhalingBombbuttonClose"));
 
         EditorGUILayout.Space();
         EditorGUILayout.Space();
         EditorGUILayout.Space();    
 
-        if(!plartformManager.StonyFloorbuttonClose)
+        if(!plartformManager.InhalingBombbuttonClose)
         {
-            if(GUILayout.Button("Create StonyFloor Object",GUILayout.MinWidth(100), GUILayout.MaxWidth(300)))
+            if(GUILayout.Button("Create InhalingBomb Object" , GUILayout.MinWidth(100),GUILayout.MaxWidth(300)))
             {
-
-                plartformManager.StonyFloorPrefab = Resources.Load<GameObject>("Prefabs/Ground/StonyFloor");
-                GameObject stonyFloor = Instantiate(plartformManager.StonyFloorPrefab);
-
-
-
-                stonyFloor.transform.parent = plartformManager.transform.GetChild(4);
-                stonyFloor.transform.name = "StonyFloor" +" " +stonyFloor.transform.GetSiblingIndex();
-
-                plartformManager.StonyFloors.Add(stonyFloor);
-
-                plartformManager.SaveStonyFloorPositions = new List<Vector2>(plartformManager.StonyFloorPositions);
-                plartformManager.SaveStonyFloorPositions.Add(new Vector2()); 
-                plartformManager.StonyFloorPositions = plartformManager.SaveStonyFloorPositions.ToArray();
+                plartformManager.InhalingBombPrefab = Resources.Load<GameObject>("Prefabs/Obstacles/Inhaling Bomb");
                 
+                GameObject inhalingBomb = Instantiate(plartformManager.InhalingBombPrefab);
+                inhalingBomb.transform.parent = plartformManager.transform.GetChild(5);
+                inhalingBomb.transform.name = "InhalingBomb" + inhalingBomb.transform.GetSiblingIndex();
+
+                plartformManager.InhalingBombs.Add(inhalingBomb);
+
+                plartformManager.SaveInhalingBombPositions = new List<Vector2>(plartformManager.InhalingBombsPositions);
+                plartformManager.SaveInhalingBombPositions.Add(new Vector2());
+                plartformManager.InhalingBombsPositions = plartformManager.SaveInhalingBombPositions.ToArray();
+
             }
 
-            if(plartformManager.StartCreateStonyFloor)
+            if(plartformManager.StartCreateInhalingBomb)
             {
-                plartformManager.CreateStonyObject();
+                plartformManager.CreateInhalingBombObject();
+            }
+        }
+        
+
+        #endregion
+
+        EditorGUILayout.Space();
+        EditorGUILayout.Space();
+        EditorGUILayout.Space(); 
+
+
+        #region  Cranboline has a Members
+
+        EditorGUILayout.PropertyField (serializedObject.FindProperty("cranbolinePrefab"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("cranbolines"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("cranbolinePositions"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("startCreateCranboline"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("cranbolinebuttonClose"));
+
+        EditorGUILayout.Space();
+        EditorGUILayout.Space();
+        EditorGUILayout.Space();    
+
+        if(!plartformManager.CranbolinebuttonClose)
+        {
+            if(GUILayout.Button("Create Cranboline Object" , GUILayout.MinWidth(100),GUILayout.MaxWidth(300)))
+            {
+                plartformManager.CranbolinePrefab = Resources.Load<GameObject>("Prefabs/Side_Tools/Cranboline");
+                
+                GameObject cranboline = Instantiate(plartformManager.CranbolinePrefab);
+                cranboline.transform.parent = plartformManager.transform.GetChild(6);
+                cranboline.transform.name = "Cranboline" + cranboline.transform.GetSiblingIndex();
+
+                plartformManager.Cranbolines.Add(cranboline);
+
+                plartformManager.SaveCranbolinePositions = new List<Vector2>(plartformManager.CranbolinePositions);
+                plartformManager.SaveCranbolinePositions.Add(new Vector2());
+                plartformManager.CranbolinePositions = plartformManager.SaveCranbolinePositions.ToArray();
+
             }
 
+            if(plartformManager.StartCreateCranboline)
+            {
+                plartformManager.CreateCranbolineObject();
+            }
         }
 
 
         #endregion
-
 
         serializedObject.ApplyModifiedProperties();
         serializedObject.Update();

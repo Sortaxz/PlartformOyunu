@@ -83,7 +83,16 @@ public class FireballController : MonoBehaviour
                 Destroy(other.gameObject);
                 Destroy(gameObject);
             }
-            if(other.collider.tag != "Player" && other.collider.tag != "CheckPoint"  && other.gameObject.layer !=3 )
+
+            if(other.collider.gameObject.layer == LayerMask.NameToLayer("Zemin"))
+            {
+                gameManager.CreateEnemyFireball = true;
+                gameManager.CreateWind = true;
+                Destroy(other.collider.gameObject);
+                Destroy(gameObject);
+            }
+
+            if( other.collider.tag != "CheckPoint"   && other.collider.tag != "Player" && other.collider.tag == "AbsorbingObject")
             {
                 if(other.collider.tag != "Cranboline")
                 {
@@ -98,7 +107,9 @@ public class FireballController : MonoBehaviour
                     gameManager.CreateWind = true;
                     Destroy(gameObject);
                 }
+                
             }
+            
         } 
     }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 public class CharacterControl : MonoBehaviour
 {
+    GameManager gameManager;
     private Rigidbody2D rb2D;
     Vector3 movement =  Vector3.zero;
     [SerializeField] private float jumpingPower;
@@ -44,13 +45,19 @@ public class CharacterControl : MonoBehaviour
 
     private bool lifeDwindling = false;
     public bool LifeDwindling {get => lifeDwindling; }
+
+    private bool stageReady = false;
+    public bool StageReady { get => stageReady; set => stageReady = value; }
+
+    private bool isAerialWind = false;
+    public bool IsAerialWind { get => isAerialWind; set => isAerialWind = value;}
     private  int spawnPointSiblingIndex = default;
 
    
     private void Awake() 
     {
         rb2D = GetComponent<Rigidbody2D>();
-
+        gameManager = GameManager.Instance;
     }
 
     void Update()
@@ -89,6 +96,11 @@ public class CharacterControl : MonoBehaviour
         {
             characterHealthDecrease = true;
             hitEnemyFireball = true;
+        }
+
+        if(other.collider.tag == "Zemin")
+        {
+            isAerialWind = false;
         }
     }
 
@@ -132,7 +144,10 @@ public class CharacterControl : MonoBehaviour
             characterHealthDecrease = false;
             hitEnemyFireball = false;
         }
-        
+         if(other.collider.tag == "Zemin")
+        {
+            isAerialWind = true;
+        }
     }
     private void OnTriggerEnter2D(Collider2D other) 
     {
@@ -146,6 +161,11 @@ public class CharacterControl : MonoBehaviour
             jumpCounter = 0;
             isCharacterAbove = false;
             jumpAnimationResume = false;
+        }
+
+        if(other.CompareTag("Finish"))
+        {
+            gameManager.Finish = true;
         }
     }
     

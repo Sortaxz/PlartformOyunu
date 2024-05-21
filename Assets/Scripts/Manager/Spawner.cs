@@ -43,10 +43,10 @@ public class Spawner : MonoBehaviour
         SpawnCheckPoint();
         gameManager = GameManager.Instance;
         SpawnCharacter();
-
+        print("Aweake");
     }
 
-    private void Resource()
+    public void Resource()
     {
         character = Resources.Load<GameObject>("Prefabs/Character/Character");
         fireball = Resources.Load<GameObject>("Prefabs/Fireball/fireball");
@@ -74,8 +74,9 @@ public class Spawner : MonoBehaviour
     {
         if(currentSpawnIndex >= 0 && currentSpawnIndex < spawnPoints.Count)
         {
-            currentSpawnIndex = PlayerPrefs.GetInt("SpawnPoint");
-            spawnCharacter = Instantiate(character, spawnPoints[currentSpawnIndex].position, Quaternion.identity);
+                currentSpawnIndex = PlayerPrefs.GetInt("SpawnPoint");
+                spawnCharacter = Instantiate(character, spawnPoints[currentSpawnIndex].position, Quaternion.identity);
+            
             
             charcterParent = spawnCharacter.transform.parent;
             gameManager.RegisterMainCharacter(spawnCharacter.GetComponent<CharacterControl>());
@@ -84,22 +85,25 @@ public class Spawner : MonoBehaviour
 
     private void SpawnFireball()
     {   
-        if(AnimationController.Instance.fireballReady)
-        {   
-            GameObject newFireBall = Instantiate(fireball,fireballPosition.position,Quaternion.identity);
-            newFireBall.GetComponent<FireballController>().birKereYonAlindi = false;
-            
-            AnimationController.Instance.fireballReady = false;
-            gameManager.mainCharacter.jumpAnimationResume = true;
-            if(gameManager.mainCharacter.fireballLocalScale)
-            {
-                newFireBall.transform.localScale = new Vector3(-1,1,1);
-            }
-            else
-            {
-                newFireBall.transform.localScale = new Vector3(1,1,1);
-            }
+        if(gameManager.mainCharacter != null)
+        {
+            if(AnimationController.Instance.fireballReady)
+            {   
+                GameObject newFireBall = Instantiate(fireball,fireballPosition.position,Quaternion.identity);
+                newFireBall.GetComponent<FireballController>().birKereYonAlindi = false;
+                
+                AnimationController.Instance.fireballReady = false;
+                gameManager.mainCharacter.jumpAnimationResume = true;
+                if(gameManager.mainCharacter.fireballLocalScale)
+                {
+                    newFireBall.transform.localScale = new Vector3(-1,1,1);
+                }
+                else
+                {
+                    newFireBall.transform.localScale = new Vector3(1,1,1);
+                }
 
+            }
         }
     }
 
@@ -110,6 +114,11 @@ public class Spawner : MonoBehaviour
         {
             GameObject spawnCheckPoint = Instantiate(checkPoint,spawnPoints[i].transform.position,Quaternion.identity,spawnPoints[i].transform);
             spawnCheckPoint.transform.name = "Check Point"  + i;
+
+            if(i == spawnPoints.Count - 1)
+            {
+                spawnCheckPoint.layer = LayerMask.NameToLayer("Finally");
+            }
         }
     }
 

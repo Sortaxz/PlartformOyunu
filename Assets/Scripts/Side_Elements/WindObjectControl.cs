@@ -40,22 +40,25 @@ public class WindObjectControl : MonoBehaviour
     
     public  void WindMovement()
     {
-        if(gameManager.WindLeftGo)
+        if(gameManager.mainCharacter != null)
         {
-            leftGo = true;
-        }
-        else if(gameManager.WindRightGo)
-        {
-            rightGo = true;
-        }
-        if(leftGo)
-        {
-            transform.Translate(Vector2.left * Time.fixedDeltaTime * windSpeed );
-        }
+            if(gameManager.WindLeftGo)
+            {
+                leftGo = true;
+            }
+            else if(gameManager.WindRightGo)
+            {
+                rightGo = true;
+            }
+            if(leftGo)
+            {
+                transform.Translate(Vector2.left * Time.fixedDeltaTime * windSpeed );
+            }
 
-        if(rightGo)
-        {
-            transform.Translate(Vector2.right *Time.fixedDeltaTime * windSpeed );
+            if(rightGo)
+            {
+                transform.Translate(Vector2.right *Time.fixedDeltaTime * windSpeed );
+            }
         }
     }
 }
