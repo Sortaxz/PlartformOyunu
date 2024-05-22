@@ -1427,6 +1427,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   newSceneCharacterPos: 0
+  resumeWind: 0
   windSpeed: 11
   enemyFireballPrefab: {fileID: 7339145356308524819, guid: 57d7f64654c52a4498ca2d200e3df4ea, type: 3}
   enemyFireballObjects:
@@ -1435,6 +1436,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   enemyFireballSpeed: 500
+  resumeEnemyFirebal: 1
 --- !u!1 &713350862
 GameObject:
   m_ObjectHideFlags: 0

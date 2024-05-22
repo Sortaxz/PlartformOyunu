@@ -43,7 +43,6 @@ public class Spawner : MonoBehaviour
         SpawnCheckPoint();
         gameManager = GameManager.Instance;
         SpawnCharacter();
-        print("Aweake");
     }
 
     public void Resource()

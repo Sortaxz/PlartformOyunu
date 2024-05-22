@@ -32,10 +32,20 @@ public class WindObjectControl : MonoBehaviour
         if(other.collider.CompareTag("Player"))
         {
             gameManager.CreateWind = false;
-            gameManager.CreateEnemyFireball = false;
-            gameManager.FireballWasFired = true;
+            gameManager.CreateEnemyFireball = true;
             Destroy(gameObject);
         }
+        
+        if(gameManager.WindObject)
+        {
+            if(other.collider.CompareTag("Player"))
+            {
+                gameManager.CreateWind = true;
+                gameManager.CreateEnemyFireball = false;
+                Destroy(gameObject);
+            }
+        }
+       
     }
     
     public  void WindMovement()

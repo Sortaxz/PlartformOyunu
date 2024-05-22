@@ -13,23 +13,49 @@ public class OutFormControl : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D other) 
     {
-        if (other.gameObject.CompareTag("Wind"))
-        {
-            gameManager.CreateWind = false;
-            gameManager.CreateEnemyFireball = false;
-            gameManager.FireballWasFired = true;
-            Destroy(other.gameObject);
-        }
-        if(other.gameObject.CompareTag("enemyFireball"))
-        {
-            gameManager.CreateEnemyFireball = true;
-            gameManager.CreateWind = true;
-            Destroy(other.gameObject);
-        }  
         if(other.gameObject.CompareTag("Player"))
         {
             gameManager.mainCharacter.IsCharacterDead = true;
             gameManager.isCharacterOnPoint = false;
         }
+
+
+        if (other.gameObject.CompareTag("Wind"))
+        {
+            gameManager.CreateWind = false;
+            gameManager.CreateEnemyFireball = true;
+            gameManager.FireballWasFired = true;
+            Destroy(other.gameObject);
+        }
+
+        if(gameManager.WindObject)
+        {
+           
+            if (other.gameObject.CompareTag("Wind"))
+            {
+                gameManager.CreateWind = true;
+                gameManager.CreateEnemyFireball = false;
+                gameManager.FireballWasFired = false;
+                Destroy(other.gameObject);
+            } 
+        }
+
+        if(other.gameObject.CompareTag("enemyFireball"))
+        {
+            gameManager.CreateEnemyFireball = false;
+            gameManager.CreateWind = true;
+            Destroy(other.gameObject);
+        } 
+        if(gameManager.EnemyFireballl)
+        {
+            if(other.gameObject.CompareTag("enemyFireball"))
+            {
+                gameManager.CreateEnemyFireball = true;
+                gameManager.CreateWind = false;
+                Destroy(other.gameObject);
+            }  
+        }
+
+        
     }
 }

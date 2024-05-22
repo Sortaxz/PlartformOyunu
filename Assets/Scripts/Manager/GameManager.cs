@@ -1,10 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.TextCore;
-using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     
@@ -20,7 +16,7 @@ public class GameManager : MonoBehaviour
             return instance;
         }
     }
-    
+
     public CharacterControl mainCharacter;
     private Transform LeftWindPosition;
     private Transform RightWindPosition;
@@ -32,6 +28,8 @@ public class GameManager : MonoBehaviour
     }
     [SerializeField]private float fireballTimerCounter;
     public bool isCharacterOnPoint = false;
+    private bool finish = false;
+    public bool Finish {get {return finish;} set {finish = value;}}
     [SerializeField] private float cameraScaleChangeTime;
 
     #region WindObject members
@@ -55,14 +53,18 @@ public class GameManager : MonoBehaviour
     private bool windLeftGo = false;
     public bool WindLeftGo { get {return windLeftGo;} }
     
-    private bool finish = false;
-    public bool Finish {get {return finish;} set {finish = value;}}
     public bool newSceneCharacterPos = false;
+    [SerializeField] private bool resumeWind;
+
+    private bool windObject = false;
+    public bool WindObject {get {return windObject;}}
+    
+    
     private float createWindObjectTimer = 0f;
 
     [SerializeField] private float windSpeed;
     public float WindSpeed { get => windSpeed; }
-    private int i = 0;
+    private int windIndex = 0;
 
     #endregion
     
@@ -74,7 +76,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private float enemyFireballSpeed;
     public float EnemyFireballSpeed { get => enemyFireballSpeed; }
-    private bool createEnemyFireball= true; // asıl değeri false
+    private bool createEnemyFireball= false; 
 
     public bool CreateEnemyFireball {get { return createEnemyFireball; }  set { createEnemyFireball = value; } }
 
@@ -88,9 +90,16 @@ public class GameManager : MonoBehaviour
 
     private bool enemyFireballLeftGo = false;
     public bool EnemyFireballLeftGo { get {return enemyFireballLeftGo;} }
-    private bool fireballWasFired= true;
+    
+    private bool fireballWasFired= false;
     public bool FireballWasFired { get { return fireballWasFired;} set{fireballWasFired = value;}}  
-    private int j = 0;
+
+    private bool enemyFireballl = false;
+    public bool EnemyFireballl {get {return enemyFireballl;} }
+
+    [SerializeField] private bool resumeEnemyFirebal;
+
+    private int enemyFireballIndex= 0;
     #endregion
     
     private void Awake() 
@@ -107,8 +116,53 @@ public class GameManager : MonoBehaviour
         CameraPositionControl();
         CreateWindObject();
         CreateEnemyFireballObject();
-        
+
+        IsWindStillBlowingOrEnemyFirebal();
+
         LoadScene();
+
+    }
+
+    private void IsWindStillBlowingOrEnemyFirebal()
+    {
+        if(!finish)
+        {
+            if (windIndex == windObjects.Length)
+            {
+                if (resumeWind)
+                {
+                    createWind = false;
+                    enemyFireballl = true;
+                }
+            }
+            if (enemyFireballl)
+            {
+                enemyFireballIndex = 0;
+                CreateEnemyFireballObject();
+                if (enemyFireballIndex == enemyFireballObjects.Length - 1)
+                {
+                    enemyFireballl = false;
+                }
+            }
+
+            if (enemyFireballIndex == enemyFireballObjects.Length)
+            {
+                if (resumeEnemyFirebal)
+                {
+                    createEnemyFireball = false;
+                    windObject = true;
+                }
+            }
+            if (windObject)
+            {
+                windIndex = 0;
+                CreateWindObject();
+                if (windIndex == windObjects.Length - 1)
+                {
+                    windObject = false;
+                }
+            }
+        }
     }
 
     private void CharcterCheckPoint()
@@ -145,7 +199,7 @@ public class GameManager : MonoBehaviour
         {
             if(createWind)
             {
-                if(i < windObjects.Length)
+                if(windIndex < windObjects.Length)
                 {
                     createWindObjectTimer += Time.deltaTime;
                     if(createWindObjectTimer <= 50)
@@ -153,15 +207,14 @@ public class GameManager : MonoBehaviour
                         createWindObjectTimer = 0f;
                         if(leftHandSide)
                         {
-                            //windObjects[i++] = Instantiate(windPrefab,new Vector2(LeftWindPosition.position.x,-0.9681435f),Quaternion.identity,LeftWindPosition);
                             
                             if(!mainCharacter.IsAerialWind)
                             {
-                                windObjects[i++] = Instantiate(windPrefab,new Vector2(LeftWindPosition.position.x,-0.9681435f),Quaternion.identity,LeftWindPosition);
+                                windObjects[windIndex++] = Instantiate(windPrefab,new Vector2(LeftWindPosition.position.x,-0.9681435f),Quaternion.identity,LeftWindPosition);
                             }
                             else
                             {
-                                windObjects[i++] = Instantiate(aerialWindPrefab,new Vector2(LeftWindPosition.position.x,mainCharacter.transform.position.y),Quaternion.identity,LeftWindPosition);
+                                windObjects[windIndex++] = Instantiate(aerialWindPrefab,new Vector2(LeftWindPosition.position.x,mainCharacter.transform.position.y),Quaternion.identity,LeftWindPosition);
                             }
                             leftHandSide = false;
                             windRightGo = true;
@@ -169,15 +222,14 @@ public class GameManager : MonoBehaviour
                         }
                         else if(!leftHandSide)
                         {
-                            //windObjects[i++] = Instantiate(windPrefab,new Vector2(RightWindPosition.position.x,-0.9681435f),Quaternion.identity,RightWindPosition);
 
                             if(!mainCharacter.IsAerialWind)
                             {
-                                windObjects[i++] = Instantiate(windPrefab,new Vector2(RightWindPosition.position.x,-0.9681435f),Quaternion.identity,RightWindPosition);
+                                windObjects[windIndex++] = Instantiate(windPrefab,new Vector2(RightWindPosition.position.x,-0.9681435f),Quaternion.identity,RightWindPosition);
                             }
                             else
                             {
-                                windObjects[i++] = Instantiate(aerialWindPrefab,new Vector2(RightWindPosition.position.x,mainCharacter.transform.position.y),Quaternion.identity,RightWindPosition);
+                                windObjects[windIndex++] = Instantiate(aerialWindPrefab,new Vector2(RightWindPosition.position.x,mainCharacter.transform.position.y),Quaternion.identity,RightWindPosition);
                             }
 
                             leftHandSide = true;
@@ -195,9 +247,9 @@ public class GameManager : MonoBehaviour
     {
         if(!finish)
         {
-            if(!createEnemyFireball)
+            if(createEnemyFireball)
             {
-                if(j < enemyFireballObjects.Length)
+                if(enemyFireballIndex < enemyFireballObjects.Length)
                 {
                     createEnemyFireballObjectTimer += Time.deltaTime;
                     if(createEnemyFireballObjectTimer <= 50)
@@ -205,26 +257,25 @@ public class GameManager : MonoBehaviour
                         createEnemyFireballObjectTimer = 0f;
                         if(enemyFireballRightHandSide)
                         {
-                            //enemyFireballObjects[j++] = Instantiate(enemyFireballPrefab,new Vector2(RightWindPosition.position.x,-0.9681435f),Quaternion.identity,RightWindPosition);
-                            enemyFireballObjects[j++] = Instantiate(enemyFireballPrefab,new Vector2(RightWindPosition.position.x,mainCharacter.transform.position.y),Quaternion.identity,RightWindPosition);
+                            enemyFireballObjects[enemyFireballIndex++] = Instantiate(enemyFireballPrefab,new Vector2(RightWindPosition.position.x,mainCharacter.transform.position.y),Quaternion.identity,RightWindPosition);
 
+                            fireballWasFired = true;
                             enemyFireballRightHandSide = false;
                             enemyFireballRightGo = false;
                             enemyFireballLeftGo = true;
                         }
                         else if(!enemyFireballRightHandSide)
                         {
-                            //enemyFireballObjects[j++] = Instantiate(enemyFireballPrefab,new Vector2(LeftWindPosition.position.x,-0.9681435f),Quaternion.identity,LeftWindPosition);
-                            enemyFireballObjects[j++] = Instantiate(enemyFireballPrefab,new Vector2(LeftWindPosition.position.x,mainCharacter.transform.position.y),Quaternion.identity,LeftWindPosition);
+                            enemyFireballObjects[enemyFireballIndex++] = Instantiate(enemyFireballPrefab,new Vector2(LeftWindPosition.position.x,mainCharacter.transform.position.y),Quaternion.identity,LeftWindPosition);
 
-
+                            fireballWasFired = true;
                             enemyFireballRightHandSide = true;
                             enemyFireballRightGo = true;
                             enemyFireballLeftGo =false;
                         }
                     }
                 }
-                createEnemyFireball = true;
+                createEnemyFireball = false;
             }
         }  
     }
@@ -246,12 +297,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    
+
     IEnumerator NewLevel()
     {
         
         yield return null;
         int loadSceneIndex = SceneManager.GetActiveScene().buildIndex ; 
-        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(1,LoadSceneMode.Single);
+        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(loadSceneIndex+1,LoadSceneMode.Single);
 
         while(!asyncOperation.isDone)
         {

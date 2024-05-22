@@ -71,14 +71,14 @@ public class FireballController : MonoBehaviour
         {
             if(other.collider.CompareTag("Player"))
             {
-                gameManager.CreateEnemyFireball = true;
+                gameManager.CreateEnemyFireball = false;
                 gameManager.CreateWind = true;
                 gameManager.mainCharacter.HitEnemyFireball = false;
                 Destroy(gameObject,0.01f);
             } 
             if(other.collider.CompareTag("obstacle"))
             {
-                gameManager.CreateEnemyFireball = true;
+                gameManager.CreateEnemyFireball = false;
                 gameManager.CreateWind = true;
                 Destroy(other.gameObject);
                 Destroy(gameObject);
@@ -86,7 +86,7 @@ public class FireballController : MonoBehaviour
 
             if(other.collider.gameObject.layer == LayerMask.NameToLayer("Zemin"))
             {
-                gameManager.CreateEnemyFireball = true;
+                gameManager.CreateEnemyFireball = false;
                 gameManager.CreateWind = true;
                 Destroy(other.collider.gameObject);
                 Destroy(gameObject);
@@ -96,21 +96,68 @@ public class FireballController : MonoBehaviour
             {
                 if(other.collider.tag != "Cranboline")
                 {
-                    gameManager.CreateEnemyFireball = true;
+                    gameManager.CreateEnemyFireball = false;
                     gameManager.CreateWind = true;
                     Destroy(other.collider.gameObject);
                     Destroy(gameObject);
                 }
                 else
                 {
-                    gameManager.CreateEnemyFireball = true;
+                    gameManager.CreateEnemyFireball = false;
                     gameManager.CreateWind = true;
                     Destroy(gameObject);
                 }
                 
             }
-            
         } 
+
+        if(gameManager.EnemyFireballl)
+        {
+            if(transform.tag == "enemyFireball")
+            {
+                if(other.collider.CompareTag("Player"))
+                {
+                    gameManager.CreateEnemyFireball = true;
+                    gameManager.CreateWind = false;
+                    gameManager.mainCharacter.HitEnemyFireball = false;
+                    Destroy(gameObject,0.01f);
+                } 
+                if(other.collider.CompareTag("obstacle"))
+                {
+                    gameManager.CreateEnemyFireball = true;
+                    gameManager.CreateWind = false;
+                    Destroy(other.gameObject);
+                    Destroy(gameObject);
+                }
+
+                if(other.collider.gameObject.layer == LayerMask.NameToLayer("Zemin"))
+                {
+                    gameManager.CreateEnemyFireball = true;
+                    gameManager.CreateWind = false;
+                    Destroy(other.collider.gameObject);
+                    Destroy(gameObject);
+                }
+
+                if( other.collider.tag != "CheckPoint"   && other.collider.tag != "Player" && other.collider.tag == "AbsorbingObject")
+                {
+                    if(other.collider.tag != "Cranboline")
+                    {
+                        gameManager.CreateEnemyFireball = true;
+                        gameManager.CreateWind = false;
+                        Destroy(other.collider.gameObject);
+                        Destroy(gameObject);
+                    }
+                    else
+                    {
+                        gameManager.CreateEnemyFireball = true;
+                        gameManager.CreateWind = false;
+                        Destroy(gameObject);
+                    }
+                    
+                }
+            } 
+        }
+
     }
 
    
