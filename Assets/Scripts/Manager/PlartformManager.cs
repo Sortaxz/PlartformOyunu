@@ -468,8 +468,56 @@ class PlartformManagerEditor : Editor
 
         }
 
+        #endregion
+
+        EditorGUILayout.Space();
+        EditorGUILayout.Space();
+        EditorGUILayout.Space(); 
+
+        #region  StonyFloor has  Members
+
+        EditorGUILayout.PropertyField (serializedObject.FindProperty("stonyFloorPrefab"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("stonyFloors"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("stonyFloorPositions"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("startCreateStonyFloor"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("stonyFloorbuttonClose"));
+
+        EditorGUILayout.Space();
+        EditorGUILayout.Space();
+        EditorGUILayout.Space();    
+
+        if(!plartformManager.StonyFloorbuttonClose)
+        {
+            if(GUILayout.Button("Create StonyFloor Object",GUILayout.MinWidth(100), GUILayout.MaxWidth(300)))
+            {
+
+                plartformManager.StonyFloorPrefab = Resources.Load<GameObject>("Prefabs/Ground/StonyFloor");
+                GameObject stonyFloor = Instantiate(plartformManager.StonyFloorPrefab);
+
+
+
+                stonyFloor.transform.parent = plartformManager.transform.GetChild(4);
+                stonyFloor.transform.name = "StonyFloor" +" " +stonyFloor.transform.GetSiblingIndex();
+
+                plartformManager.StonyFloors.Add(stonyFloor);
+
+                plartformManager.SaveStonyFloorPositions = new List<Vector2>(plartformManager.StonyFloorPositions);
+                plartformManager.SaveStonyFloorPositions.Add(new Vector2()); 
+                plartformManager.StonyFloorPositions = plartformManager.SaveStonyFloorPositions.ToArray();
+                
+            }
+
+            if(plartformManager.StartCreateStonyFloor)
+            {
+                plartformManager.CreateStonyObject();
+            }
+
+        }
+
 
         #endregion
+
+
 
         EditorGUILayout.Space();
         EditorGUILayout.Space();

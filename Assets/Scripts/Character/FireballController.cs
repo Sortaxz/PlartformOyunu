@@ -40,89 +40,61 @@ public class FireballController : MonoBehaviour
         EnemyFireballMovement();
     }
     
-    private void OnCollisionEnter2D(Collision2D other) 
+    private void OnCollisionEnter2D(Collision2D other)
     {
-        if(other.gameObject.CompareTag("leftControl") || other.gameObject.CompareTag("rightControl"))
+        if (other.gameObject.CompareTag("leftControl") || other.gameObject.CompareTag("rightControl"))
         {
             Destroy(gameObject);
         }
+        
+        
+        FireballCollisionControl(other);
 
-        if(transform.tag == "fireball")
+        ContinuosEnemyFireballCollisionControl(other);
+
+        EnemyFireballCollisionControl(other);
+        
+
+    }
+
+    private void FireballCollisionControl(Collision2D other)
+    {
+        if (transform.tag == "fireball")
         {
-            if(other.collider.CompareTag("Enemy"))
+            if (other.collider.CompareTag("Enemy"))
             {
                 Destroy(gameObject);
-                Destroy(other.gameObject,1);
+                Destroy(other.gameObject, 1);
                 isCollider = true;
-            }    
+            }
 
-            if(other.collider.CompareTag("obstacle"))
+            if (other.collider.CompareTag("obstacle"))
             {
                 Destroy(other.gameObject);
                 Destroy(gameObject);
             }
-            if(!other.collider.CompareTag("Player"))
+            if (!other.collider.CompareTag("Player"))
             {
                 Destroy(gameObject);
             }
         }
+    }
 
-        if(transform.tag == "enemyFireball")
+    private void ContinuosEnemyFireballCollisionControl(Collision2D other)
+    {
+        if (gameManager.EnemyFireballl)
         {
-            if(other.collider.CompareTag("Player"))
+            if (transform.tag == "enemyFireball")
             {
-                gameManager.CreateEnemyFireball = false;
-                gameManager.CreateWind = true;
-                gameManager.mainCharacter.HitEnemyFireball = false;
-                Destroy(gameObject,0.01f);
-            } 
-            if(other.collider.CompareTag("obstacle"))
-            {
-                gameManager.CreateEnemyFireball = false;
-                gameManager.CreateWind = true;
-                Destroy(other.gameObject);
-                Destroy(gameObject);
-            }
-
-            if(other.collider.gameObject.layer == LayerMask.NameToLayer("Zemin"))
-            {
-                gameManager.CreateEnemyFireball = false;
-                gameManager.CreateWind = true;
-                Destroy(other.collider.gameObject);
-                Destroy(gameObject);
-            }
-
-            if( other.collider.tag != "CheckPoint"   && other.collider.tag != "Player" && other.collider.tag == "AbsorbingObject")
-            {
-                if(other.collider.tag != "Cranboline")
-                {
-                    gameManager.CreateEnemyFireball = false;
-                    gameManager.CreateWind = true;
-                    Destroy(other.collider.gameObject);
-                    Destroy(gameObject);
-                }
-                else
-                {
-                    gameManager.CreateEnemyFireball = false;
-                    gameManager.CreateWind = true;
-                    Destroy(gameObject);
-                }
-                
-            }
-        } 
-
-        if(gameManager.EnemyFireballl)
-        {
-            if(transform.tag == "enemyFireball")
-            {
-                if(other.collider.CompareTag("Player"))
+                if (other.collider.CompareTag("Player"))
                 {
                     gameManager.CreateEnemyFireball = true;
                     gameManager.CreateWind = false;
                     gameManager.mainCharacter.HitEnemyFireball = false;
-                    Destroy(gameObject,0.01f);
-                } 
-                if(other.collider.CompareTag("obstacle"))
+
+                    Destroy(gameObject, 0.01f);
+                }
+                if (other.collider.CompareTag("obstacle"))
                 {
                     gameManager.CreateEnemyFireball = true;
                     gameManager.CreateWind = false;
@@ -130,7 +102,14 @@ public class FireballController : MonoBehaviour
                     Destroy(gameObject);
                 }
 
-                if(other.collider.gameObject.layer == LayerMask.NameToLayer("Zemin"))
+                if (other.collider.gameObject.layer == LayerMask.NameToLayer("Zemin"))
+                {
+                    gameManager.CreateEnemyFireball = true;
+                    gameManager.CreateWind = false;
+                    Destroy(other.collider.gameObject);
+                    Destroy(gameObject);
+                }
+                if (other.collider.gameObject.layer == 7)
                 {
                     gameManager.CreateEnemyFireball = true;
                     gameManager.CreateWind = false;
@@ -138,9 +117,9 @@ public class FireballController : MonoBehaviour
                     Destroy(gameObject);
                 }
 
-                if( other.collider.tag != "CheckPoint"   && other.collider.tag != "Player" && other.collider.tag == "AbsorbingObject")
+                if (other.collider.tag != "CheckPoint" && other.collider.tag != "Player" && other.collider.tag == "AbsorbingObject")
                 {
-                    if(other.collider.tag != "Cranboline")
+                    if (other.collider.tag != "Cranboline" )
                     {
                         gameManager.CreateEnemyFireball = true;
                         gameManager.CreateWind = false;
@@ -153,14 +132,70 @@ public class FireballController : MonoBehaviour
                         gameManager.CreateWind = false;
                         Destroy(gameObject);
                     }
-                    
-                }
-            } 
-        }
 
+                }
+            }
+        }
     }
 
-   
+    private void EnemyFireballCollisionControl(Collision2D other)
+    {
+        if(!gameManager.EnemyFireballl)
+        {
+            if (transform.tag == "enemyFireball")
+            {
+                if (other.collider.CompareTag("Player"))
+                {
+                    gameManager.CreateEnemyFireball = false;
+                    gameManager.CreateWind = true;
+                    gameManager.mainCharacter.HitEnemyFireball = false;
+
+                    Destroy(gameObject, 0.01f);
+                }
+
+                if (other.collider.CompareTag("obstacle"))
+                {
+                    gameManager.CreateEnemyFireball = false;
+                    gameManager.CreateWind = true;
+                    Destroy(other.gameObject);
+                    Destroy(gameObject);
+                }
+
+                if (other.collider.gameObject.layer == LayerMask.NameToLayer("Zemin"))
+                {
+                    gameManager.CreateEnemyFireball = false;
+                    gameManager.CreateWind = true;
+                    Destroy(other.collider.gameObject);
+                    Destroy(gameObject);
+                }
+                if(other.collider.gameObject.layer == 7)
+                {
+                    gameManager.CreateEnemyFireball = false;
+                    gameManager.CreateWind = true;
+                    Destroy(gameObject);
+                }
+
+                if (other.collider.tag != "CheckPoint" && other.collider.tag != "Player" && other.collider.tag == "AbsorbingObject")
+                {
+                    if (other.collider.tag != "Cranboline" )
+                    {
+                        gameManager.CreateEnemyFireball = false;
+                        gameManager.CreateWind = true;
+                        Destroy(other.collider.gameObject);
+                        Destroy(gameObject);
+                    }
+                    else
+                    {
+                        gameManager.CreateEnemyFireball = false;
+                        gameManager.CreateWind = true;
+                        Destroy(gameObject);
+                    }
+
+                }
+            }
+        }
+    }
+
 
     private void FireballMovement()
     {

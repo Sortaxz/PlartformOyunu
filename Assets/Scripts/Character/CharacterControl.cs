@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 public class CharacterControl : MonoBehaviour
 {
-    GameManager gameManager;
+    private GameManager gameManager;
     private Rigidbody2D rb2D;
-    Vector3 movement =  Vector3.zero;
+    private Vector3 movement =  Vector3.zero;
     [SerializeField] private float jumpingPower;
     [SerializeField] private float characterSpeed; 
     public float CharacterSpeed {get { return characterSpeed;} set { characterSpeed = value; } }
@@ -21,6 +21,14 @@ public class CharacterControl : MonoBehaviour
     public bool readyToAttack = false;
 
     public bool readyToFireballAttack = false;
+
+    private bool readyToStrikeAttack = false;
+    public bool ReadyToStrikeAttack { get => readyToStrikeAttack; set { readyToStrikeAttack = value;}}
+
+    private bool strikeAttackReady = false;
+
+    private bool startHurtAnimation = false;
+    public bool StartHurtAnimation { get => startHurtAnimation; set => startHurtAnimation = value;}
     
     public bool fireballLocalScale = false;
 
@@ -44,20 +52,25 @@ public class CharacterControl : MonoBehaviour
     public bool HitAbsorbingObject {get => hitAbsorbingObject; set => hitAbsorbingObject = value;}
 
     private bool lifeDwindling = false;
-    public bool LifeDwindling {get => lifeDwindling; }
+    public bool LifeDwindling {get => lifeDwindling; set => lifeDwindling = value;}
 
     private bool stageReady = false;
     public bool StageReady { get => stageReady; set => stageReady = value; }
 
     private bool isAerialWind = false;
     public bool IsAerialWind { get => isAerialWind; set => isAerialWind = value;}
+
+    
     private  int spawnPointSiblingIndex = default;
 
    
     private void Awake() 
     {
+
         rb2D = GetComponent<Rigidbody2D>();
         gameManager = GameManager.Instance;
+
+        
     }
 
     void Update()
@@ -73,7 +86,7 @@ public class CharacterControl : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other) 
     {
-        if(other.collider.gameObject.layer == 3)
+        if(other.collider.gameObject.layer == 3 || other.collider.gameObject.layer == 7)
         {
             jumpCounter = 0;
             isCharacterAbove = false;
@@ -108,7 +121,7 @@ public class CharacterControl : MonoBehaviour
     private void OnCollisionStay2D(Collision2D other) 
     {
         
-        if(other.collider.gameObject.layer == 3)
+        if(other.collider.gameObject.layer == 3 || other.collider.gameObject.layer == 7)
         {
             jumpAnimationResume = false;
         }
@@ -118,6 +131,7 @@ public class CharacterControl : MonoBehaviour
             hitObstacle = false;
             isCharacterAbove = false;
             lifeDwindling = true;
+            startHurtAnimation  =true;
         }
         if(other.collider.CompareTag("Enemy"))
         {
@@ -143,6 +157,7 @@ public class CharacterControl : MonoBehaviour
         {
             characterHealthDecrease = false;
             hitEnemyFireball = false;
+            startHurtAnimation = true;
         }
          if(other.collider.tag == "Zemin")
         {
@@ -208,12 +223,29 @@ public class CharacterControl : MonoBehaviour
             isCharacterSlidDown = false;
         }
 
+        if(Input.GetKey(KeyCode.Q))
+        {
+            strikeAttackReady = true;
+        }
+        if(Input.GetKeyUp(KeyCode.Q))
+        {
+            strikeAttackReady = false;
+        }
+
         if(Input.GetMouseButtonDown(0) )
         {
+           
             if(UIAnimation.Instance.SwordAttackBegin == true)
             {
-                readyToAttack = true;
-                isCharacterAbove = false;
+                if(!strikeAttackReady)
+                {
+                    readyToAttack = true;
+                    isCharacterAbove = false;
+                }
+                else
+                {
+                    readyToStrikeAttack = true;
+                }
             }
             else
             {
@@ -222,6 +254,8 @@ public class CharacterControl : MonoBehaviour
                 jumpAnimationResume = false;
                 Spawner.Instance.Fireball.GetComponent<FireballController>().birKereYonAlindi = false;// düzeltilicek field olarak tanımla
             }
+
+            
         }
         
 
@@ -231,6 +265,10 @@ public class CharacterControl : MonoBehaviour
             isCharacterAbove  =true;
             jumpCounter++;
         }    
+
+       
+        
+            
     }
 
     void CharacterMovement()

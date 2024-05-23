@@ -96,6 +96,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   passebleBoxCollide2D: {fileID: 0}
+  movementDirectionUp: 0
 --- !u!60 &1219555533190618376
 PolygonCollider2D:
   m_ObjectHideFlags: 0

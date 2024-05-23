@@ -38,10 +38,13 @@ public class SpakeController : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D other) 
     {
-         if(spakeDuration && !distortion)
+        if(other.CompareTag("Player"))
         {
-            StartCoroutine(SpakeDurationMovement(spakeDurationTime));
-            distortion =true;
+            if(spakeDuration && !distortion)
+            {
+                StartCoroutine(SpakeDurationMovement(spakeDurationTime));
+                distortion =true;
+            }
         }     
     }
     private void OnTriggerExit2D(Collider2D other) 
@@ -54,7 +57,6 @@ public class SpakeController : MonoBehaviour
    
     IEnumerator SpakeDurationMovement(float spakeDurationTime)
     {
-        yield return new WaitForSeconds(1);
         transform.position = new Vector3(transform.position.x,-2,transform.position.z);
         transform.localScale = new Vector3(transform.localScale.x,2);
         spakePolygonCollider.isTrigger = false;

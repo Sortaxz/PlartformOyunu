@@ -18,6 +18,8 @@ public class AnimationController : MonoBehaviour
         }
     }
 
+    private Animator characterAnimator;
+
     [SerializeField] private Sprite[] idleSprites;
     [SerializeField] private Sprite[] runSprites;
     [SerializeField] private Sprite[] jumpSprites;
@@ -25,7 +27,9 @@ public class AnimationController : MonoBehaviour
     [SerializeField] private Sprite[] attackSprites;
     [SerializeField] private Sprite[] fireballSkillSprites;
     [SerializeField] private Sprite[] fireballSprites;
-    
+    [SerializeField] private Sprite[] hurtSprites;
+    [SerializeField] private Sprite[] strikeAttackSprites;
+
     public CharacterControl character;
     
     [SerializeField ]SpriteRenderer characteSPR; // character'ın SpriteRenderer'ı
@@ -36,6 +40,9 @@ public class AnimationController : MonoBehaviour
     private float runSpritesTimeCounter = 0f;
     private float fireballSkillSpritesTimeCounter = 0f;
     private float attackSpritesTimeCounter = 0f;
+    private float strikeSpritesTimeCounter = 0f;
+    private float hurtSpritesTimeCounter = 0f;
+
     private float horizontal;
     public float Horizontal{get{ return horizontal;}}
 
@@ -45,7 +52,9 @@ public class AnimationController : MonoBehaviour
     private int deshSpritesCount = 0;
     private int attackSpritesCount = 0;
     private int fireballSkillSpritesCount = 0;
-    private int jumpingContinueIndex; 
+    private int jumpingContinueIndex =0;
+    private int hurtSpritesIndex = 0; 
+    private int strikeAttackSpritesIndex = 0;
     private void Awake() 
     {
         characteSPR = GetComponent<SpriteRenderer>();
@@ -54,6 +63,7 @@ public class AnimationController : MonoBehaviour
     void Start()
     {
         character = GameManager.Instance.mainCharacter;
+        characterAnimator = GetComponent<Animator>();
     }
 
     void Update()
@@ -194,6 +204,52 @@ public class AnimationController : MonoBehaviour
             }
 
         }
+        #endregion
+
+        #region  Karakterimiz'in Hurt Animasyonu
+
+        if(character.StartHurtAnimation)
+        {
+            hurtSpritesTimeCounter += Time.deltaTime;
+            if(hurtSpritesTimeCounter > 0.03f)
+            {
+                if(hurtSpritesIndex < hurtSprites.Length)
+                {
+                    characteSPR.sprite = hurtSprites[hurtSpritesIndex++];
+                    
+                    if(hurtSpritesIndex == hurtSprites.Length - 1)
+                    {
+                        hurtSpritesIndex = 0;
+
+                        character.StartHurtAnimation = false;
+                    }
+                }
+                hurtSpritesTimeCounter = 0f;
+            }
+        }
+
+        #endregion
+
+        #region  Karakterimiz'in Strike attak hazirlama kodu
+        
+        if(character.ReadyToStrikeAttack)
+        {
+            strikeSpritesTimeCounter += Time.deltaTime;
+
+            if(strikeSpritesTimeCounter > 0.05f)
+            {
+                characteSPR.sprite = strikeAttackSprites[strikeAttackSpritesIndex++];
+
+                if(strikeAttackSpritesIndex == strikeAttackSprites.Length - 1)
+                {
+                    strikeAttackSpritesIndex = 0;
+
+                    character.ReadyToStrikeAttack = false;
+                }
+                strikeSpritesTimeCounter = 0f;
+            }
+        }
+
         #endregion
     }   
    

@@ -114,10 +114,12 @@ public class GameManager : MonoBehaviour
     {
         CharcterCheckPoint();
         CameraPositionControl();
+        
+        IsWindStillBlowingOrEnemyFirebal();
+        
         CreateWindObject();
         CreateEnemyFireballObject();
 
-        IsWindStillBlowingOrEnemyFirebal();
 
         LoadScene();
 
@@ -137,10 +139,10 @@ public class GameManager : MonoBehaviour
             }
             if (enemyFireballl)
             {
-                enemyFireballIndex = 0;
                 CreateEnemyFireballObject();
                 if (enemyFireballIndex == enemyFireballObjects.Length - 1)
                 {
+                    enemyFireballIndex = 0;
                     enemyFireballl = false;
                 }
             }
@@ -155,10 +157,10 @@ public class GameManager : MonoBehaviour
             }
             if (windObject)
             {
-                windIndex = 0;
                 CreateWindObject();
                 if (windIndex == windObjects.Length - 1)
                 {
+                    windIndex = 0;
                     windObject = false;
                 }
             }

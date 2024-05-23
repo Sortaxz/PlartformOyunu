@@ -114,9 +114,7 @@ public class MovingFloorControl : MonoBehaviour
         {
             if(movementDirectionUp )
             {
-                // deneme
                 moveUp = true;
-                //deneme bitti
                 if(gameObject.activeInHierarchy)
                 {
                     other.transform.SetParent(transform);
@@ -124,9 +122,7 @@ public class MovingFloorControl : MonoBehaviour
             }
             if(!movementDirectionUp )
             {
-                 // deneme
                 moveRight = true;
-                //deneme bitti
                 if(gameObject.activeInHierarchy)
                 {
                     other.transform.SetParent(transform);
@@ -139,24 +135,7 @@ public class MovingFloorControl : MonoBehaviour
         if(other.collider.CompareTag("Player"))
         {
 
-            /*
-            if(movementDirectionUp == true )
-            {
-                moveUp = false;
-                if(gameObject.activeInHierarchy)
-                {
-                    other.transform.SetParent(transform.parent.parent.parent.parent);
-                }
-            }
-            if(!movementDirectionUp )
-            {
-                moveRight = false;
-                if(gameObject.activeInHierarchy)
-                {
-                    other.transform.SetParent(transform.parent.parent.parent.parent);
-                }
-            }
-            */
+            
             
             if(movementDirectionUp == true )
             {

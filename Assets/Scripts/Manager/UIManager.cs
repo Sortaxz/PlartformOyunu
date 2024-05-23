@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,6 +27,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject itemCreationPoint;
 
     [SerializeField] private Image itemImage;
+    
+    [SerializeField] private Image sahneGecisEkrani;
+    [SerializeField] private TextMeshProUGUI gecisEkranYazisi;
+
     public Image ItemImage
     {
         get { return itemImage; }
@@ -41,6 +46,8 @@ public class UIManager : MonoBehaviour
     }
     private bool characterLifeReset = false;
     public bool CharacterLifeReset { get; set; }
+
+    private float rgbA  =0;
     private void Awake()
     {
         gameManager = GameManager.Instance;
@@ -50,10 +57,23 @@ public class UIManager : MonoBehaviour
     {
         UIInputControl();
         LifeDecreaseAndReset();
+
+        SceneGecisi();
     }
 
-    
-    
+    private void SceneGecisi()
+    {
+        if (gameManager.Finish)
+        {
+            if (rgbA <= 255)
+            {
+                rgbA += .2f * Time.deltaTime;
+                sahneGecisEkrani.color = new Color(sahneGecisEkrani.color.r, sahneGecisEkrani.color.g, sahneGecisEkrani.color.b, rgbA);
+            }
+        }
+    }
+
+
     private void LifeDecreaseAndReset()
     {
         if (!characterLifeReset)
@@ -83,11 +103,22 @@ public class UIManager : MonoBehaviour
         }
         else
         {
+
             GameManager.Instance.isCharacterOnPoint = true;
             gameManager.mainCharacter.IsCharacterDead = false;
             HeartFillAmountReset();
+            ReducingBooleanControl();
             characterLifeReset = false;
         }
+    }
+
+    private void ReducingBooleanControl()
+    {
+        gameManager.mainCharacter.HitObstacle = false;
+        gameManager.mainCharacter.HitAbsorbingObject = false;
+        gameManager.mainCharacter.LifeDwindling = false;
+        gameManager.mainCharacter.HitEnemy = false;
+        gameManager.mainCharacter.HitEnemyFireball = false;
     }
 
     private void UIInputControl()
@@ -126,7 +157,6 @@ public class UIManager : MonoBehaviour
         heartRightImage.fillAmount = 1f;
         characterLifeReset = true;
 
-    
-    
     }
+
 }
