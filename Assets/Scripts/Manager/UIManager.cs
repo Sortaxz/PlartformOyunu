@@ -47,7 +47,16 @@ public class UIManager : MonoBehaviour
     private bool characterLifeReset = false;
     public bool CharacterLifeReset { get; set; }
 
+    private bool isTransitionOver  = false;
+    public bool IsTransitionOver { get { return isTransitionOver;}}
+
+    private bool transitionScreenOver = false;
+    public bool TransitionScreenOver { get { return transitionScreenOver;} set { transitionScreenOver = value; } }
+
+    private bool stageTransition =false;
+    public bool StageTransition { get { return stageTransition;} set { stageTransition = value; } }
     private float rgbA  =0;
+
     private void Awake()
     {
         gameManager = GameManager.Instance;
@@ -63,14 +72,40 @@ public class UIManager : MonoBehaviour
 
     private void SceneGecisi()
     {
-        if (gameManager.Finish)
-        {
-            if (rgbA <= 255)
+        
+            if(stageTransition)
             {
-                rgbA += .2f * Time.deltaTime;
-                sahneGecisEkrani.color = new Color(sahneGecisEkrani.color.r, sahneGecisEkrani.color.g, sahneGecisEkrani.color.b, rgbA);
+                if(!transitionScreenOver)
+                {
+
+                    if(rgbA < 1.0f)
+                    {
+                        rgbA += 0.2f * Time.deltaTime;
+                        sahneGecisEkrani.color = new Color(sahneGecisEkrani.color.r, sahneGecisEkrani.color.g, sahneGecisEkrani.color.b,rgbA);
+                        
+                        if(rgbA >= 1.0f)
+                        {
+                            gameManager.Finish = true;
+                        }
+                    }
+                    
+                }
+                if(transitionScreenOver)
+                {
+                    if(rgbA >= 0f)
+                    {
+                        rgbA -= 0.2f * Time.deltaTime;
+                        sahneGecisEkrani.color = new Color(sahneGecisEkrani.color.r, sahneGecisEkrani.color.g, sahneGecisEkrani.color.b,rgbA);
+
+                        if(rgbA <= 0f)
+                        {
+                            transitionScreenOver = false;
+                            stageTransition =false;
+                        }
+                    }
+                }
             }
-        }
+           
     }
 
 

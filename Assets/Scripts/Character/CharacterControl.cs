@@ -180,7 +180,8 @@ public class CharacterControl : MonoBehaviour
 
         if(other.CompareTag("Finish"))
         {
-            gameManager.Finish = true;
+            //gameManager.Finish = true;
+            UIManager.Instance.StageTransition = true;
         }
     }
     

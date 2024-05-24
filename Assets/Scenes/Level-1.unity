@@ -437,7 +437,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5315647791296859919, guid: 7f0a1147c4b748147be0c8d5d7d9326b, type: 3}
       propertyPath: m_Name
-      value: Floor (1)
+      value: Floor
       objectReference: {fileID: 0}
     - target: {fileID: 5315647791296859919, guid: 7f0a1147c4b748147be0c8d5d7d9326b, type: 3}
       propertyPath: m_TagString
@@ -1485,19 +1485,14 @@ MonoBehaviour:
   windObjects:
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  newSceneCharacterPos: 0
-  resumeWind: 1
-  windSpeed: 11
+  resumeWind: 0
+  windSpeed: 19
   enemyFireballPrefab: {fileID: 7339145356308524819, guid: 57d7f64654c52a4498ca2d200e3df4ea, type: 3}
   enemyFireballObjects:
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  enemyFireballSpeed: 500
-  resumeEnemyFirebal: 0
+  enemyFireballSpeed: 800
+  resumeEnemyFirebal: 1
 --- !u!1 &713350862
 GameObject:
   m_ObjectHideFlags: 0
@@ -3297,7 +3292,7 @@ MonoBehaviour:
   passableFloorPositions:
   - {x: 0, y: 0.5}
   startCreatePassableFloor: 0
-  passableFloorbuttonClose: 0
+  passableFloorbuttonClose: 1
   slidingFloorPrefab: {fileID: 2061954156528612818, guid: f9618cb8fc3ce574e9eb798c219807e4, type: 3}
   slidingFloors:
   - {fileID: 1164128222}
@@ -3311,7 +3306,7 @@ MonoBehaviour:
   stonyFloorPositions:
   - {x: 40, y: 0}
   startCreateStonyFloor: 0
-  stonyFloorbuttonClose: 0
+  stonyFloorbuttonClose: 1
   inhalingBombPrefab: {fileID: 8784124498159180295, guid: da36fdc637af97e41bb86eb88c08c5e5, type: 3}
   inhalingBombs:
   - {fileID: 2053718945}

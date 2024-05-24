@@ -29,11 +29,14 @@ public class WindObjectControl : MonoBehaviour
     }
     private void OnCollisionExit2D(Collision2D other) 
     {
-        if(other.collider.CompareTag("Player"))
+        if(!gameManager.WindObject)
         {
-            gameManager.CreateWind = false;
-            gameManager.CreateEnemyFireball = true;
-            Destroy(gameObject);
+            if(other.collider.CompareTag("Player"))
+            {
+                gameManager.CreateWind = false;
+                gameManager.CreateEnemyFireball = true;
+                Destroy(gameObject);
+            }
         }
         
         if(gameManager.WindObject)

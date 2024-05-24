@@ -113,27 +113,16 @@ public class FireballController : MonoBehaviour
                 {
                     gameManager.CreateEnemyFireball = true;
                     gameManager.CreateWind = false;
-                    Destroy(other.collider.gameObject);
                     Destroy(gameObject);
                 }
-
-                if (other.collider.tag != "CheckPoint" && other.collider.tag != "Player" && other.collider.tag == "AbsorbingObject")
+                if (other.collider.tag == "Cranboline" )
                 {
-                    if (other.collider.tag != "Cranboline" )
-                    {
-                        gameManager.CreateEnemyFireball = true;
-                        gameManager.CreateWind = false;
-                        Destroy(other.collider.gameObject);
-                        Destroy(gameObject);
-                    }
-                    else
-                    {
                         gameManager.CreateEnemyFireball = true;
                         gameManager.CreateWind = false;
                         Destroy(gameObject);
-                    }
-
                 }
+
+                
             }
         }
     }

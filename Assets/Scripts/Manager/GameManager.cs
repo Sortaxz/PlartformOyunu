@@ -53,7 +53,6 @@ public class GameManager : MonoBehaviour
     private bool windLeftGo = false;
     public bool WindLeftGo { get {return windLeftGo;} }
     
-    public bool newSceneCharacterPos = false;
     [SerializeField] private bool resumeWind;
 
     private bool windObject = false;
@@ -127,46 +126,59 @@ public class GameManager : MonoBehaviour
 
     private void IsWindStillBlowingOrEnemyFirebal()
     {
-        if(!finish)
-        {
+        if(resumeWind)
+        {   
             if (windIndex == windObjects.Length)
             {
+                createWind = false;
+                enemyFireballl = true;
+
+                /*
                 if (resumeWind)
                 {
                     createWind = false;
                     enemyFireballl = true;
                 }
+                */
+
             }
             if (enemyFireballl)
             {
+                enemyFireballIndex = 0;
                 CreateEnemyFireballObject();
                 if (enemyFireballIndex == enemyFireballObjects.Length - 1)
                 {
-                    enemyFireballIndex = 0;
                     enemyFireballl = false;
                 }
             }
+        }
 
+        if(resumeEnemyFirebal)
+        {
             if (enemyFireballIndex == enemyFireballObjects.Length)
             {
+                createEnemyFireball = false;
+                windObject = true;
+
+                /*
                 if (resumeEnemyFirebal)
                 {
                     createEnemyFireball = false;
                     windObject = true;
                 }
+                */
             }
             if (windObject)
             {
+                windIndex = 0;
                 CreateWindObject();
-                if (windIndex == windObjects.Length - 1)
+                if (windIndex == windObjects.Length)
                 {
-                    windIndex = 0;
                     windObject = false;
                 }
             }
         }
     }
-
     private void CharcterCheckPoint()
     {
         if (!isCharacterOnPoint)
@@ -197,7 +209,7 @@ public class GameManager : MonoBehaviour
     
     void CreateWindObject()
     {
-        if(!finish)
+        if(!finish && !UIManager.Instance.StageTransition)
         {
             if(createWind)
             {
@@ -247,7 +259,7 @@ public class GameManager : MonoBehaviour
     }
     void CreateEnemyFireballObject()
     {
-        if(!finish)
+        if(!finish && !UIManager.Instance.StageTransition)
         {
             if(createEnemyFireball)
             {
@@ -291,9 +303,19 @@ public class GameManager : MonoBehaviour
 
     private void FinishControl()
     {
+        /*
         if (finish)
         {
             StartCoroutine(NewLevel());
+            PlayerPrefs.DeleteAll();
+            finish = false;
+        }
+        */
+
+        if(finish)
+        {
+            StartCoroutine(NewLevel());
+            //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
             PlayerPrefs.DeleteAll();
             finish = false;
         }
@@ -317,7 +339,7 @@ public class GameManager : MonoBehaviour
         if(asyncOperation.isDone)
         {
             finish = false;
-            newSceneCharacterPos = true;
+            UIManager.Instance.TransitionScreenOver = true;
         }
     }
 
