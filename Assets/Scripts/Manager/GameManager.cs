@@ -120,7 +120,6 @@ public class GameManager : MonoBehaviour
         CreateEnemyFireballObject();
 
 
-        LoadScene();
 
     }
 
@@ -133,13 +132,7 @@ public class GameManager : MonoBehaviour
                 createWind = false;
                 enemyFireballl = true;
 
-                /*
-                if (resumeWind)
-                {
-                    createWind = false;
-                    enemyFireballl = true;
-                }
-                */
+             
 
             }
             if (enemyFireballl)
@@ -160,13 +153,7 @@ public class GameManager : MonoBehaviour
                 createEnemyFireball = false;
                 windObject = true;
 
-                /*
-                if (resumeEnemyFirebal)
-                {
-                    createEnemyFireball = false;
-                    windObject = true;
-                }
-                */
+               
             }
             if (windObject)
             {
@@ -295,52 +282,6 @@ public class GameManager : MonoBehaviour
     }
     
 
-    void LoadScene()
-    {
-        FinishControl();
-
-    }
-
-    private void FinishControl()
-    {
-        /*
-        if (finish)
-        {
-            StartCoroutine(NewLevel());
-            PlayerPrefs.DeleteAll();
-            finish = false;
-        }
-        */
-
-        if(finish)
-        {
-            StartCoroutine(NewLevel());
-            //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-            PlayerPrefs.DeleteAll();
-            finish = false;
-        }
-    }
-
     
-
-    IEnumerator NewLevel()
-    {
-        
-        yield return null;
-        int loadSceneIndex = SceneManager.GetActiveScene().buildIndex ; 
-        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(loadSceneIndex+1,LoadSceneMode.Single);
-
-        while(!asyncOperation.isDone)
-        {
-            
-           yield return null;
-           
-        }
-        if(asyncOperation.isDone)
-        {
-            finish = false;
-            UIManager.Instance.TransitionScreenOver = true;
-        }
-    }
 
 }

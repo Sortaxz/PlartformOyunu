@@ -164,6 +164,8 @@ public class CharacterControl : MonoBehaviour
             isAerialWind = true;
         }
     }
+
+
     private void OnTriggerEnter2D(Collider2D other) 
     {
         if(other.CompareTag("SpawnPoint"))
@@ -180,8 +182,15 @@ public class CharacterControl : MonoBehaviour
 
         if(other.CompareTag("Finish"))
         {
-            //gameManager.Finish = true;
             UIManager.Instance.StageTransition = true;
+            gameManager.Finish = true;
+        }
+    }
+    private void OnTriggerExit2D(Collider2D other) 
+    {
+        if(other.CompareTag("Finish"))
+        {
+            gameManager.Finish = false;
         }
     }
     
@@ -193,6 +202,8 @@ public class CharacterControl : MonoBehaviour
             isJumping =false;
         }
     }
+
+
     private void MovementInputController()
     {
         if (Input.GetKeyDown(KeyCode.A))

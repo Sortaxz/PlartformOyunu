@@ -20,6 +20,8 @@ public class UIManager : MonoBehaviour
         }
     }
     private GameManager gameManager;
+    private Scene_Manager scene_Manager;
+
     [SerializeField] private Image heartLeftImage;
     [SerializeField] private Image heartMiddleImage;
     [SerializeField] private Image heartRightImage;
@@ -55,11 +57,16 @@ public class UIManager : MonoBehaviour
 
     private bool stageTransition =false;
     public bool StageTransition { get { return stageTransition;} set { stageTransition = value; } }
-    private float rgbA  =0;
+
+
+    private float imageRgbA  =0f;
+    private float textRgbA  =0f;
 
     private void Awake()
     {
         gameManager = GameManager.Instance;
+        scene_Manager = Scene_Manager.Instance;
+        
     }
 
     void Update()
@@ -72,39 +79,51 @@ public class UIManager : MonoBehaviour
 
     private void SceneGecisi()
     {
-        
-            if(stageTransition)
-            {
+        if(stageTransition)
+        {
+            
                 if(!transitionScreenOver)
                 {
 
-                    if(rgbA < 1.0f)
+                    if(imageRgbA < 1.0f)
                     {
-                        rgbA += 0.2f * Time.deltaTime;
-                        sahneGecisEkrani.color = new Color(sahneGecisEkrani.color.r, sahneGecisEkrani.color.g, sahneGecisEkrani.color.b,rgbA);
+                        imageRgbA += 0.2f * Time.deltaTime;
+                        sahneGecisEkrani.color = new Color(sahneGecisEkrani.color.r, sahneGecisEkrani.color.g, sahneGecisEkrani.color.b,imageRgbA);
+                    
                         
-                        if(rgbA >= 1.0f)
+                        textRgbA += 0.2f * Time.deltaTime;
+                        gecisEkranYazisi.text = scene_Manager.GetNextSceneName();
+                        gecisEkranYazisi.color = new Color(gecisEkranYazisi.color.r, gecisEkranYazisi.color.g, gecisEkranYazisi.color.b,textRgbA);
+
+                        if(imageRgbA >= 1.0f && textRgbA >= 1.0f)
                         {
-                            gameManager.Finish = true;
+                            transitionScreenOver = true;
                         }
                     }
-                    
+                        
                 }
-                if(transitionScreenOver)
+                else
                 {
-                    if(rgbA >= 0f)
+                    if(imageRgbA >= 0f)
                     {
-                        rgbA -= 0.2f * Time.deltaTime;
-                        sahneGecisEkrani.color = new Color(sahneGecisEkrani.color.r, sahneGecisEkrani.color.g, sahneGecisEkrani.color.b,rgbA);
+                        imageRgbA -= 0.2f * Time.deltaTime;
+                        sahneGecisEkrani.color = new Color(sahneGecisEkrani.color.r, sahneGecisEkrani.color.g, sahneGecisEkrani.color.b,imageRgbA);
 
-                        if(rgbA <= 0f)
+                        textRgbA -= 0.2f * Time.deltaTime;
+                        gecisEkranYazisi.color = new Color(gecisEkranYazisi.color.r, gecisEkranYazisi.color.g, gecisEkranYazisi.color.b,textRgbA);
+
+                        if(imageRgbA <= 0f)
                         {
                             transitionScreenOver = false;
                             stageTransition =false;
+                            scene_Manager.IsStageTransition = true;
+                                
                         }
                     }
                 }
-            }
+
+           
+        }
            
     }
 

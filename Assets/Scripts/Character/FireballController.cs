@@ -209,21 +209,24 @@ public class FireballController : MonoBehaviour
     }
     private void EnemyFireballMovement()
     {
-        if(transform.tag =="enemyFireball")
+        if(!GameManager.Instance.Finish)
         {
-            if(gameManager.FireballWasFired)
+            if(transform.tag =="enemyFireball")
             {
-                if(gameManager.EnemyFireballLeftGo)
+                if(gameManager.FireballWasFired)
                 {
-                    fireballRb2D.AddForce(Vector2.left * gameManager.EnemyFireballSpeed);
-                    transform.localScale = new Vector3(-1, 1,1);
-                }   
-                if(gameManager.EnemyFireballRightGo)
-                {
-                    fireballRb2D.AddForce(Vector2.right * gameManager.EnemyFireballSpeed);
-                    transform.localScale = new Vector3(1, 1,1);
+                    if(gameManager.EnemyFireballLeftGo)
+                    {
+                        fireballRb2D.AddForce(Vector2.left * gameManager.EnemyFireballSpeed);
+                        transform.localScale = new Vector3(-1, 1,1);
+                    }   
+                    if(gameManager.EnemyFireballRightGo)
+                    {
+                        fireballRb2D.AddForce(Vector2.right * gameManager.EnemyFireballSpeed);
+                        transform.localScale = new Vector3(1, 1,1);
+                    }
+                    gameManager.FireballWasFired = false;
                 }
-                gameManager.FireballWasFired = false;
             }
         }
     }
