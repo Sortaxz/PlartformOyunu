@@ -111,7 +111,7 @@ Transform:
   m_GameObject: {fileID: 2061954156528612818}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.47, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -178,6 +178,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a626737c45d44a9488572bd1d709c708, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  passebleBoxCollide2D: {fileID: 0}
+  movementDirectionUp: 0
 --- !u!1 &4939947923161374561
 GameObject:
   m_ObjectHideFlags: 0

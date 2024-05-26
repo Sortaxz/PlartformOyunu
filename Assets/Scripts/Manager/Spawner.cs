@@ -42,7 +42,6 @@ public class Spawner : MonoBehaviour
         SpawPointDizileme();
         SpawnCheckPoint();
         gameManager = GameManager.Instance;
-        SpawnCharacter();
     }
 
     public void Resource()
@@ -73,8 +72,8 @@ public class Spawner : MonoBehaviour
     {
         if(currentSpawnIndex >= 0 && currentSpawnIndex < spawnPoints.Count)
         {
-                currentSpawnIndex = PlayerPrefs.GetInt("SpawnPoint");
-                spawnCharacter = Instantiate(character, spawnPoints[currentSpawnIndex].position, Quaternion.identity);
+            currentSpawnIndex = PlayerPrefs.GetInt("SpawnPoint");
+            spawnCharacter = Instantiate(character, spawnPoints[currentSpawnIndex].position, Quaternion.identity);
             
             
             charcterParent = spawnCharacter.transform.parent;

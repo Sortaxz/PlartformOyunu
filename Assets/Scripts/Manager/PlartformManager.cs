@@ -37,6 +37,8 @@ public class PlartformManager : MonoBehaviour
     #region  MovingFloor Object Members
     [SerializeField] private GameObject movingFloorPrefab;
     public GameObject MovingFloorPrefab {get { return movingFloorPrefab;} set {movingFloorPrefab = value;}}
+    private GameObject movingFloor;
+    public GameObject MovingFloor { get { return movingFloor;} set {movingFloor = value;}}
     [SerializeField] private List<GameObject> movingFloors;
     public List<GameObject> MovingFloors
     {
@@ -75,7 +77,10 @@ public class PlartformManager : MonoBehaviour
     
     [SerializeField] private GameObject passableFloorPrefab;
     public GameObject PassableFloorPrefab {get {return passableFloorPrefab;} set {passableFloorPrefab = value;}}
-   
+    
+    private GameObject passableFloor;
+    public GameObject PassableFloor { get {return passableFloor;} set{passableFloor =  value;}}    
+
     [SerializeField] private List<GameObject> passableFloors;
     public  List<GameObject> PassableFloors {get { return passableFloors; } set { passableFloors = value;}}
 
@@ -99,6 +104,9 @@ public class PlartformManager : MonoBehaviour
     [SerializeField] private GameObject slidingFloorPrefab;
     public GameObject SlidingFloorPrefab { get {return slidingFloorPrefab;} set { slidingFloorPrefab = value;}}
 
+    private GameObject slidingFloor;
+    public GameObject SlidingFloor { get {return slidingFloor;} set { slidingFloor = value;}}
+
     [SerializeField] private List<GameObject> slidingFloors;
     public  List<GameObject> SlidingFloors {get { return slidingFloors; } set { slidingFloors = value;}}
 
@@ -120,7 +128,8 @@ public class PlartformManager : MonoBehaviour
 
     [SerializeField] private GameObject stonyFloorPrefab;
     public GameObject StonyFloorPrefab { get {return stonyFloorPrefab;} set { stonyFloorPrefab = value;}}
-
+    private  GameObject stonyFloor;
+    public GameObject StonyFloor  {get {return stonyFloor;} set { stonyFloor = value;}}
     [SerializeField] private List<GameObject> stonyFloors;
     public  List<GameObject> StonyFloors {get { return stonyFloors; } set { slidingFloors = value;}}
 
@@ -142,6 +151,9 @@ public class PlartformManager : MonoBehaviour
 
     [SerializeField] private GameObject inhalingBombPrefab;
     public GameObject InhalingBombPrefab { get {return inhalingBombPrefab;} set { inhalingBombPrefab = value;}}
+
+    private GameObject inhalingBomb;
+    public virtual GameObject InhalingBomb { get {return inhalingBomb;} set { inhalingBomb = value;}}
 
     [SerializeField] private List<GameObject> inhalingBombs;
     public  List<GameObject> InhalingBombs {get { return inhalingBombs; } set { inhalingBombs = value;}}
@@ -165,6 +177,9 @@ public class PlartformManager : MonoBehaviour
     [SerializeField] private GameObject cranbolinePrefab;
     public GameObject CranbolinePrefab { get {return cranbolinePrefab;} set { cranbolinePrefab = value;}}
 
+    private GameObject cranboline;
+    public GameObject Cranboline { get {return cranboline;} set {cranboline = value;}}
+
     [SerializeField] private List<GameObject> cranbolines;
     public  List<GameObject> Cranbolines{get { return cranbolines; } set { cranbolines = value;}}
 
@@ -186,23 +201,15 @@ public class PlartformManager : MonoBehaviour
     {
         CreateSpakeObject();
         GetSpakeDuration();
+
+        CreateMovingFloor();
+        CreatePassableObject();
+        CreateStonyObject();
+        CreateSlidingObject();
+        CreateInhalingBombObject();
+        CreateCranbolineObject();
     }
 
-  
-
-    public void CreateMovingFloor()
-    {
-        for (int i = 0; i < movingFloors.Count; i++)
-        {
-            movingFloors[i].transform.position = movingGroundPositions[i];
-            movingFloors[i].GetComponent<MovingFloorControl>().MovementDirectionUp = MovingFloorDirectionMovement[i];
-
-            if(i == movingFloors.Count - 1)
-            {
-                startCreateMovingFloor = false;
-            }
-        }
-    }
 
     private void GetSpakeDuration()
     {
@@ -227,35 +234,38 @@ public class PlartformManager : MonoBehaviour
 
         
     }
+    public void CreateMovingFloor()
+    {
+        for (int i = 0; i < movingFloors.Count; i++)
+        {
+            movingFloorPrefab = Resources.Load<GameObject>("Prefabs/Ground/Moving Grass");
+            movingFloor = Instantiate(movingFloorPrefab,movingGroundPositions[i],Quaternion.identity,movingFloors[i].transform);
+            movingFloors[i] = movingFloor;
+
+            movingFloors[i].GetComponent<MovingFloorControl>().MovementDirectionUp = MovingFloorDirectionMovement[i];
+
+           
+        }
+    }
 
     public void CreatePassableObject()
     {
         for (int i = 0; i < passableFloors.Count; i++)
         {
+            passableFloorPrefab = Resources.Load<GameObject>("Prefabs/Ground/PassableFloor");
+            GameObject passableFloor = Instantiate(passableFloorPrefab,passableFloorPositions[i],Quaternion.identity,passableFloors[i].transform);
             
-            passableFloors[i].transform.position = passableFloorPositions[i];
-            passableFloors[i].transform.rotation = Quaternion.identity;
             
-            if(i == passableFloors.Count-1)
-            {
-                startCreatePassableFloor = false;
-            }
         }
     }
     
     public void CreateSlidingObject()
     {
         for (int i = 0; i < slidingFloors.Count; i++)
-        {
+        {   
+            slidingFloorPrefab = Resources.Load<GameObject>("Prefabs/Ground/SlidingFloor");
+            slidingFloor = Instantiate(slidingFloorPrefab,slidingFloorPositions[i],Quaternion.identity,slidingFloors[i].transform);
 
-            slidingFloors[i].transform.position = slidingFloorPositions[i];
-            slidingFloors[i].transform.rotation = Quaternion.identity;
-
-            if(i == slidingFloors.Count-1)
-            {
-                startCreateSlidingFloor = false;
-            }
-           
         }
     }
     
@@ -263,14 +273,8 @@ public class PlartformManager : MonoBehaviour
     {
         for (int i = 0; i < stonyFloors.Count; i++)
         {
-
-            stonyFloors[i].transform.position = stonyFloorPositions[i];
-            stonyFloors[i].transform.rotation = Quaternion.identity;
-
-            if(i == stonyFloors.Count-1)
-            {
-                startCreateStonyFloor = false;
-            }
+            stonyFloorPrefab = Resources.Load<GameObject>("Prefabs/Ground/StonyFloor");
+            stonyFloor = Instantiate(stonyFloorPrefab,stonyFloorPositions[i],Quaternion.identity,stonyFloors[i].transform);
            
         }
     }
@@ -280,13 +284,9 @@ public class PlartformManager : MonoBehaviour
     {
         for (int i = 0; i < inhalingBombs.Count; i++)
         {
-            inhalingBombs[i].transform.position = inhalingBombPositions[i];
-            inhalingBombs[i].transform.rotation = Quaternion.identity;
+            inhalingBombPrefab = Resources.Load<GameObject>("Prefabs/Obstacles/Inhaling Bomb");
+            inhalingBomb = Instantiate(inhalingBombPrefab,inhalingBombPositions[i],Quaternion.identity,inhalingBombs[i].transform);
 
-            if(i == inhalingBombs.Count-1)
-            {
-                startCreateInhalingBomb = false;
-            }
         }
     }
 
@@ -294,13 +294,9 @@ public class PlartformManager : MonoBehaviour
     {
         for (int i = 0; i < cranbolines.Count; i++)
         {
-            cranbolines[i].transform.position = CranbolinePositions[i];
-            cranbolines[i].transform.rotation = Quaternion.identity;
+            cranbolinePrefab = Resources.Load<GameObject>("Prefabs/Side_Tools/Cranboline");
+            cranboline = Instantiate(cranbolinePrefab,cranbolinePositions[i],Quaternion.identity,cranbolines[i].transform);
 
-            if(i == cranbolines.Count-1)
-            {
-                startCreateCranboline = false;
-            }
         }
     }
 
@@ -349,15 +345,13 @@ class PlartformManagerEditor : Editor
         {
             if(GUILayout.Button("Generate Motion Floor",GUILayout.MinWidth(100),GUILayout.MaxWidth(300)))
             {   
-                plartformManager.MovingFloorPrefab = Resources.Load<GameObject>("Prefabs/Ground/Moving Grass");
-                GameObject movingFloor = Instantiate(plartformManager.MovingFloorPrefab);
-
-
-                movingFloor.transform.parent = plartformManager.transform.GetChild(1);
-                movingFloor.transform.name = "MovingFloor" +" " +movingFloor.transform.GetSiblingIndex();
-                plartformManager.MovingFloors.Add(movingFloor);
                 
-               
+                plartformManager.MovingFloor = new GameObject();
+                plartformManager.MovingFloors.Add(plartformManager.MovingFloor);
+
+                plartformManager.MovingFloor .transform.parent = plartformManager.transform.GetChild(1);
+                plartformManager.MovingFloor .transform.name = "MovingFloor" +" " +plartformManager.MovingFloor.transform.GetSiblingIndex();
+                
                 plartformManager.SaveMovingFloorPositions = new List<Vector2>(plartformManager.MovingGroundPositions);
                 plartformManager.SaveMovingFloorPositions.Add(new Vector2()); 
                 plartformManager.MovingGroundPositions = plartformManager.SaveMovingFloorPositions.ToArray();
@@ -366,10 +360,7 @@ class PlartformManagerEditor : Editor
                 plartformManager.SaveMovingFloorMovemet.Add(new bool()); 
                 plartformManager.MovingFloorDirectionMovement = plartformManager.SaveMovingFloorMovemet.ToArray();
             }
-            if(plartformManager.StartCreateMovingFloor)
-            {
-                plartformManager.CreateMovingFloor();
-            }
+            
         }
         
         #endregion
@@ -395,14 +386,16 @@ class PlartformManagerEditor : Editor
         {
             if(GUILayout.Button("Create PassableFloor Object",GUILayout.MinWidth(100), GUILayout.MaxWidth(300)))
             {
+                /*
                 plartformManager.PassableFloorPrefab = Resources.Load<GameObject>("Prefabs/Ground/PassableFloor");
                 GameObject passableFloor = Instantiate(plartformManager.PassableFloorPrefab);
+                */
+                plartformManager.PassableFloor = new GameObject();
+                plartformManager.PassableFloors.Add(plartformManager.PassableFloor);
 
+                plartformManager.PassableFloor.transform.parent = plartformManager.transform.GetChild(2);
+                plartformManager.PassableFloor.transform.name = "PassableFloor" +" " +plartformManager.PassableFloor.transform.GetSiblingIndex();
 
-                passableFloor.transform.parent = plartformManager.transform.GetChild(2);
-                passableFloor.transform.name = "PassableFloor" +" " +passableFloor.transform.GetSiblingIndex();
-
-                plartformManager.PassableFloors.Add(passableFloor);
                
                 plartformManager.SavePassableFloorPositions = new List<Vector2>(plartformManager.PassableFloorPositions);
                 plartformManager.SavePassableFloorPositions.Add(new Vector2()); 
@@ -410,11 +403,7 @@ class PlartformManagerEditor : Editor
             }
             
 
-            if(plartformManager.StartCreatePassableFloor)
-            {
-               plartformManager.CreatePassableObject();
-                
-            }
+            
 
         }
 
@@ -445,25 +434,18 @@ class PlartformManagerEditor : Editor
             if(GUILayout.Button("Create SlidingFloor Object",GUILayout.MinWidth(100), GUILayout.MaxWidth(300)))
             {
 
-                plartformManager.SlidingFloorPrefab = Resources.Load<GameObject>("Prefabs/Ground/SlidingFloor");
-                GameObject slidingFloor = Instantiate(plartformManager.SlidingFloorPrefab);
+                plartformManager.SlidingFloor = new GameObject();
 
+                plartformManager.SlidingFloors.Add(plartformManager.SlidingFloor);
 
+                plartformManager.SlidingFloor.transform.parent = plartformManager.transform.GetChild(3);
+                plartformManager.SlidingFloor.transform.name = "SlidingFloor" +" " +plartformManager.SlidingFloor.transform.GetSiblingIndex();
 
-                slidingFloor.transform.parent = plartformManager.transform.GetChild(3);
-                slidingFloor.transform.name = "SlidingFloor" +" " +slidingFloor.transform.GetSiblingIndex();
-
-                plartformManager.SlidingFloors.Add(slidingFloor);
 
                 plartformManager.SaveSlidingFloorPositions = new List<Vector2>(plartformManager.SlidingFloorPositions);
                 plartformManager.SaveSlidingFloorPositions.Add(new Vector2()); 
                 plartformManager.SlidingFloorPositions = plartformManager.SaveSlidingFloorPositions.ToArray();
                 
-            }
-
-            if(plartformManager.StartCreateSlidingFloor)
-            {
-                plartformManager.CreateSlidingObject();
             }
 
         }
@@ -491,25 +473,17 @@ class PlartformManagerEditor : Editor
             if(GUILayout.Button("Create StonyFloor Object",GUILayout.MinWidth(100), GUILayout.MaxWidth(300)))
             {
 
-                plartformManager.StonyFloorPrefab = Resources.Load<GameObject>("Prefabs/Ground/StonyFloor");
-                GameObject stonyFloor = Instantiate(plartformManager.StonyFloorPrefab);
+                plartformManager.StonyFloor = new GameObject();
 
+                plartformManager.StonyFloor.transform.parent = plartformManager.transform.GetChild(4);
+                plartformManager.StonyFloor.transform.name = "StonyFloor" +" " +plartformManager.StonyFloor.transform.GetSiblingIndex();
 
-
-                stonyFloor.transform.parent = plartformManager.transform.GetChild(4);
-                stonyFloor.transform.name = "StonyFloor" +" " +stonyFloor.transform.GetSiblingIndex();
-
-                plartformManager.StonyFloors.Add(stonyFloor);
+                plartformManager.StonyFloors.Add(plartformManager.StonyFloor);
 
                 plartformManager.SaveStonyFloorPositions = new List<Vector2>(plartformManager.StonyFloorPositions);
                 plartformManager.SaveStonyFloorPositions.Add(new Vector2()); 
                 plartformManager.StonyFloorPositions = plartformManager.SaveStonyFloorPositions.ToArray();
                 
-            }
-
-            if(plartformManager.StartCreateStonyFloor)
-            {
-                plartformManager.CreateStonyObject();
             }
 
         }
@@ -539,13 +513,13 @@ class PlartformManagerEditor : Editor
         {
             if(GUILayout.Button("Create InhalingBomb Object" , GUILayout.MinWidth(100),GUILayout.MaxWidth(300)))
             {
-                plartformManager.InhalingBombPrefab = Resources.Load<GameObject>("Prefabs/Obstacles/Inhaling Bomb");
                 
-                GameObject inhalingBomb = Instantiate(plartformManager.InhalingBombPrefab);
-                inhalingBomb.transform.parent = plartformManager.transform.GetChild(5);
-                inhalingBomb.transform.name = "InhalingBomb" + inhalingBomb.transform.GetSiblingIndex();
+                plartformManager.InhalingBomb = new GameObject();
+                plartformManager.InhalingBombs.Add(plartformManager.InhalingBomb);
 
-                plartformManager.InhalingBombs.Add(inhalingBomb);
+                plartformManager.InhalingBomb.transform.parent = plartformManager.transform.GetChild(5);
+                plartformManager.InhalingBomb.transform.name = "InhalingBomb" + plartformManager.InhalingBomb.transform.GetSiblingIndex();
+
 
                 plartformManager.SaveInhalingBombPositions = new List<Vector2>(plartformManager.InhalingBombsPositions);
                 plartformManager.SaveInhalingBombPositions.Add(new Vector2());
@@ -553,10 +527,6 @@ class PlartformManagerEditor : Editor
 
             }
 
-            if(plartformManager.StartCreateInhalingBomb)
-            {
-                plartformManager.CreateInhalingBombObject();
-            }
         }
         
 
@@ -583,13 +553,12 @@ class PlartformManagerEditor : Editor
         {
             if(GUILayout.Button("Create Cranboline Object" , GUILayout.MinWidth(100),GUILayout.MaxWidth(300)))
             {
-                plartformManager.CranbolinePrefab = Resources.Load<GameObject>("Prefabs/Side_Tools/Cranboline");
-                
-                GameObject cranboline = Instantiate(plartformManager.CranbolinePrefab);
-                cranboline.transform.parent = plartformManager.transform.GetChild(6);
-                cranboline.transform.name = "Cranboline" + cranboline.transform.GetSiblingIndex();
+                plartformManager.Cranboline = new GameObject();
+                plartformManager.Cranbolines.Add(plartformManager.Cranboline);
 
-                plartformManager.Cranbolines.Add(cranboline);
+                plartformManager.Cranboline.transform.parent = plartformManager.transform.GetChild(6);
+                plartformManager.Cranboline.transform.name = "Cranboline" + plartformManager.Cranboline.transform.GetSiblingIndex();
+
 
                 plartformManager.SaveCranbolinePositions = new List<Vector2>(plartformManager.CranbolinePositions);
                 plartformManager.SaveCranbolinePositions.Add(new Vector2());
@@ -597,10 +566,6 @@ class PlartformManagerEditor : Editor
 
             }
 
-            if(plartformManager.StartCreateCranboline)
-            {
-                plartformManager.CreateCranbolineObject();
-            }
         }
 
 

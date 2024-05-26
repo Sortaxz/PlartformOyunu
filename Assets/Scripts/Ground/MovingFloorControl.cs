@@ -134,21 +134,18 @@ public class MovingFloorControl : MonoBehaviour
     {
         if(other.collider.CompareTag("Player"))
         {
-
-            
-            
             if(movementDirectionUp == true )
             {
                 moveUp = false;
                 if(other.gameObject.activeInHierarchy)
-                    other.transform.SetParent(transform.parent.parent.parent);
+                    other.transform.SetParent(null);
             }
             if(!movementDirectionUp )
             {
                 moveRight = false;
                 
                 if(other.gameObject.activeInHierarchy)
-                    other.transform.SetParent(transform.parent.parent.parent);
+                    other.transform.SetParent(null);
             }
         }
    

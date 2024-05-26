@@ -105,10 +105,13 @@ public class GameManager : MonoBehaviour
     {
         LeftWindPosition = transform.GetChild(0);
         RightWindPosition = transform.GetChild(1);
-
         
     }
-
+    private void Start() 
+    {
+        Spawner.Instance.SpawnCharacter();
+        
+    }
     void Update()
     {
         CharcterCheckPoint();

@@ -50,10 +50,6 @@ public class Scene_Manager : MonoBehaviour
         return sceneName;
     }
 
-    void Start()
-    {
-        
-    }
 
     void Update()
     {
@@ -62,8 +58,7 @@ public class Scene_Manager : MonoBehaviour
 
     private void LoadScene()
     {
-        
-            FinishControl();
+        FinishControl();
     }
 
     private void FinishControl()
@@ -73,7 +68,6 @@ public class Scene_Manager : MonoBehaviour
         if(isStageTransition)
         {
             StartCoroutine(NewLevel());
-            //LoadNewScene();
             PlayerPrefs.DeleteAll();
             isStageTransition = false;
         }
