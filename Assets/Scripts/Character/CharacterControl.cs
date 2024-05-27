@@ -147,6 +147,7 @@ public class CharacterControl : MonoBehaviour
             lifeDwindling = false;
             characterHealthDecrease  =false;
             hitObstacle = false;
+            startHurtAnimation = false;
         } 
         if(other.collider.CompareTag("Enemy"))
         {
@@ -168,10 +169,10 @@ public class CharacterControl : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other) 
     {
-        if(other.CompareTag("SpawnPoint"))
+        if(other.CompareTag("CheckPoint"))
         {
             spawnPointSiblingIndex =  other.transform.GetSiblingIndex();
-            PlayerPrefs.SetInt("SpawnPoint",spawnPointSiblingIndex);
+            PlayerPrefs.SetInt("CheckPoint",spawnPointSiblingIndex);
         } 
         if(other.CompareTag("Cranboline"))
         {

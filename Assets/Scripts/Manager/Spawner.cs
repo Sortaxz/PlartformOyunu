@@ -20,11 +20,19 @@ public class Spawner : MonoBehaviour
             return intance;
         }
     }
-    public List<Transform> spawnPoints = new List<Transform>();
+    [SerializeField] private GameObject[] checkPoints;
+    public GameObject[] CheckPoints { get { return checkPoints;} set { checkPoints = value; } }
+    [SerializeField] private Vector2[] checkPointsPosition;
+    public Vector2[] CheckPointsPosition {get { return checkPointsPosition; } set { checkPointsPosition = value; } }
     private GameManager gameManager;
+    GameObject spawnCharacter;
     [SerializeField]private GameObject character;
     [SerializeField]private GameObject fireball;
-    [SerializeField]private GameObject checkPoint;
+    [SerializeField]private GameObject checkPointPrefab;
+    
+    private GameObject checkPoint;
+    public GameObject CheckPoint{get {return checkPoint;} set {checkPoint = value;} }
+
     public GameObject Fireball
     {
         get { return fireball; }
@@ -35,11 +43,11 @@ public class Spawner : MonoBehaviour
     private Transform charcterParent;
     public Transform CharacterParent { get => charcterParent; }
     private static int currentSpawnIndex = 0;
-    GameObject spawnCharacter;
+    [SerializeField] private int checkPointsIndex = 0;
+    public int CheckPointsIndex { get { return checkPointsIndex; }  set { checkPointsIndex = value; } }
     private void Awake()
     {
         Resource();
-        SpawPointDizileme();
         SpawnCheckPoint();
         gameManager = GameManager.Instance;
     }
@@ -48,16 +56,10 @@ public class Spawner : MonoBehaviour
     {
         character = Resources.Load<GameObject>("Prefabs/Character/Character");
         fireball = Resources.Load<GameObject>("Prefabs/Fireball/fireball");
-        checkPoint = Resources.Load<GameObject>("Prefabs/CheckPoint/CheckPoint");
+        checkPointPrefab = Resources.Load<GameObject>("Prefabs/CheckPoint/CheckPoint");
     }
 
-    private void SpawPointDizileme()
-    {
-        for (int i = 0; i < spawnPoints.Count; i++)
-        {
-            spawnPoints[i] = transform.GetChild(i).transform;
-        }
-    }
+   
 
     void Start()
     {
@@ -70,10 +72,10 @@ public class Spawner : MonoBehaviour
     }
     public void SpawnCharacter()
     {
-        if(currentSpawnIndex >= 0 && currentSpawnIndex < spawnPoints.Count)
+        if(currentSpawnIndex >= 0 && currentSpawnIndex < checkPoints.Length)
         {
-            currentSpawnIndex = PlayerPrefs.GetInt("SpawnPoint");
-            spawnCharacter = Instantiate(character, spawnPoints[currentSpawnIndex].position, Quaternion.identity);
+            currentSpawnIndex = PlayerPrefs.GetInt("CheckPoint");
+            spawnCharacter = Instantiate(character, checkPoints[currentSpawnIndex] .transform.position, Quaternion.identity);
             
             
             charcterParent = spawnCharacter.transform.parent;
@@ -108,33 +110,13 @@ public class Spawner : MonoBehaviour
 
     private void SpawnCheckPoint()
     {
-        for (int i = 0; i < spawnPoints.Count; i++)
+        for (int i = 0; i < checkPoints.Length; i++)
         {
-            GameObject spawnCheckPoint = Instantiate(checkPoint,spawnPoints[i].transform.position,Quaternion.identity,spawnPoints[i].transform);
-            spawnCheckPoint.transform.name = "Check Point"  + i;
-
-            if(i == spawnPoints.Count - 1)
-            {
-                spawnCheckPoint.layer = LayerMask.NameToLayer("Finally");
-            }
+            
+            checkPoints[i] = Instantiate(checkPointPrefab,checkPointsPosition[i],Quaternion.identity,transform.GetChild(0).transform);
+            checkPoints[i].name = "checkPoint" + checkPoints[i].transform.GetSiblingIndex();
         }
     }
-
-
-
-
-
-
-    #if UNITY_EDITOR
-    private void OnDrawGizmos() 
-    {
-       for (int i = 0; i < transform.childCount; i++)
-       {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.GetChild(i).position,.5f);
-       }
-    }
-    #endif
 
     
 }
@@ -146,23 +128,22 @@ class SpawnerEditor : Editor
     public override void OnInspectorGUI()
     {
         Spawner spawner = (Spawner)target;
+        
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("fireball"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("checkPointsIndex"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("checkPoints"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("checkPointsPosition"));
     
+        EditorGUILayout.Space();
+        EditorGUILayout.Space();
+        EditorGUILayout.Space();
+
         if(GUILayout.Button("Spaw Point Üret",GUILayout.MinWidth(100),GUILayout.MaxWidth(300)))
         {
-            GameObject spawnPoint = new GameObject();
-
-            Spawner.Instance.spawnPoints.Add(spawnPoint.transform);
-
-            spawnPoint.transform.tag = "SpawnPoint";
-            spawnPoint.transform.name = spawner.transform.childCount.ToString();
-            spawnPoint.transform.parent = spawner.transform;
-            spawnPoint.transform.position = spawner.transform.position;
-
-            spawnPoint.AddComponent<CircleCollider2D>();
-            spawnPoint.GetComponent<CircleCollider2D>().isTrigger = true;
+            spawner.CheckPointsIndex++;
+            spawner.CheckPoints = new GameObject[spawner.CheckPointsIndex];
+            spawner.CheckPointsPosition = new Vector2[spawner.CheckPointsIndex];
         }
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("fireball"));
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("spawnPoints"));
         serializedObject.ApplyModifiedProperties();
         serializedObject.Update();
     }

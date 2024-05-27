@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CheckPointController : MonoBehaviour
 {
+    private Animator checkPointAnimator;
     private SpriteRenderer checkPointSPR;
     [SerializeField] private Sprite[] checkPointSprites;
     private static Vector2 checkPointTransfom;
@@ -11,26 +12,47 @@ public class CheckPointController : MonoBehaviour
     private float checkPointTimerCounter = 0f;
     private bool checkpointAnimasonUnlocked = false;
     private bool  checkpointAnimasonShutDown = false;
+    private int siblingIndex = 0;
+    private int checkPointSiblingIndex =0;
+
     private void Awake() 
     {
         checkPointSPR = GetComponent<SpriteRenderer>();    
+        checkPointSiblingIndex = transform.GetSiblingIndex();
+        checkPointAnimator = GetComponent<Animator>();
     }
 
    
 
     void Update()
     {
-        CheckPointAnimation();
+    }
+    
+    private void CheckPointControl()
+    {
+        if (checkPointSiblingIndex > siblingIndex)
+        {
+            siblingIndex = checkPointSiblingIndex;
+            checkPointTransfom = transform.position;
+        }
+        else
+        {
+
+        }
     }
     
     private void OnTriggerEnter2D(Collider2D other) 
     {
         if(other.CompareTag("Player"))
         {
-            checkpointAnimasonUnlocked = true;
-        }    
+            
+            checkPointAnimator.SetBool("StartCheckPointAnimation",true);
+            
+            CheckPointControl();
+        }
 
     }
+
 
     private void OnTriggerExit2D(Collider2D other) 
     {
@@ -38,7 +60,8 @@ public class CheckPointController : MonoBehaviour
         {
             checkpointAnimasonUnlocked = false;
             checkpointAnimasonShutDown = true;
-            checkPointTransfom = transform.position;
+            checkPointAnimator.SetBool("EndCheckPointAnimation",true);
+            checkPointAnimator.SetBool("StartCheckPointAnimation",false);
         }    
     }
     

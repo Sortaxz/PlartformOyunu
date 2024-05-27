@@ -81,20 +81,22 @@ public class PlartformManager : MonoBehaviour
     private GameObject passableFloor;
     public GameObject PassableFloor { get {return passableFloor;} set{passableFloor =  value;}}    
 
-    [SerializeField] private List<GameObject> passableFloors;
-    public  List<GameObject> PassableFloors {get { return passableFloors; } set { passableFloors = value;}}
+    [SerializeField] private GameObject[] passableFloors;
+    public  GameObject[] PassableFloors {get { return passableFloors; } set { passableFloors = value;}}
 
     private List<Vector2> savePassableFloorPositions;
     public List<Vector2> SavePassableFloorPositions {get { return savePassableFloorPositions;} set { savePassableFloorPositions = value;}}
 
-    [SerializeField] private Vector2[] passableFloorPositions;
-    public Vector2[] PassableFloorPositions {get { return passableFloorPositions; } set { passableFloorPositions = value;}}
+    [SerializeField] public Vector2[] passableFloorPositions;
 
      [SerializeField]private bool startCreatePassableFloor = false;
     public bool StartCreatePassableFloor {get {return startCreatePassableFloor;} set { startCreatePassableFloor = value;}}
 
     [SerializeField] private bool passableFloorbuttonClose = false;
     public bool PassableFloorButtonClose { get {return passableFloorbuttonClose;} set {passableFloorbuttonClose = value;}}
+
+    [SerializeField] private int passableFloorsIndex = 0;
+    public int PassableFloorsIndex {get {return passableFloorsIndex;} set { passableFloorsIndex = value;}}
 
     #endregion
     
@@ -107,19 +109,22 @@ public class PlartformManager : MonoBehaviour
     private GameObject slidingFloor;
     public GameObject SlidingFloor { get {return slidingFloor;} set { slidingFloor = value;}}
 
-    [SerializeField] private List<GameObject> slidingFloors;
-    public  List<GameObject> SlidingFloors {get { return slidingFloors; } set { slidingFloors = value;}}
+    [SerializeField] private GameObject[] slidingFloors;
+    public  GameObject[] SlidingFloors {get { return slidingFloors; } set { slidingFloors = value;}}
 
-     private List<Vector2> saveSlidingFloorPositions;
+    private List<Vector2> saveSlidingFloorPositions;
     public List<Vector2> SaveSlidingFloorPositions {get { return saveSlidingFloorPositions;} set { saveSlidingFloorPositions = value;}}
 
-    [SerializeField] private Vector2[] slidingFloorPositions;
-    public Vector2[] SlidingFloorPositions {get { return slidingFloorPositions;} set { slidingFloorPositions = value;}}
-     [SerializeField]private bool startCreateSlidingFloor = false;
+    [SerializeField] public Vector2[] slidingFloorPositions;
+    
+    [SerializeField]private bool startCreateSlidingFloor = false;
     public bool StartCreateSlidingFloor {get {return startCreateSlidingFloor;} set { startCreateSlidingFloor = value;}}
 
     [SerializeField] private bool slidingFloorbuttonClose = false;
     public bool SlidingFloorButtonClose { get {return slidingFloorbuttonClose;} set {slidingFloorbuttonClose = value;}}
+
+    [SerializeField] private int slidingFloorsIndex = 0;
+    public int SlidingFloorsIndex {get {return slidingFloorsIndex;} set { slidingFloorsIndex = value;}}
 
     #endregion
 
@@ -130,19 +135,22 @@ public class PlartformManager : MonoBehaviour
     public GameObject StonyFloorPrefab { get {return stonyFloorPrefab;} set { stonyFloorPrefab = value;}}
     private  GameObject stonyFloor;
     public GameObject StonyFloor  {get {return stonyFloor;} set { stonyFloor = value;}}
-    [SerializeField] private List<GameObject> stonyFloors;
-    public  List<GameObject> StonyFloors {get { return stonyFloors; } set { slidingFloors = value;}}
+    [SerializeField] private GameObject[] stonyFloors;
+    public  GameObject[] StonyFloors {get { return stonyFloors; } set { stonyFloors = value;}}
 
      private List<Vector2> saveStonyFloorPositions;
     public List<Vector2> SaveStonyFloorPositions {get { return saveStonyFloorPositions;} set { saveStonyFloorPositions = value;}}
 
-    [SerializeField] private Vector2[] stonyFloorPositions;
-    public Vector2[] StonyFloorPositions {get { return stonyFloorPositions;} set { stonyFloorPositions = value;}}
+    [SerializeField] public Vector2[] stonyFloorPositions;
      [SerializeField]private bool startCreateStonyFloor = false;
     public bool StartCreateStonyFloor {get {return startCreateStonyFloor;} set { startCreateStonyFloor = value;}}
 
     [SerializeField] private bool stonyFloorbuttonClose = false;
     public bool StonyFloorbuttonClose { get {return stonyFloorbuttonClose;} set {stonyFloorbuttonClose = value;}}
+
+    [SerializeField] private int stonyFloorsIndex = 0;
+    public int StonyFloorsIndex {get{return stonyFloorsIndex;} set {stonyFloorsIndex = value;}}
+
 
     #endregion
 
@@ -155,19 +163,21 @@ public class PlartformManager : MonoBehaviour
     private GameObject inhalingBomb;
     public virtual GameObject InhalingBomb { get {return inhalingBomb;} set { inhalingBomb = value;}}
 
-    [SerializeField] private List<GameObject> inhalingBombs;
-    public  List<GameObject> InhalingBombs {get { return inhalingBombs; } set { inhalingBombs = value;}}
+    [SerializeField] private GameObject[] inhalingBombs;
+    public  GameObject[] InhalingBombs {get { return inhalingBombs; } set { inhalingBombs = value;}}
 
      private List<Vector2> saveInhalingBombPositions;
     public List<Vector2> SaveInhalingBombPositions {get { return saveInhalingBombPositions;} set { saveInhalingBombPositions = value;}}
 
-    [SerializeField] private Vector2[] inhalingBombPositions;
-    public Vector2[] InhalingBombsPositions {get { return inhalingBombPositions;} set { inhalingBombPositions = value;}}
-     [SerializeField]private bool startCreateInhalingBomb = false;
+    [SerializeField] public Vector2[] inhalingBombPositions;
+    
+    [SerializeField]private bool startCreateInhalingBomb = false;
     public bool StartCreateInhalingBomb {get {return startCreateInhalingBomb;} set { startCreateInhalingBomb = value;}}
 
     [SerializeField] private bool inhalingBombbuttonClose = false;
     public bool InhalingBombbuttonClose { get {return inhalingBombbuttonClose;} set {inhalingBombbuttonClose = value;}}
+    [SerializeField] private int inhalingBombsIndex = 0;
+    public int InhalingBombsIndex {get {return inhalingBombsIndex;} set { inhalingBombsIndex = value;}}
 
     #endregion
 
@@ -180,19 +190,22 @@ public class PlartformManager : MonoBehaviour
     private GameObject cranboline;
     public GameObject Cranboline { get {return cranboline;} set {cranboline = value;}}
 
-    [SerializeField] private List<GameObject> cranbolines;
-    public  List<GameObject> Cranbolines{get { return cranbolines; } set { cranbolines = value;}}
+    [SerializeField] private GameObject[] cranbolines;
+    public  GameObject[] Cranbolines{get { return cranbolines; } set { cranbolines = value;}}
 
      private List<Vector2> saveCranbolinePositions;
     public List<Vector2> SaveCranbolinePositions {get { return saveCranbolinePositions;} set { saveCranbolinePositions = value;}}
 
-    [SerializeField] private Vector2[] cranbolinePositions;
-    public Vector2[] CranbolinePositions {get { return cranbolinePositions;} set { cranbolinePositions = value;}}
-     [SerializeField]private bool startCreateCranboline = false;
+    [SerializeField] public Vector2[] cranbolinePositions;
+    
+    [SerializeField]private bool startCreateCranboline = false;
     public bool StartCreateCranboline {get {return startCreateCranboline;} set { startCreateCranboline = value;}}
 
     [SerializeField] private bool cranbolinebuttonClose = false;
     public bool CranbolinebuttonClose { get {return cranbolinebuttonClose;} set {cranbolinebuttonClose = value;}}
+
+    [SerializeField] private int cranblonesIndex = 0;
+    public int CranblonesIndex {get {return cranblonesIndex;} set {cranblonesIndex = value;}}
 
     #endregion
 
@@ -234,6 +247,8 @@ public class PlartformManager : MonoBehaviour
 
         
     }
+
+
     public void CreateMovingFloor()
     {
         for (int i = 0; i < movingFloors.Count; i++)
@@ -248,60 +263,77 @@ public class PlartformManager : MonoBehaviour
         }
     }
 
+
     public void CreatePassableObject()
     {
-        for (int i = 0; i < passableFloors.Count; i++)
+        for (int i = 0; i < passableFloors.Length; i++)
         {
             passableFloorPrefab = Resources.Load<GameObject>("Prefabs/Ground/PassableFloor");
-            GameObject passableFloor = Instantiate(passableFloorPrefab,passableFloorPositions[i],Quaternion.identity,passableFloors[i].transform);
-            
+            passableFloors[i] = Instantiate(passableFloorPrefab,passableFloorPositions[i],Quaternion.identity,transform.GetChild(2).transform);
+            passableFloors[i].name = "Passable Floor" + passableFloors[i].transform.GetSiblingIndex();
             
         }
     }
-    
+
+
     public void CreateSlidingObject()
     {
-        for (int i = 0; i < slidingFloors.Count; i++)
+        for (int i = 0; i < slidingFloors.Length; i++)
         {   
             slidingFloorPrefab = Resources.Load<GameObject>("Prefabs/Ground/SlidingFloor");
-            slidingFloor = Instantiate(slidingFloorPrefab,slidingFloorPositions[i],Quaternion.identity,slidingFloors[i].transform);
-
+            slidingFloors[i] = Instantiate(slidingFloorPrefab,slidingFloorPositions[i],Quaternion.identity,transform.GetChild(3).transform);
+            slidingFloors[i].name = "Sliding Floor" + slidingFloors[i].transform.GetSiblingIndex();
         }
     }
-    
+
+
     public void CreateStonyObject()
     {
-        for (int i = 0; i < stonyFloors.Count; i++)
+        for (int i = 0; i < stonyFloors.Length; i++)
         {
             stonyFloorPrefab = Resources.Load<GameObject>("Prefabs/Ground/StonyFloor");
-            stonyFloor = Instantiate(stonyFloorPrefab,stonyFloorPositions[i],Quaternion.identity,stonyFloors[i].transform);
-           
+            stonyFloors[i] = Instantiate(stonyFloorPrefab,stonyFloorPositions[i],Quaternion.identity,transform.GetChild(4).transform);
+            stonyFloors[i].name = "Stony Floor" + stonyFloors[i].transform.GetSiblingIndex();
         }
     }
 
 
     public void CreateInhalingBombObject()
     {
-        for (int i = 0; i < inhalingBombs.Count; i++)
+        for (int i = 0; i < inhalingBombs.Length; i++)
         {
             inhalingBombPrefab = Resources.Load<GameObject>("Prefabs/Obstacles/Inhaling Bomb");
-            inhalingBomb = Instantiate(inhalingBombPrefab,inhalingBombPositions[i],Quaternion.identity,inhalingBombs[i].transform);
+            inhalingBombs[i] = Instantiate(inhalingBombPrefab,inhalingBombPositions[i],Quaternion.identity,transform.GetChild(5).transform);
+            InhalingBombs[i].name = "Inhaling Bomb" + inhalingBombs[i].transform.GetSiblingIndex();
+        }
+    }
+
+
+    public void CreateCranbolineObject()
+    {
+        for (int i = 0; i < cranbolines.Length; i++)
+        {
+            cranbolinePrefab = Resources.Load<GameObject>("Prefabs/Side_Tools/Cranboline");
+            cranbolines[i] = Instantiate(cranbolinePrefab,cranbolinePositions[i],Quaternion.identity,transform.GetChild(6).transform);
+            cranbolines[i].name = "Cranboline" + cranbolines[i].transform.GetSiblingIndex();
 
         }
     }
 
-    public void CreateCranbolineObject()
-    {
-        for (int i = 0; i < cranbolines.Count; i++)
-        {
-            cranbolinePrefab = Resources.Load<GameObject>("Prefabs/Side_Tools/Cranboline");
-            cranboline = Instantiate(cranbolinePrefab,cranbolinePositions[i],Quaternion.identity,cranbolines[i].transform);
 
-        }
+
+    public void PositionDataHold(ref Vector2[] positionData, List<Vector2> savePositionData)
+    {
+        savePositionData = new List<Vector2>(positionData);
+        savePositionData.Add(new Vector2());
+        positionData = savePositionData.ToArray();
     }
 
 
 }
+
+
+
 #if UNITY_EDITOR
 [CustomEditor(typeof(PlartformManager))]
 [System.Serializable]
@@ -373,6 +405,7 @@ class PlartformManagerEditor : Editor
         #region  PassableFloor has  Members
         
         EditorGUILayout.PropertyField (serializedObject.FindProperty("passableFloorPrefab"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("passableFloorsIndex"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("passableFloors"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("passableFloorPositions"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("startCreatePassableFloor"));
@@ -386,20 +419,11 @@ class PlartformManagerEditor : Editor
         {
             if(GUILayout.Button("Create PassableFloor Object",GUILayout.MinWidth(100), GUILayout.MaxWidth(300)))
             {
-                /*
-                plartformManager.PassableFloorPrefab = Resources.Load<GameObject>("Prefabs/Ground/PassableFloor");
-                GameObject passableFloor = Instantiate(plartformManager.PassableFloorPrefab);
-                */
-                plartformManager.PassableFloor = new GameObject();
-                plartformManager.PassableFloors.Add(plartformManager.PassableFloor);
-
-                plartformManager.PassableFloor.transform.parent = plartformManager.transform.GetChild(2);
-                plartformManager.PassableFloor.transform.name = "PassableFloor" +" " +plartformManager.PassableFloor.transform.GetSiblingIndex();
-
-               
-                plartformManager.SavePassableFloorPositions = new List<Vector2>(plartformManager.PassableFloorPositions);
-                plartformManager.SavePassableFloorPositions.Add(new Vector2()); 
-                plartformManager.PassableFloorPositions = plartformManager.SavePassableFloorPositions.ToArray();
+                plartformManager.PassableFloorsIndex++;
+                plartformManager.PassableFloors = new GameObject[plartformManager.PassableFloorsIndex];
+                
+            
+                plartformManager.PositionDataHold(ref plartformManager.passableFloorPositions,plartformManager.SavePassableFloorPositions);
             }
             
 
@@ -420,6 +444,7 @@ class PlartformManagerEditor : Editor
         #region  SlidingFloor has  Members
 
         EditorGUILayout.PropertyField (serializedObject.FindProperty("slidingFloorPrefab"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("slidingFloorsIndex"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("slidingFloors"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("slidingFloorPositions"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("startCreateSlidingFloor"));
@@ -434,18 +459,15 @@ class PlartformManagerEditor : Editor
             if(GUILayout.Button("Create SlidingFloor Object",GUILayout.MinWidth(100), GUILayout.MaxWidth(300)))
             {
 
-                plartformManager.SlidingFloor = new GameObject();
+                plartformManager.SlidingFloorsIndex++;
+                plartformManager.SlidingFloors = new GameObject[plartformManager.SlidingFloorsIndex];
 
-                plartformManager.SlidingFloors.Add(plartformManager.SlidingFloor);
-
-                plartformManager.SlidingFloor.transform.parent = plartformManager.transform.GetChild(3);
-                plartformManager.SlidingFloor.transform.name = "SlidingFloor" +" " +plartformManager.SlidingFloor.transform.GetSiblingIndex();
-
-
+                /*
                 plartformManager.SaveSlidingFloorPositions = new List<Vector2>(plartformManager.SlidingFloorPositions);
                 plartformManager.SaveSlidingFloorPositions.Add(new Vector2()); 
                 plartformManager.SlidingFloorPositions = plartformManager.SaveSlidingFloorPositions.ToArray();
-                
+                */
+                plartformManager.PositionDataHold(ref plartformManager.slidingFloorPositions,plartformManager.SaveSlidingFloorPositions);
             }
 
         }
@@ -459,6 +481,7 @@ class PlartformManagerEditor : Editor
         #region  StonyFloor has  Members
 
         EditorGUILayout.PropertyField (serializedObject.FindProperty("stonyFloorPrefab"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("stonyFloorsIndex"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("stonyFloors"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("stonyFloorPositions"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("startCreateStonyFloor"));
@@ -472,18 +495,16 @@ class PlartformManagerEditor : Editor
         {
             if(GUILayout.Button("Create StonyFloor Object",GUILayout.MinWidth(100), GUILayout.MaxWidth(300)))
             {
+                plartformManager.StonyFloorsIndex++;
+                plartformManager.StonyFloors = new GameObject[plartformManager.StonyFloorsIndex];
 
-                plartformManager.StonyFloor = new GameObject();
+                plartformManager.PositionDataHold(ref plartformManager.stonyFloorPositions,plartformManager.SaveStonyFloorPositions);
 
-                plartformManager.StonyFloor.transform.parent = plartformManager.transform.GetChild(4);
-                plartformManager.StonyFloor.transform.name = "StonyFloor" +" " +plartformManager.StonyFloor.transform.GetSiblingIndex();
-
-                plartformManager.StonyFloors.Add(plartformManager.StonyFloor);
-
+                /*
                 plartformManager.SaveStonyFloorPositions = new List<Vector2>(plartformManager.StonyFloorPositions);
                 plartformManager.SaveStonyFloorPositions.Add(new Vector2()); 
                 plartformManager.StonyFloorPositions = plartformManager.SaveStonyFloorPositions.ToArray();
-                
+                */
             }
 
         }
@@ -500,6 +521,7 @@ class PlartformManagerEditor : Editor
         #region  InhalingBomb has Members
 
         EditorGUILayout.PropertyField (serializedObject.FindProperty("inhalingBombPrefab"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("inhalingBombsIndex"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("inhalingBombs"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("inhalingBombPositions"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("startCreateInhalingBomb"));
@@ -513,17 +535,11 @@ class PlartformManagerEditor : Editor
         {
             if(GUILayout.Button("Create InhalingBomb Object" , GUILayout.MinWidth(100),GUILayout.MaxWidth(300)))
             {
-                
-                plartformManager.InhalingBomb = new GameObject();
-                plartformManager.InhalingBombs.Add(plartformManager.InhalingBomb);
+                plartformManager.InhalingBombsIndex++;
+                plartformManager.InhalingBombs = new GameObject[plartformManager.InhalingBombsIndex];
 
-                plartformManager.InhalingBomb.transform.parent = plartformManager.transform.GetChild(5);
-                plartformManager.InhalingBomb.transform.name = "InhalingBomb" + plartformManager.InhalingBomb.transform.GetSiblingIndex();
+                plartformManager.PositionDataHold(ref plartformManager.inhalingBombPositions,plartformManager.SaveInhalingBombPositions);
 
-
-                plartformManager.SaveInhalingBombPositions = new List<Vector2>(plartformManager.InhalingBombsPositions);
-                plartformManager.SaveInhalingBombPositions.Add(new Vector2());
-                plartformManager.InhalingBombsPositions = plartformManager.SaveInhalingBombPositions.ToArray();
 
             }
 
@@ -540,6 +556,7 @@ class PlartformManagerEditor : Editor
         #region  Cranboline has a Members
 
         EditorGUILayout.PropertyField (serializedObject.FindProperty("cranbolinePrefab"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("cranblonesIndex"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("cranbolines"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("cranbolinePositions"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("startCreateCranboline"));
@@ -553,17 +570,12 @@ class PlartformManagerEditor : Editor
         {
             if(GUILayout.Button("Create Cranboline Object" , GUILayout.MinWidth(100),GUILayout.MaxWidth(300)))
             {
-                plartformManager.Cranboline = new GameObject();
-                plartformManager.Cranbolines.Add(plartformManager.Cranboline);
+                plartformManager.CranblonesIndex++;
+                plartformManager.Cranbolines = new GameObject[plartformManager.CranblonesIndex];
 
-                plartformManager.Cranboline.transform.parent = plartformManager.transform.GetChild(6);
-                plartformManager.Cranboline.transform.name = "Cranboline" + plartformManager.Cranboline.transform.GetSiblingIndex();
+                plartformManager.PositionDataHold(ref plartformManager.cranbolinePositions,plartformManager.SaveCranbolinePositions);
 
-
-                plartformManager.SaveCranbolinePositions = new List<Vector2>(plartformManager.CranbolinePositions);
-                plartformManager.SaveCranbolinePositions.Add(new Vector2());
-                plartformManager.CranbolinePositions = plartformManager.SaveCranbolinePositions.ToArray();
-
+               
             }
 
         }
