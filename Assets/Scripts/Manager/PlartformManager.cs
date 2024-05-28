@@ -39,8 +39,8 @@ public class PlartformManager : MonoBehaviour
     public GameObject MovingFloorPrefab {get { return movingFloorPrefab;} set {movingFloorPrefab = value;}}
     private GameObject movingFloor;
     public GameObject MovingFloor { get { return movingFloor;} set {movingFloor = value;}}
-    [SerializeField] private List<GameObject> movingFloors;
-    public List<GameObject> MovingFloors
+    [SerializeField] private GameObject[] movingFloors;
+    public GameObject[] MovingFloors
     {
         get { return movingFloors; }
         set { movingFloors = value;}
@@ -55,20 +55,18 @@ public class PlartformManager : MonoBehaviour
     [SerializeField] private int numberMovementGroundPoints;
     public int NumberMovementGroundPoints { get => numberMovementGroundPoints;  }
     
-    [SerializeField] private Vector2[] movingGroundPositions;
-    public Vector2[] MovingGroundPositions
-    {
-        get { return movingGroundPositions; }
-        set { movingGroundPositions = value;}
-    }
+    [SerializeField] public Vector2[] movingGroundPositions;
    
-    [SerializeField] private bool[] movingFloorDirectionMovement; 
+   
+    [SerializeField] public bool[] movingFloorDirectionMovement; 
     public bool[] MovingFloorDirectionMovement{ get => movingFloorDirectionMovement; set { movingFloorDirectionMovement = value;}}
     [SerializeField]private bool startCreateMovingFloor = false;
     public bool StartCreateMovingFloor {get {return startCreateMovingFloor;} set { startCreateMovingFloor = value;}}
 
     [SerializeField] private bool movingFloorbuttonClose = false;
     public bool MovingFloorButtonClose { get {return movingFloorbuttonClose;} set {movingFloorbuttonClose = value;}}
+    [SerializeField] private int movingFloorsIndex = 0;
+    public int MovingFloorsIndex { get {return movingFloorsIndex;} set { movingFloorsIndex = value;}}
 
     #endregion
 
@@ -251,11 +249,11 @@ public class PlartformManager : MonoBehaviour
 
     public void CreateMovingFloor()
     {
-        for (int i = 0; i < movingFloors.Count; i++)
+        for (int i = 0; i < movingFloors.Length; i++)
         {
             movingFloorPrefab = Resources.Load<GameObject>("Prefabs/Ground/Moving Grass");
-            movingFloor = Instantiate(movingFloorPrefab,movingGroundPositions[i],Quaternion.identity,movingFloors[i].transform);
-            movingFloors[i] = movingFloor;
+            movingFloors[i] = Instantiate(movingFloorPrefab,movingGroundPositions[i],Quaternion.identity,transform.GetChild(1).transform);
+            movingFloors[i].name = "Moving Floor" + movingFloors[i].transform.GetSiblingIndex();
 
             movingFloors[i].GetComponent<MovingFloorControl>().MovementDirectionUp = MovingFloorDirectionMovement[i];
 
@@ -322,13 +320,19 @@ public class PlartformManager : MonoBehaviour
 
 
 
-    public void PositionDataHold(ref Vector2[] positionData, List<Vector2> savePositionData)
+    public void DataHold(ref Vector2[] data, List<Vector2> saveData)
     {
-        savePositionData = new List<Vector2>(positionData);
-        savePositionData.Add(new Vector2());
-        positionData = savePositionData.ToArray();
+        saveData = new List<Vector2>(data);
+        saveData.Add(new Vector2());
+        data = saveData.ToArray();
     }
 
+    public void DataHold(ref bool[] data, List<bool> saveData)
+    {
+        saveData = new List<bool>(data);
+        saveData.Add(new bool());
+        data = saveData.ToArray();
+    }
 
 }
 
@@ -360,6 +364,7 @@ class PlartformManagerEditor : Editor
         #region  MovingFloor has  Members
 
         EditorGUILayout.PropertyField(serializedObject.FindProperty("movingFloorPrefab"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("movingFloorsIndex"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("movingFloors"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("numberMovementGroundPoints"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("movingGroundPositions"));
@@ -378,19 +383,17 @@ class PlartformManagerEditor : Editor
             if(GUILayout.Button("Generate Motion Floor",GUILayout.MinWidth(100),GUILayout.MaxWidth(300)))
             {   
                 
-                plartformManager.MovingFloor = new GameObject();
-                plartformManager.MovingFloors.Add(plartformManager.MovingFloor);
-
-                plartformManager.MovingFloor .transform.parent = plartformManager.transform.GetChild(1);
-                plartformManager.MovingFloor .transform.name = "MovingFloor" +" " +plartformManager.MovingFloor.transform.GetSiblingIndex();
+                plartformManager.MovingFloorsIndex++;
+                plartformManager.MovingFloors = new GameObject[plartformManager.MovingFloorsIndex];
                 
-                plartformManager.SaveMovingFloorPositions = new List<Vector2>(plartformManager.MovingGroundPositions);
-                plartformManager.SaveMovingFloorPositions.Add(new Vector2()); 
-                plartformManager.MovingGroundPositions = plartformManager.SaveMovingFloorPositions.ToArray();
+                plartformManager.DataHold(ref plartformManager.movingGroundPositions,plartformManager.SaveMovingFloorPositions);
 
+                plartformManager.DataHold(ref plartformManager.movingFloorDirectionMovement,plartformManager.SaveMovingFloorMovemet);
+                /*
                 plartformManager.SaveMovingFloorMovemet = new List<bool>(plartformManager.MovingFloorDirectionMovement);
                 plartformManager.SaveMovingFloorMovemet.Add(new bool()); 
                 plartformManager.MovingFloorDirectionMovement = plartformManager.SaveMovingFloorMovemet.ToArray();
+                */
             }
             
         }
@@ -423,7 +426,7 @@ class PlartformManagerEditor : Editor
                 plartformManager.PassableFloors = new GameObject[plartformManager.PassableFloorsIndex];
                 
             
-                plartformManager.PositionDataHold(ref plartformManager.passableFloorPositions,plartformManager.SavePassableFloorPositions);
+                plartformManager.DataHold(ref plartformManager.passableFloorPositions,plartformManager.SavePassableFloorPositions);
             }
             
 
@@ -462,12 +465,8 @@ class PlartformManagerEditor : Editor
                 plartformManager.SlidingFloorsIndex++;
                 plartformManager.SlidingFloors = new GameObject[plartformManager.SlidingFloorsIndex];
 
-                /*
-                plartformManager.SaveSlidingFloorPositions = new List<Vector2>(plartformManager.SlidingFloorPositions);
-                plartformManager.SaveSlidingFloorPositions.Add(new Vector2()); 
-                plartformManager.SlidingFloorPositions = plartformManager.SaveSlidingFloorPositions.ToArray();
-                */
-                plartformManager.PositionDataHold(ref plartformManager.slidingFloorPositions,plartformManager.SaveSlidingFloorPositions);
+                
+                plartformManager.DataHold(ref plartformManager.slidingFloorPositions,plartformManager.SaveSlidingFloorPositions);
             }
 
         }
@@ -498,13 +497,9 @@ class PlartformManagerEditor : Editor
                 plartformManager.StonyFloorsIndex++;
                 plartformManager.StonyFloors = new GameObject[plartformManager.StonyFloorsIndex];
 
-                plartformManager.PositionDataHold(ref plartformManager.stonyFloorPositions,plartformManager.SaveStonyFloorPositions);
+                plartformManager.DataHold(ref plartformManager.stonyFloorPositions,plartformManager.SaveStonyFloorPositions);
 
-                /*
-                plartformManager.SaveStonyFloorPositions = new List<Vector2>(plartformManager.StonyFloorPositions);
-                plartformManager.SaveStonyFloorPositions.Add(new Vector2()); 
-                plartformManager.StonyFloorPositions = plartformManager.SaveStonyFloorPositions.ToArray();
-                */
+                
             }
 
         }
@@ -538,7 +533,7 @@ class PlartformManagerEditor : Editor
                 plartformManager.InhalingBombsIndex++;
                 plartformManager.InhalingBombs = new GameObject[plartformManager.InhalingBombsIndex];
 
-                plartformManager.PositionDataHold(ref plartformManager.inhalingBombPositions,plartformManager.SaveInhalingBombPositions);
+                plartformManager.DataHold(ref plartformManager.inhalingBombPositions,plartformManager.SaveInhalingBombPositions);
 
 
             }
@@ -573,7 +568,7 @@ class PlartformManagerEditor : Editor
                 plartformManager.CranblonesIndex++;
                 plartformManager.Cranbolines = new GameObject[plartformManager.CranblonesIndex];
 
-                plartformManager.PositionDataHold(ref plartformManager.cranbolinePositions,plartformManager.SaveCranbolinePositions);
+                plartformManager.DataHold(ref plartformManager.cranbolinePositions,plartformManager.SaveCranbolinePositions);
 
                
             }

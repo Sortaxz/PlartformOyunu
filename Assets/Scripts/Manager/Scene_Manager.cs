@@ -53,10 +53,10 @@ public class Scene_Manager : MonoBehaviour
 
     void Update()
     {
-        LoadScene();
+        
     }
 
-    private void LoadScene()
+    public void LoadScene()
     {
         FinishControl();
     }
@@ -81,19 +81,22 @@ public class Scene_Manager : MonoBehaviour
         yield return null;
         int loadSceneIndex = SceneManager.GetActiveScene().buildIndex ; 
 
-        if(loadSceneIndex != scenes.Length-1)
-        {
-            nextSceneIndex = loadSceneIndex + 1;
-            print(nextSceneIndex);
-        }
-        else if(loadSceneIndex == scenes.Length-1)
-        {
-            nextSceneIndex = SceneManager.GetActiveScene().buildIndex ;
-            print(nextSceneIndex);
-        }
-        SceneManager.LoadSceneAsync(nextSceneIndex,LoadSceneMode.Single);
+        nextSceneIndex = (loadSceneIndex != scenes.Length-1) ? loadSceneIndex + 1 : SceneManager.GetActiveScene().buildIndex ;
 
-        
+        AsyncOperation asyncOperation =  SceneManager.LoadSceneAsync(nextSceneIndex,LoadSceneMode.Single);
+        asyncOperation.allowSceneActivation = false;
+        while (!asyncOperation.isDone)
+        {
+            if (asyncOperation.progress >= 0.9f)
+            {
+                yield return null;
+                asyncOperation.allowSceneActivation = true;
+            }
+
+            yield return null;
+            
+        }
     }
+    
         
 }

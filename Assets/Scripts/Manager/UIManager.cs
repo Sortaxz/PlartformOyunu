@@ -21,7 +21,8 @@ public class UIManager : MonoBehaviour
     }
     private GameManager gameManager;
     private Scene_Manager scene_Manager;
-
+    [SerializeField] private UI_Elemets uI_Elemets;
+    public UI_Elemets UI_Elemets { get { return uI_Elemets;}}
     [SerializeField] private Image heartLeftImage;
     [SerializeField] private Image heartMiddleImage;
     [SerializeField] private Image heartRightImage;
@@ -46,6 +47,10 @@ public class UIManager : MonoBehaviour
             return hasItemChange;
         }
     }
+
+    [SerializeField] string sentenceWrite = "";
+    
+    [SerializeField] private float proggresAddedValue; 
     private bool characterLifeReset = false;
     public bool CharacterLifeReset { get; set; }
 
@@ -54,11 +59,13 @@ public class UIManager : MonoBehaviour
 
     private bool transitionScreenOver = false;
     public bool TransitionScreenOver { get { return transitionScreenOver;} set { transitionScreenOver = value; } }
-
+    /*
     private bool stageTransition =false;
     public bool StageTransition { get { return stageTransition;} set { stageTransition = value; } }
 
-
+    private bool stageTransitionEnds = false;
+    public bool StageTransitionEnds { get { return stageTransitionEnds;} set { stageTransitionEnds = value; } }
+    */
     private float imageRgbA  =0f;
     private float textRgbA  =0f;
 
@@ -66,7 +73,7 @@ public class UIManager : MonoBehaviour
     {
         gameManager = GameManager.Instance;
         scene_Manager = Scene_Manager.Instance;
-        
+        uI_Elemets = sahneGecisEkrani.GetComponent<UI_Elemets>();
     }
 
     void Update()
@@ -74,12 +81,46 @@ public class UIManager : MonoBehaviour
         UIInputControl();
         LifeDecreaseAndReset();
 
-        SceneGecisi();
+        
+        LevelTransition();
+    }
+
+    public void LevelTransition()
+    {
+        /*
+        if(stageTransition)
+        {
+            uI_Elemets.SetAnimator("startTransition",true);
+            uI_Elemets.StartTransitionText = true;
+            stageTransition = false; 
+        }
+        */
+        if(uI_Elemets.StartTransitionText)
+        {
+            StartCoroutine(uI_Elemets.StartAnimationTransitionText(sentenceWrite));
+            uI_Elemets.StartTransitionText = false;
+        }
+        if(uI_Elemets.IsProgresStart)
+        {
+            uI_Elemets.ProgresInstallation(proggresAddedValue);
+        }
+        if(uI_Elemets.EndTransitionText)
+        {
+            StartCoroutine(uI_Elemets.EndAnimationTransitionText());
+            uI_Elemets.EndTransitionText= false;
+        }
+        /*
+        if(stageTransitionEnds)
+        {
+            uI_Elemets.SetAnimator("endTransition",true);
+            stageTransitionEnds =false;
+        }
+        */
     }
 
     private void SceneGecisi()
     {
-        if(stageTransition)
+        if(gameManager.StageTransition)
         {
             
                 if(!transitionScreenOver)
@@ -115,7 +156,7 @@ public class UIManager : MonoBehaviour
                         if(imageRgbA <= 0f)
                         {
                             transitionScreenOver = false;
-                            stageTransition =false;
+                            gameManager.StageTransition =false;
                             scene_Manager.IsStageTransition = true;
                                 
                         }
