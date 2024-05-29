@@ -63,7 +63,10 @@ public class Spawner : MonoBehaviour
 
     void Start()
     {
-        fireballPosition = gameManager.mainCharacter.transform.GetChild(0).transform; 
+        if(gameManager.mainCharacter != null)
+        {
+            fireballPosition = gameManager.mainCharacter.transform.GetChild(0).transform; 
+        }
     }
 
     void Update()
@@ -108,7 +111,7 @@ public class Spawner : MonoBehaviour
     }
 
 
-    private void SpawnCheckPoint()
+    public void SpawnCheckPoint()
     {
         for (int i = 0; i < checkPoints.Length; i++)
         {
@@ -129,6 +132,7 @@ class SpawnerEditor : Editor
     {
         Spawner spawner = (Spawner)target;
         
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("character"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("fireball"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("checkPointsIndex"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("checkPoints"));

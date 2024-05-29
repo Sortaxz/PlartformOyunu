@@ -662,6 +662,7 @@ MonoBehaviour:
   fireballTimerCounter: 10
   isCharacterOnPoint: 0
   cameraScaleChangeTime: 0.01
+  birKere: 1
   windPrefab: {fileID: 6732087896462657310, guid: e607c582a419ab546a2da288886245cb, type: 3}
   aerialWindPrefab: {fileID: 6732087896462657310, guid: a9555b543a1c3ba43a8456a655cce8f4, type: 3}
   windObjects:
@@ -1352,7 +1353,7 @@ MonoBehaviour:
   - {x: 60, y: 1}
   movingFloorDirectionMovement: 0001
   startCreateMovingFloor: 0
-  movingFloorbuttonClose: 0
+  movingFloorbuttonClose: 1
   movingFloorsIndex: 2
   passableFloorPrefab: {fileID: 0}
   passableFloors:
@@ -2111,8 +2112,8 @@ MonoBehaviour:
   gecisEkranYazisi: {fileID: 5094676959739473144}
   scenes:
   - {fileID: 102900000, guid: 2cda990e2423bbf4892e6590ba056729, type: 3}
-  - {fileID: 102900000, guid: e52e9db0d636aa348ac7e7eefc3d5dc4, type: 3}
-  - {fileID: 102900000, guid: 6bac8bba6386dc545a10b2f642e7669b, type: 3}
+  - {fileID: 102900000, guid: 67a3c5d85f265744bb3d7e705f72838c, type: 3}
+  - {fileID: 102900000, guid: d18155384d3def14791383bd1c7b6818, type: 3}
 --- !u!4 &1891976055
 Transform:
   m_ObjectHideFlags: 0
@@ -2512,6 +2513,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6896c34171b6a96439acffbf9ec43392, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiImageAnimator: {fileID: 0}
   transitionText: {fileID: 5094676959739473144}
   progres: {fileID: 27457957}
 --- !u!222 &5018801334222711050

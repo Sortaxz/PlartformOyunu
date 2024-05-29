@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
 
     public CharacterControl mainCharacter;
     [SerializeField] private UI_Elemets uI_Elemets;
+
     private Transform LeftWindPosition;
     private Transform RightWindPosition;
     [SerializeField] private Vector3 cameraMesafesi;
@@ -33,14 +34,13 @@ public class GameManager : MonoBehaviour
     public bool Finish {get {return finish;} set {finish = value;}}
     [SerializeField] private float cameraScaleChangeTime;
 
-    private bool stageTransitionEnds = false;
-    public bool StageTransitionEnds { get { return stageTransitionEnds;} set { stageTransitionEnds = value; } }
-
     private bool stageTransition =false;
     public bool StageTransition { get { return stageTransition;} set { stageTransition = value; } }
 
-    private bool transitionAnimationFinished = false;
-    public bool TransitionAnimationFinished { get { return transitionAnimationFinished;} set { transitionAnimationFinished = value; } }
+    private bool sceneReadyToLoad =false;
+    public bool SceneReadyToLoad { get { return sceneReadyToLoad;} set { sceneReadyToLoad = value; } }
+    
+    public bool birKere = true;
 
     #region WindObject members
 
@@ -137,24 +137,17 @@ public class GameManager : MonoBehaviour
 
         if(stageTransition)
         {
-            uI_Elemets.SetAnimator("startTransition",true);
-            uI_Elemets.StartTransitionText = true;
-            stageTransition = false; 
+            UIManager.Instance.LevelTransition();
+            
+            Scene_Manager.Instance.LoadScene();
+
         }
-        if(stageTransitionEnds)
-        {
-            uI_Elemets.SetAnimator("endTransition",true);
-            stageTransitionEnds =false;
-            transitionAnimationFinished = true;
-        }
-        if(transitionAnimationFinished)
-        {
-            Scene_Manager.Instance.IsStageTransition = true;
-            transitionAnimationFinished = false;
-        }
-        Scene_Manager.Instance.LoadScene();
+
+      
+        
 
     }
+    
 
     private void IsWindStillBlowingOrEnemyFirebal()
     {
@@ -201,7 +194,7 @@ public class GameManager : MonoBehaviour
     }
     private void CharcterCheckPoint()
     {
-        if (!isCharacterOnPoint)
+        if (!isCharacterOnPoint && !birKere)
         {
             if (mainCharacter.IsCharacterDead)
             {

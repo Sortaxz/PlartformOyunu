@@ -2513,6 +2513,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6896c34171b6a96439acffbf9ec43392, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiImageAnimator: {fileID: 0}
   transitionText: {fileID: 5094676959739473144}
   progres: {fileID: 27457957}
 --- !u!222 &5018801334222711050

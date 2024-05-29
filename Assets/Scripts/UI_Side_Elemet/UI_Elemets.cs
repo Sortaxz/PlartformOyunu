@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class UI_Elemets : MonoBehaviour
 {
-    private Animator uiImageAnimator;
+    [SerializeField] private Animator uiImageAnimator;
     private bool startTransitionText = false;
     public bool StartTransitionText { get { return startTransitionText; }  set { startTransitionText = value; } }
      private bool endTransitionText = false;
@@ -14,17 +14,15 @@ public class UI_Elemets : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI transitionText; 
     [SerializeField] private Slider progres;
-    private bool isProgresStart = false;
-    public bool IsProgresStart { get { return isProgresStart;} set { isProgresStart = value;}}
+    
     string textWordWrite;
     private void Awake() 
     {
         uiImageAnimator = GetComponent<Animator>(); 
-
+    
     }
     void Start()
     {
-        
         
     }
 
@@ -32,11 +30,14 @@ public class UI_Elemets : MonoBehaviour
     {
         
     }
-    public void SetAnimator(string animationName,bool value)
+    public void SetAnimatorBool(string animationName,bool value)
     {
         uiImageAnimator.SetBool(animationName,value);
     }
-    
+    public void ResetTriggerMethod(string resetAnimationName)
+    {
+        uiImageAnimator.ResetTrigger(resetAnimationName);
+    }
     public IEnumerator StartAnimationTransitionText(string text)
     {
 
@@ -50,14 +51,13 @@ public class UI_Elemets : MonoBehaviour
             if(i == textWordWrite.Length - 1)
             {
                 i= textWordWrite.Length;
-                isProgresStart = true;
+                UIManager.Instance.IsProgresStart = true;
                 break;
             }
         }
     }
     public IEnumerator EndAnimationTransitionText()
     {
-
         for (int j = textWordWrite.Length-1; j >= 0; j--)
         {
             yield return new WaitForSeconds(.1f);
@@ -69,10 +69,10 @@ public class UI_Elemets : MonoBehaviour
             
             if(j == 0)
             {
-                //UIManager.Instance.StageTransitionEnds = true;
-                GameManager.Instance.StageTransitionEnds = true;
                 j= 0;
+                UIManager.Instance.StageTransitionAnimationEnds = true;
                 break;
+                
             }
         }
     }
@@ -87,9 +87,10 @@ public class UI_Elemets : MonoBehaviour
         }
         else if(progres.value >= 1f)
         {
-            isProgresStart = false;
+            progres.value = 0f;
+            UIManager.Instance.TransitionTextAnimationStarts = true;
+            UIManager.Instance.IsProgresStart = false;
             progres.gameObject.SetActive(false);
-            endTransitionText = true;
 
         }
     }

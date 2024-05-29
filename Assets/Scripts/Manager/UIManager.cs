@@ -59,13 +59,18 @@ public class UIManager : MonoBehaviour
 
     private bool transitionScreenOver = false;
     public bool TransitionScreenOver { get { return transitionScreenOver;} set { transitionScreenOver = value; } }
-    /*
-    private bool stageTransition =false;
-    public bool StageTransition { get { return stageTransition;} set { stageTransition = value; } }
+    
+    private bool stageTransitionAnimationStarts = false;
+    
+    private bool stageTransitionAnimationEnds = false;
+    public bool StageTransitionAnimationEnds { get { return stageTransitionAnimationEnds;} set{ stageTransitionAnimationEnds = value; } }
+    
+    private bool transitionTextAnimationStarts  =false;
+    public bool TransitionTextAnimationStarts { get { return transitionTextAnimationStarts;} set { transitionTextAnimationStarts = value;}}
 
-    private bool stageTransitionEnds = false;
-    public bool StageTransitionEnds { get { return stageTransitionEnds;} set { stageTransitionEnds = value; } }
-    */
+    private bool isProgresStart = false;
+    public bool IsProgresStart { get { return isProgresStart;} set { isProgresStart = value;}}
+
     private float imageRgbA  =0f;
     private float textRgbA  =0f;
 
@@ -82,41 +87,38 @@ public class UIManager : MonoBehaviour
         LifeDecreaseAndReset();
 
         
-        LevelTransition();
     }
 
     public void LevelTransition()
     {
-        /*
-        if(stageTransition)
-        {
-            uI_Elemets.SetAnimator("startTransition",true);
-            uI_Elemets.StartTransitionText = true;
-            stageTransition = false; 
-        }
-        */
-        if(uI_Elemets.StartTransitionText)
-        {
-            StartCoroutine(uI_Elemets.StartAnimationTransitionText(sentenceWrite));
-            uI_Elemets.StartTransitionText = false;
-        }
-        if(uI_Elemets.IsProgresStart)
-        {
-            uI_Elemets.ProgresInstallation(proggresAddedValue);
-        }
-        if(uI_Elemets.EndTransitionText)
-        {
-            StartCoroutine(uI_Elemets.EndAnimationTransitionText());
-            uI_Elemets.EndTransitionText= false;
-        }
-        /*
-        if(stageTransitionEnds)
-        {
-            uI_Elemets.SetAnimator("endTransition",true);
-            stageTransitionEnds =false;
-        }
-        */
+            stageTransitionAnimationStarts = true;
+            if(stageTransitionAnimationStarts)
+            {
+                uI_Elemets.SetAnimatorBool("startTransition",true);
+                print("startTransition");
+                stageTransitionAnimationStarts = false;
+            }
+            
+            if(isProgresStart)
+            {
+                uI_Elemets.ProgresInstallation(proggresAddedValue);
+                print("ProgresStart");
+            }
+            if(transitionTextAnimationStarts)
+            {
+                uI_Elemets.SetAnimatorBool("endTextTransition",true);
+                print("endTextTransition");
+            }
+            if(stageTransitionAnimationEnds)
+            {
+                uI_Elemets.SetAnimatorBool("endTransition",true);
+                print("endTransition");
+                scene_Manager.IsStageTransition = true;
+                stageTransitionAnimationEnds= false;
+
+            }
     }
+
 
     private void SceneGecisi()
     {
@@ -171,7 +173,7 @@ public class UIManager : MonoBehaviour
 
     private void LifeDecreaseAndReset()
     {
-        if (!characterLifeReset)
+        if (!characterLifeReset )
         {
             if (gameManager.mainCharacter.HitObstacle)
             {
@@ -195,8 +197,12 @@ public class UIManager : MonoBehaviour
             {
                 HeartFillAmountControl(0.001f);
             }
+            else
+            {
+                gameManager.mainCharacter.LifeDwindling = false;
+            }
         }
-        else
+        else if(characterLifeReset )
         {
 
             GameManager.Instance.isCharacterOnPoint = true;

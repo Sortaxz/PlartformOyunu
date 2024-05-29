@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -37,6 +36,7 @@ public class Scene_Manager : MonoBehaviour
     {
     }
 
+    //düzeltilicek kod
     public string GetNextSceneName()
     {
         activeSceneBuildingIndex = SceneManager.GetActiveScene().buildIndex;
@@ -63,8 +63,6 @@ public class Scene_Manager : MonoBehaviour
 
     private void FinishControl()
     {
-        
-
         if(isStageTransition)
         {
             StartCoroutine(NewLevel());
@@ -75,26 +73,26 @@ public class Scene_Manager : MonoBehaviour
 
     
     
-
     IEnumerator NewLevel()
     {
         yield return null;
         int loadSceneIndex = SceneManager.GetActiveScene().buildIndex ; 
 
-        nextSceneIndex = (loadSceneIndex != scenes.Length-1) ? loadSceneIndex + 1 : SceneManager.GetActiveScene().buildIndex ;
-
-        AsyncOperation asyncOperation =  SceneManager.LoadSceneAsync(nextSceneIndex,LoadSceneMode.Single);
-        asyncOperation.allowSceneActivation = false;
-        while (!asyncOperation.isDone)
+        if(loadSceneIndex != scenes.Length-1)
         {
-            if (asyncOperation.progress >= 0.9f)
-            {
-                yield return null;
-                asyncOperation.allowSceneActivation = true;
-            }
+            nextSceneIndex = loadSceneIndex + 1;
+        }
+        else if(loadSceneIndex == scenes.Length-1)
+        {
+            nextSceneIndex = SceneManager.GetActiveScene().buildIndex ;
+        }
 
-            yield return null;
-            
+
+        
+        AsyncOperation asyncOperation =  SceneManager.LoadSceneAsync(nextSceneIndex,LoadSceneMode.Single);
+        if(asyncOperation.isDone)
+        {
+            GameManager.Instance.birKere = true;
         }
     }
     
