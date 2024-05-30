@@ -80,6 +80,8 @@ public class Spawner : MonoBehaviour
             currentSpawnIndex = PlayerPrefs.GetInt("CheckPoint");
             spawnCharacter = Instantiate(character, checkPoints[currentSpawnIndex] .transform.position, Quaternion.identity);
             
+            //spawnCharacter = Instantiate(character, CheckPointController.CheckPointPosition(), Quaternion.identity);
+            
             
             charcterParent = spawnCharacter.transform.parent;
             gameManager.RegisterMainCharacter(spawnCharacter.GetComponent<CharacterControl>());

@@ -18,8 +18,11 @@ public class CheckPointController : MonoBehaviour
     private void Awake() 
     {
         checkPointSPR = GetComponent<SpriteRenderer>();    
-        checkPointSiblingIndex = transform.GetSiblingIndex();
         checkPointAnimator = GetComponent<Animator>();
+        if(transform.GetSiblingIndex() == 0)
+        {
+            checkPointTransfom = transform.position;
+        }
     }
 
    
@@ -34,10 +37,7 @@ public class CheckPointController : MonoBehaviour
         {
             siblingIndex = checkPointSiblingIndex;
             checkPointTransfom = transform.position;
-        }
-        else
-        {
-
+            PlayerPrefs.SetInt("CheckPoint",siblingIndex);
         }
     }
     
@@ -45,7 +45,8 @@ public class CheckPointController : MonoBehaviour
     {
         if(other.CompareTag("Player"))
         {
-            
+            checkPointSiblingIndex = transform.GetSiblingIndex();
+            print(checkPointSiblingIndex);
             checkPointAnimator.SetBool("StartCheckPointAnimation",true);
             
             CheckPointControl();

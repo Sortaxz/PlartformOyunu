@@ -11,7 +11,6 @@ public class SpakeController : MonoBehaviour
     private bool distortion  =false;
     public float SpakeDurationTime { get => spakeDurationTime; set => spakeDurationTime = value; }
     private PolygonCollider2D spakePolygonCollider;
-
     private void Awake() 
     {
         spakePolygonCollider = GetComponent<PolygonCollider2D>();
@@ -45,6 +44,7 @@ public class SpakeController : MonoBehaviour
                 StartCoroutine(SpakeDurationMovement(spakeDurationTime));
                 distortion =true;
             }
+            
         }     
     }
     private void OnTriggerExit2D(Collider2D other) 
@@ -63,6 +63,10 @@ public class SpakeController : MonoBehaviour
         yield return new WaitForSeconds(spakeDurationTime);
         transform.position = new Vector3(transform.position.x,-2.31f,transform.position.z);
         transform.localScale = new Vector3(transform.localScale.x,0.1f);
+        if(transform.localScale.y <= 0.1f)
+        {
+            GameManager.Instance.mainCharacter.LifeDwindling = false;
+        }
         spakePolygonCollider.isTrigger = true;
     }
     

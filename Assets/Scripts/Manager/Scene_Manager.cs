@@ -31,7 +31,7 @@ public class Scene_Manager : MonoBehaviour
     private string sceneName;
     public string SceneName { get { return sceneName; } }
     [SerializeField] private SceneAsset[] scenes;
-    private int nextSceneIndex;
+    private int nextSceneIndex = 0;
     private void Awake()
     {
     }
@@ -43,11 +43,12 @@ public class Scene_Manager : MonoBehaviour
         int index = activeSceneBuildingIndex;
         switch (activeSceneBuildingIndex)
         {
-            case var x when index == activeSceneBuildingIndex:
+            case var x when index == activeSceneBuildingIndex && activeSceneBuildingIndex <= scenes.Length-1:
                 sceneName = $"Level-{x+1}";
                 break;
         }
         return sceneName;
+        
     }
 
 
@@ -89,11 +90,14 @@ public class Scene_Manager : MonoBehaviour
 
 
         
+        
         AsyncOperation asyncOperation =  SceneManager.LoadSceneAsync(nextSceneIndex,LoadSceneMode.Single);
+        
         if(asyncOperation.isDone)
         {
-            GameManager.Instance.birKere = true;
+            GameManager.Instance.LevelStartAnimation = true;
         }
+
     }
     
         

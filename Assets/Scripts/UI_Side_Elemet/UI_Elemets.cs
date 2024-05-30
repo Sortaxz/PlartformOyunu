@@ -51,6 +51,7 @@ public class UI_Elemets : MonoBehaviour
             if(i == textWordWrite.Length - 1)
             {
                 i= textWordWrite.Length;
+                UIManager.Instance.StageTransitionAnimationStarts = false;
                 UIManager.Instance.IsProgresStart = true;
                 break;
             }
@@ -58,7 +59,7 @@ public class UI_Elemets : MonoBehaviour
     }
     public IEnumerator EndAnimationTransitionText()
     {
-        for (int j = textWordWrite.Length-1; j >= 0; j--)
+        for (int j = textWordWrite.Length-1; j >=0; j--)
         {
             yield return new WaitForSeconds(.1f);
             if(transitionText.text.Contains(textWordWrite[j]))
@@ -76,6 +77,7 @@ public class UI_Elemets : MonoBehaviour
             }
         }
     }
+    /*
     public void ProgresInstallation(float addedValue)
     {
 
@@ -90,6 +92,24 @@ public class UI_Elemets : MonoBehaviour
             progres.value = 0f;
             UIManager.Instance.TransitionTextAnimationStarts = true;
             UIManager.Instance.IsProgresStart = false;
+            progres.gameObject.SetActive(false);
+
+        }
+    }
+    */
+    public IEnumerator ProgresInstallation(float addedValue)
+    {
+        if(progres.value < 1f)
+        {
+            progres.gameObject.SetActive(true);
+            progres.value += addedValue * Time.deltaTime;
+            yield return new WaitForSeconds(0);
+        }
+        else if(progres.value >= 1f)
+        {
+            progres.value = 0f;
+            UIManager.Instance.IsProgresStart = false;
+            UIManager.Instance.TransitionTextAnimationStarts = true;
             progres.gameObject.SetActive(false);
 
         }

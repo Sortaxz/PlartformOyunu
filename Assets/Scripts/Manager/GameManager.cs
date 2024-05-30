@@ -28,7 +28,6 @@ public class GameManager : MonoBehaviour
     {
         get { return fireballSpeed; }
     }
-    [SerializeField]private float fireballTimerCounter;
     public bool isCharacterOnPoint = false;
     private bool finish = false;
     public bool Finish {get {return finish;} set {finish = value;}}
@@ -40,7 +39,10 @@ public class GameManager : MonoBehaviour
     private bool sceneReadyToLoad =false;
     public bool SceneReadyToLoad { get { return sceneReadyToLoad;} set { sceneReadyToLoad = value; } }
     
-    public bool birKere = true;
+    private static bool levelStartAnimation  =true;
+    public bool LevelStartAnimation { get { return levelStartAnimation;} set { levelStartAnimation = value; } }
+
+    [SerializeField] private float holdForSeconds;
 
     #region WindObject members
 
@@ -119,10 +121,18 @@ public class GameManager : MonoBehaviour
         LeftWindPosition = transform.GetChild(0);
         RightWindPosition = transform.GetChild(1);
         
+        if(levelStartAnimation && SceneManager.GetActiveScene().buildIndex != 0)
+        {
+            print("Level Animasyonu başladi");
+            levelStartAnimation = false;
+        }
+
+        
     }
     private void Start() 
     {
         Spawner.Instance.SpawnCharacter();
+        
         
     }
     void Update()
@@ -130,21 +140,23 @@ public class GameManager : MonoBehaviour
         CharcterCheckPoint();
         CameraPositionControl();
         
-        IsWindStillBlowingOrEnemyFirebal();
+        //IsWindStillBlowingOrEnemyFirebal();
         
-        CreateWindObject();
-        CreateEnemyFireballObject();
+        //CreateWindObject();
+        //CreateEnemyFireballObject();
 
         if(stageTransition)
         {
-            UIManager.Instance.LevelTransition();
-            
+            //StartCoroutine(UIManager.Instance.TransitionBetweenLevels());
+            UIManager.Instance.LevelTransition(holdForSeconds);
             Scene_Manager.Instance.LoadScene();
-
         }
 
-      
-        
+       
+        if(sceneReadyToLoad)
+        {
+            Scene_Manager.Instance.IsStageTransition = true;
+        }
 
     }
     
@@ -194,7 +206,7 @@ public class GameManager : MonoBehaviour
     }
     private void CharcterCheckPoint()
     {
-        if (!isCharacterOnPoint && !birKere)
+        if (!isCharacterOnPoint && mainCharacter != null)
         {
             if (mainCharacter.IsCharacterDead)
             {

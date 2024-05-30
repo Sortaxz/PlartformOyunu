@@ -61,7 +61,7 @@ public class CharacterControl : MonoBehaviour
     public bool IsAerialWind { get => isAerialWind; set => isAerialWind = value;}
 
     
-    private  int spawnPointSiblingIndex = default;
+    //private  int spawnPointSiblingIndex = default;
 
    
     private void Awake() 
@@ -127,10 +127,12 @@ public class CharacterControl : MonoBehaviour
         }
         if(other.collider.CompareTag("obstacle"))
         {
-            characterHealthDecrease  =false;
+            characterHealthDecrease  =true;
             hitObstacle = false;
             isCharacterAbove = false;
+           
             lifeDwindling = true;
+            
             startHurtAnimation  =true;
         }
         if(other.collider.CompareTag("Enemy"))
@@ -148,6 +150,7 @@ public class CharacterControl : MonoBehaviour
             characterHealthDecrease  =false;
             hitObstacle = false;
             startHurtAnimation = false;
+            print("Exit");
         } 
         if(other.collider.CompareTag("Enemy"))
         {
@@ -171,8 +174,8 @@ public class CharacterControl : MonoBehaviour
     {
         if(other.CompareTag("CheckPoint"))
         {
-            spawnPointSiblingIndex =  other.transform.GetSiblingIndex();
-            PlayerPrefs.SetInt("CheckPoint",spawnPointSiblingIndex);
+            //spawnPointSiblingIndex =  other.transform.GetSiblingIndex();
+            
         } 
         if(other.CompareTag("Cranboline"))
         {

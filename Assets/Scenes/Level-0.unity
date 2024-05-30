@@ -659,10 +659,9 @@ MonoBehaviour:
   uI_Elemets: {fileID: 3991327544907816752}
   cameraMesafesi: {x: 1, y: 2, z: -30}
   fireballSpeed: 800
-  fireballTimerCounter: 10
   isCharacterOnPoint: 0
   cameraScaleChangeTime: 0.01
-  birKere: 0
+  holdForSeconds: 5
   windPrefab: {fileID: 6732087896462657310, guid: e607c582a419ab546a2da288886245cb, type: 3}
   aerialWindPrefab: {fileID: 6732087896462657310, guid: a9555b543a1c3ba43a8456a655cce8f4, type: 3}
   windObjects:
@@ -1536,6 +1535,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uI_Elemets: {fileID: 0}
+  uI_ElemetsAnimator: {fileID: 0}
   heartLeftImage: {fileID: 120121163}
   heartMiddleImage: {fileID: 1384008934}
   heartRightImage: {fileID: 1451692463}
@@ -1543,7 +1543,6 @@ MonoBehaviour:
   itemImage: {fileID: 0}
   sahneGecisEkrani: {fileID: 1892085319772121911}
   gecisEkranYazisi: {fileID: 5094676959739473144}
-  sentenceWrite: Win
   proggresAddedValue: 0.2
 --- !u!114 &1286193988
 MonoBehaviour:
@@ -1791,14 +1790,14 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   checkPointsPosition:
-  - {x: -19, y: -1.7}
-  - {x: 50, y: -1.7}
-  - {x: 100, y: -1.7}
+  - {x: -19, y: -1}
+  - {x: 50, y: -1}
+  - {x: 108, y: -1}
   character: {fileID: 0}
   fireball: {fileID: 0}
   checkPointPrefab: {fileID: 0}
   fireballPosition: {fileID: 0}
-  checkPointsIndex: 4
+  checkPointsIndex: 3
 --- !u!1 &1460577465
 GameObject:
   m_ObjectHideFlags: 0

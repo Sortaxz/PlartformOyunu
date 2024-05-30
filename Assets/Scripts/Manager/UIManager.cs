@@ -21,8 +21,13 @@ public class UIManager : MonoBehaviour
     }
     private GameManager gameManager;
     private Scene_Manager scene_Manager;
+
     [SerializeField] private UI_Elemets uI_Elemets;
     public UI_Elemets UI_Elemets { get { return uI_Elemets;}}
+    
+    [SerializeField] private Animator uI_ElemetsAnimator;
+
+
     [SerializeField] private Image heartLeftImage;
     [SerializeField] private Image heartMiddleImage;
     [SerializeField] private Image heartRightImage;
@@ -48,7 +53,6 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    [SerializeField] string sentenceWrite = "";
     
     [SerializeField] private float proggresAddedValue; 
     private bool characterLifeReset = false;
@@ -61,6 +65,7 @@ public class UIManager : MonoBehaviour
     public bool TransitionScreenOver { get { return transitionScreenOver;} set { transitionScreenOver = value; } }
     
     private bool stageTransitionAnimationStarts = false;
+    public  bool StageTransitionAnimationStarts { get { return stageTransitionAnimationStarts;} set { stageTransitionAnimationStarts = value;}}
     
     private bool stageTransitionAnimationEnds = false;
     public bool StageTransitionAnimationEnds { get { return stageTransitionAnimationEnds;} set{ stageTransitionAnimationEnds = value; } }
@@ -71,14 +76,18 @@ public class UIManager : MonoBehaviour
     private bool isProgresStart = false;
     public bool IsProgresStart { get { return isProgresStart;} set { isProgresStart = value;}}
 
+    private bool secondsReadyStart = false;
+
     private float imageRgbA  =0f;
     private float textRgbA  =0f;
 
+    private float seconds = 0f;
     private void Awake()
     {
         gameManager = GameManager.Instance;
         scene_Manager = Scene_Manager.Instance;
         uI_Elemets = sahneGecisEkrani.GetComponent<UI_Elemets>();
+        uI_ElemetsAnimator = uI_Elemets.GetComponent<Animator>();
     }
 
     void Update()
@@ -89,36 +98,84 @@ public class UIManager : MonoBehaviour
         
     }
 
-    public void LevelTransition()
+    public void LevelTransition(float holdForSeconds)
     {
-            stageTransitionAnimationStarts = true;
+        /*
+            if(!stageTransitionAnimationStarts)
+            {
+                stageTransitionAnimationStarts = true;
+            }
             if(stageTransitionAnimationStarts)
             {
                 uI_Elemets.SetAnimatorBool("startTransition",true);
-                print("startTransition");
-                stageTransitionAnimationStarts = false;
             }
             
             if(isProgresStart)
             {
-                uI_Elemets.ProgresInstallation(proggresAddedValue);
-                print("ProgresStart");
+                StartCoroutine(uI_Elemets.ProgresInstallation(proggresAddedValue));
             }
             if(transitionTextAnimationStarts)
             {
                 uI_Elemets.SetAnimatorBool("endTextTransition",true);
-                print("endTextTransition");
             }
             if(stageTransitionAnimationEnds)
             {
                 uI_Elemets.SetAnimatorBool("endTransition",true);
-                print("endTransition");
                 scene_Manager.IsStageTransition = true;
                 stageTransitionAnimationEnds= false;
+                //gameManager.SceneReadyToLoad = true;
 
             }
+        */
+        if(!stageTransitionAnimationStarts)
+        {
+            stageTransitionAnimationStarts = true;
+        }
+        else
+        {
+            uI_ElemetsAnimator.SetBool("startTransition",true);
+        }
+
+        if(isProgresStart)
+        {
+            StartCoroutine(uI_Elemets.ProgresInstallation(proggresAddedValue));
+        }
+        
+
+        if(transitionTextAnimationStarts)
+        {
+            uI_ElemetsAnimator.SetBool("startTransition",false);
+            uI_ElemetsAnimator.SetBool("endTextTransition",true);
+        }
+
+
+        if(stageTransitionAnimationEnds)
+        {
+            uI_ElemetsAnimator.SetBool("endTextTransition",false);
+            uI_ElemetsAnimator.SetBool("endTransition",true);
+            stageTransitionAnimationEnds = false;
+            //scene_Manager.IsStageTransition = true;
+            secondsReadyStart = true;
+        }
+
+        if(secondsReadyStart)
+        {
+            seconds += Time.deltaTime;
+            
+            if(seconds > holdForSeconds)
+            {
+                gameManager.StageTransition = false;
+                scene_Manager.IsStageTransition = true;
+            }
+        }
+
+        
     }
 
+    
+
+
+   
 
     private void SceneGecisi()
     {
