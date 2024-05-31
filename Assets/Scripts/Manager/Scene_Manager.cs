@@ -36,14 +36,13 @@ public class Scene_Manager : MonoBehaviour
     {
     }
 
-    //düzeltilicek kod
     public string GetNextSceneName()
     {
         activeSceneBuildingIndex = SceneManager.GetActiveScene().buildIndex;
         int index = activeSceneBuildingIndex;
         switch (activeSceneBuildingIndex)
         {
-            case var x when index == activeSceneBuildingIndex && activeSceneBuildingIndex <= scenes.Length-1:
+            case var x when index == activeSceneBuildingIndex && activeSceneBuildingIndex < scenes.Length-1:
                 sceneName = $"Level-{x+1}";
                 break;
         }
@@ -64,11 +63,11 @@ public class Scene_Manager : MonoBehaviour
 
     private void FinishControl()
     {
-        if(isStageTransition)
+        
+        if(GameManager.Instance.StageTransition)
         {
             StartCoroutine(NewLevel());
             PlayerPrefs.DeleteAll();
-            isStageTransition = false;
         }
     }
 
@@ -89,15 +88,15 @@ public class Scene_Manager : MonoBehaviour
         }
 
 
+        StartCoroutine(UIManager.Instance.LevelTransition(GameManager.Instance.HoldForSeconds,false,GameManager.Instance._Time));
         
         
-        AsyncOperation asyncOperation =  SceneManager.LoadSceneAsync(nextSceneIndex,LoadSceneMode.Single);
-        
-        if(asyncOperation.isDone)
+        if(GameManager.Instance.SceneReadyToLoad)
         {
-            GameManager.Instance.LevelStartAnimation = true;
+            AsyncOperation asyncOperation =  SceneManager.LoadSceneAsync(nextSceneIndex,LoadSceneMode.Single);
         }
-
+        
+        
     }
     
         

@@ -11,7 +11,7 @@ public class UI_Elemets : MonoBehaviour
     public bool StartTransitionText { get { return startTransitionText; }  set { startTransitionText = value; } }
      private bool endTransitionText = false;
     public bool EndTransitionText { get { return endTransitionText; }  set { endTransitionText = value; } }
-
+    private bool isStart = false;
     [SerializeField] private TextMeshProUGUI transitionText; 
     [SerializeField] private Slider progres;
     
@@ -34,11 +34,7 @@ public class UI_Elemets : MonoBehaviour
     {
         uiImageAnimator.SetBool(animationName,value);
     }
-    public void ResetTriggerMethod(string resetAnimationName)
-    {
-        uiImageAnimator.ResetTrigger(resetAnimationName);
-    }
-    public IEnumerator StartAnimationTransitionText(string text)
+       public IEnumerator StartAnimationTransitionText(string text)
     {
 
         textWordWrite = text + "    " + Scene_Manager.Instance.GetNextSceneName();
@@ -50,9 +46,8 @@ public class UI_Elemets : MonoBehaviour
             
             if(i == textWordWrite.Length - 1)
             {
-                i= textWordWrite.Length;
-                UIManager.Instance.StageTransitionAnimationStarts = false;
                 UIManager.Instance.IsProgresStart = true;
+                i= textWordWrite.Length;
                 break;
             }
         }
@@ -70,48 +65,63 @@ public class UI_Elemets : MonoBehaviour
             
             if(j == 0)
             {
-                j= 0;
+                UIManager.Instance.TransitionTextAnimationStarts = false;
                 UIManager.Instance.StageTransitionAnimationEnds = true;
+
+                j= 0;
                 break;
                 
             }
         }
     }
-    /*
-    public void ProgresInstallation(float addedValue)
+    
+    public IEnumerator ProgresInstallation(float addedValue,bool isLoop,float time)
     {
+        if(!UIManager.Instance.IsProgresStart)
+        {
+            UIManager.Instance.IsProgresStart = true;
+        }
+        
+        if(!isLoop)
+        {
+            if(progres.value < 1f)
+            {
+                progres.gameObject.SetActive(true);
+                progres.value += addedValue * Time.deltaTime;
+                yield return null;
+            }
+            else if(progres.value >= 1f)
+            {
+                UIManager.Instance.IsProgresStart = false;
+                UIManager.Instance.TransitionTextAnimationStarts = true;
+                UIManager.Instance.StageTransitionAnimationStarts = false;
+                progres.value = 0f;
+                progres.gameObject.SetActive(false);
 
-       
-        if(progres.value < 1f)
-        {
-            progres.gameObject.SetActive(true);
-            progres.value += addedValue * Time.deltaTime;
+            }
         }
-        else if(progres.value >= 1f)
+        else
         {
-            progres.value = 0f;
-            UIManager.Instance.TransitionTextAnimationStarts = true;
-            UIManager.Instance.IsProgresStart = false;
-            progres.gameObject.SetActive(false);
+            if(!isStart)
+            {
+                while(progres.value < 1f)
+                {
+                    progres.gameObject.SetActive(true);
+                    progres.value += 0.01f * Time.deltaTime;
+                    yield return new WaitForSeconds(time * Time.deltaTime);
 
+                    if(progres.value >= 0.9f)
+                    {
+                        uiImageAnimator.SetBool("startTransition",false);
+                        UIManager.Instance.IsProgresStart = false;
+                        UIManager.Instance.TransitionTextAnimationStarts = true;
+                        progres.gameObject.SetActive(false);
+                        isStart = true;
+                        break;
+                    }
+                }
+            }
         }
-    }
-    */
-    public IEnumerator ProgresInstallation(float addedValue)
-    {
-        if(progres.value < 1f)
-        {
-            progres.gameObject.SetActive(true);
-            progres.value += addedValue * Time.deltaTime;
-            yield return new WaitForSeconds(0);
-        }
-        else if(progres.value >= 1f)
-        {
-            progres.value = 0f;
-            UIManager.Instance.IsProgresStart = false;
-            UIManager.Instance.TransitionTextAnimationStarts = true;
-            progres.gameObject.SetActive(false);
-
-        }
+        
     }
 }

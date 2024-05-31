@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -58,13 +59,10 @@ public class UIManager : MonoBehaviour
     private bool characterLifeReset = false;
     public bool CharacterLifeReset { get; set; }
 
-    private bool isTransitionOver  = false;
-    public bool IsTransitionOver { get { return isTransitionOver;}}
-
     private bool transitionScreenOver = false;
     public bool TransitionScreenOver { get { return transitionScreenOver;} set { transitionScreenOver = value; } }
     
-    private bool stageTransitionAnimationStarts = false;
+    private bool stageTransitionAnimationStarts = true;
     public  bool StageTransitionAnimationStarts { get { return stageTransitionAnimationStarts;} set { stageTransitionAnimationStarts = value;}}
     
     private bool stageTransitionAnimationEnds = false;
@@ -77,7 +75,6 @@ public class UIManager : MonoBehaviour
     public bool IsProgresStart { get { return isProgresStart;} set { isProgresStart = value;}}
 
     private bool secondsReadyStart = false;
-
     private float imageRgbA  =0f;
     private float textRgbA  =0f;
 
@@ -86,8 +83,9 @@ public class UIManager : MonoBehaviour
     {
         gameManager = GameManager.Instance;
         scene_Manager = Scene_Manager.Instance;
-        uI_Elemets = sahneGecisEkrani.GetComponent<UI_Elemets>();
-        uI_ElemetsAnimator = uI_Elemets.GetComponent<Animator>();
+        //uI_Elemets = sahneGecisEkrani.GetComponent<UI_Elemets>();
+        //uI_ElemetsAnimator = sahneGecisEkrani.GetComponent<Animator>();
+        
     }
 
     void Update()
@@ -98,53 +96,27 @@ public class UIManager : MonoBehaviour
         
     }
 
-    public void LevelTransition(float holdForSeconds)
+    public IEnumerator LevelTransition(float holdForSeconds,bool isLoop,float time)
     {
-        /*
-            if(!stageTransitionAnimationStarts)
-            {
-                stageTransitionAnimationStarts = true;
-            }
-            if(stageTransitionAnimationStarts)
-            {
-                uI_Elemets.SetAnimatorBool("startTransition",true);
-            }
-            
-            if(isProgresStart)
-            {
-                StartCoroutine(uI_Elemets.ProgresInstallation(proggresAddedValue));
-            }
-            if(transitionTextAnimationStarts)
-            {
-                uI_Elemets.SetAnimatorBool("endTextTransition",true);
-            }
-            if(stageTransitionAnimationEnds)
-            {
-                uI_Elemets.SetAnimatorBool("endTransition",true);
-                scene_Manager.IsStageTransition = true;
-                stageTransitionAnimationEnds= false;
-                //gameManager.SceneReadyToLoad = true;
 
-            }
-        */
-        if(!stageTransitionAnimationStarts)
-        {
-            stageTransitionAnimationStarts = true;
-        }
-        else
+        if(stageTransitionAnimationStarts)
         {
             uI_ElemetsAnimator.SetBool("startTransition",true);
         }
-
-        if(isProgresStart)
+        if(!stageTransitionAnimationStarts)
         {
-            StartCoroutine(uI_Elemets.ProgresInstallation(proggresAddedValue));
+
+            uI_ElemetsAnimator.SetBool("startTransition",false);
         }
         
+        if(isProgresStart)
+        {
+            StartCoroutine(uI_Elemets.ProgresInstallation(proggresAddedValue,isLoop,time));
+        }
 
         if(transitionTextAnimationStarts)
         {
-            uI_ElemetsAnimator.SetBool("startTransition",false);
+            StopAllCoroutines();
             uI_ElemetsAnimator.SetBool("endTextTransition",true);
         }
 
@@ -153,28 +125,32 @@ public class UIManager : MonoBehaviour
         {
             uI_ElemetsAnimator.SetBool("endTextTransition",false);
             uI_ElemetsAnimator.SetBool("endTransition",true);
-            stageTransitionAnimationEnds = false;
-            //scene_Manager.IsStageTransition = true;
             secondsReadyStart = true;
+            stageTransitionAnimationEnds = false;
+            gameManager.AnimationLaunched = false;
         }
 
+        
         if(secondsReadyStart)
         {
             seconds += Time.deltaTime;
             
             if(seconds > holdForSeconds)
             {
-                gameManager.StageTransition = false;
-                scene_Manager.IsStageTransition = true;
+                if(gameManager.StageTransition)
+                {
+                    gameManager.StageTransition = false;
+                    gameManager.SceneReadyToLoad = true;
+                }
             }
         }
 
-        
+        yield return null;
     }
 
     
 
-
+    
    
 
     private void SceneGecisi()
@@ -230,7 +206,7 @@ public class UIManager : MonoBehaviour
 
     private void LifeDecreaseAndReset()
     {
-        if (!characterLifeReset )
+        if (!characterLifeReset && gameManager.mainCharacter != null )
         {
             if (gameManager.mainCharacter.HitObstacle)
             {
