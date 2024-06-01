@@ -46,7 +46,6 @@ public class CheckPointController : MonoBehaviour
         if(other.CompareTag("Player"))
         {
             checkPointSiblingIndex = transform.GetSiblingIndex();
-            print(checkPointSiblingIndex);
             checkPointAnimator.SetBool("StartCheckPointAnimation",true);
             
             CheckPointControl();

@@ -25,11 +25,14 @@ public class Scene_Manager : MonoBehaviour
     
     private bool isStageTransition  =false;
     public bool IsStageTransition { get { return isStageTransition; }  set { isStageTransition = value; } }
-    private bool endScene = false;
-    public bool EndScene { get { return endScene;}}
+    private bool endLevelTransition;
+    public bool EndLevelTransition { get { return endLevelTransition;} set { endLevelTransition = value; } }
     private int activeSceneBuildingIndex;
     private string sceneName;
     public string SceneName { get { return sceneName; } }
+
+    [SerializeField] private string animationTextPerLevel;
+    [SerializeField] private string animationTextEndLevel;
     [SerializeField] private SceneAsset[] scenes;
     private int nextSceneIndex = 0;
     private void Awake()
@@ -39,13 +42,24 @@ public class Scene_Manager : MonoBehaviour
     public string GetNextSceneName()
     {
         activeSceneBuildingIndex = SceneManager.GetActiveScene().buildIndex;
-        int index = activeSceneBuildingIndex;
-        switch (activeSceneBuildingIndex)
+       
+        if(endLevelTransition)
         {
-            case var x when index == activeSceneBuildingIndex && activeSceneBuildingIndex < scenes.Length-1:
-                sceneName = $"Level-{x+1}";
-                break;
+            if(activeSceneBuildingIndex < scenes.Length-1)
+            {
+                sceneName = $"{animationTextEndLevel} Level-{activeSceneBuildingIndex + 2}";
+            }
+            else if(activeSceneBuildingIndex == scenes.Length-1)
+            {
+                sceneName = $"You Win The Game";
+
+            }
         }
+        else
+        {
+            sceneName = $"{animationTextPerLevel} Level-{activeSceneBuildingIndex + 1}";
+        }
+
         return sceneName;
         
     }
@@ -58,24 +72,6 @@ public class Scene_Manager : MonoBehaviour
 
     public void LoadScene()
     {
-        FinishControl();
-    }
-
-    private void FinishControl()
-    {
-        
-        if(GameManager.Instance.StageTransition)
-        {
-            StartCoroutine(NewLevel());
-            PlayerPrefs.DeleteAll();
-        }
-    }
-
-    
-    
-    IEnumerator NewLevel()
-    {
-        yield return null;
         int loadSceneIndex = SceneManager.GetActiveScene().buildIndex ; 
 
         if(loadSceneIndex != scenes.Length-1)
@@ -87,17 +83,28 @@ public class Scene_Manager : MonoBehaviour
             nextSceneIndex = SceneManager.GetActiveScene().buildIndex ;
         }
 
-
-        StartCoroutine(UIManager.Instance.LevelTransition(GameManager.Instance.HoldForSeconds,false,GameManager.Instance._Time));
         
-        
-        if(GameManager.Instance.SceneReadyToLoad)
+        if(nextSceneIndex < scenes.Length-1)
+        {
+            int latestSceneIndex = SceneManager.GetActiveScene().buildIndex;
+            PlayerPrefs.SetInt("latestSceneIndex",latestSceneIndex);
+            AsyncOperation asyncOperation =  SceneManager.LoadSceneAsync(3,LoadSceneMode.Single);
+            if(asyncOperation.isDone)
+            {
+                GameManager.Instance.StageTransitionOver = false;
+            }
+        }
+        else if(nextSceneIndex == scenes.Length-1)
         {
             AsyncOperation asyncOperation =  SceneManager.LoadSceneAsync(nextSceneIndex,LoadSceneMode.Single);
+            if(asyncOperation.isDone)
+            {
+                GameManager.Instance.StageTransitionOver = false;
+            }
         }
-        
-        
     }
+
+    
     
         
 }

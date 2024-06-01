@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -28,7 +29,8 @@ public class UIManager : MonoBehaviour
     
     [SerializeField] private Animator uI_ElemetsAnimator;
 
-
+    [SerializeField] private Slider progress;
+    [SerializeField] private TextMeshProUGUI gecisEkranYazisi;
     [SerializeField] private Image heartLeftImage;
     [SerializeField] private Image heartMiddleImage;
     [SerializeField] private Image heartRightImage;
@@ -38,8 +40,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image itemImage;
     
     [SerializeField] private Image sahneGecisEkrani;
-    [SerializeField] private TextMeshProUGUI gecisEkranYazisi;
-
     public Image ItemImage
     {
         get { return itemImage; }
@@ -75,16 +75,19 @@ public class UIManager : MonoBehaviour
     public bool IsProgresStart { get { return isProgresStart;} set { isProgresStart = value;}}
 
     private bool secondsReadyStart = false;
-    private float imageRgbA  =0f;
-    private float textRgbA  =0f;
+    private bool startUpProgresTransition = false;
+    public bool StartUpProgresTransition { get { return startUpProgresTransition;} set { startUpProgresTransition = value;}}
+    
+    private bool finishStartUpProgress = false;
+    public bool FinishStartUpProgress { get { return finishStartUpProgress;} set { finishStartUpProgress = value;}}
 
     private float seconds = 0f;
     private void Awake()
     {
         gameManager = GameManager.Instance;
         scene_Manager = Scene_Manager.Instance;
-        //uI_Elemets = sahneGecisEkrani.GetComponent<UI_Elemets>();
-        //uI_ElemetsAnimator = sahneGecisEkrani.GetComponent<Animator>();
+
+        
         
     }
 
@@ -96,12 +99,15 @@ public class UIManager : MonoBehaviour
         
     }
 
-    public IEnumerator LevelTransition(float holdForSeconds,bool isLoop,float time)
+    public void FinishLevelTransition(float holdForSeconds,bool endLevelTransition)
     {
+        print("LevelTransition");
+        scene_Manager.EndLevelTransition = endLevelTransition == true ? true : false;
 
         if(stageTransitionAnimationStarts)
         {
             uI_ElemetsAnimator.SetBool("startTransition",true);
+            gameManager.StopGameFlow = true;
         }
         if(!stageTransitionAnimationStarts)
         {
@@ -111,12 +117,11 @@ public class UIManager : MonoBehaviour
         
         if(isProgresStart)
         {
-            StartCoroutine(uI_Elemets.ProgresInstallation(proggresAddedValue,isLoop,time));
+            uI_Elemets.ProgresInstallation(proggresAddedValue);
         }
 
         if(transitionTextAnimationStarts)
         {
-            StopAllCoroutines();
             uI_ElemetsAnimator.SetBool("endTextTransition",true);
         }
 
@@ -127,7 +132,6 @@ public class UIManager : MonoBehaviour
             uI_ElemetsAnimator.SetBool("endTransition",true);
             secondsReadyStart = true;
             stageTransitionAnimationEnds = false;
-            gameManager.AnimationLaunched = false;
         }
 
         
@@ -137,72 +141,42 @@ public class UIManager : MonoBehaviour
             
             if(seconds > holdForSeconds)
             {
-                if(gameManager.StageTransition)
+                
+                if(gameManager.StageTransitionReady)
                 {
-                    gameManager.StageTransition = false;
-                    gameManager.SceneReadyToLoad = true;
+                    gameManager.StageTransitionOver = true;
+                    gameManager.StageTransitionReady = false;
+                    print("gameManager.StageTransitionReady  " + gameManager.StageTransitionReady);
                 }
+                
             }
         }
 
-        yield return null;
     }
 
-    
-
-    
-   
-
-    private void SceneGecisi()
+    public void StartupLevelTransition(bool endLevelTransition)
     {
-        if(gameManager.StageTransition)
+        scene_Manager.EndLevelTransition = endLevelTransition == true ? true : false;
+
+        if(!startUpProgresTransition)
         {
+            print("Baslangic Progresi basladi");
+            uI_ElemetsAnimator.SetBool("progres",true);
+            finishStartUpProgress = true;
             
-                if(!transitionScreenOver)
-                {
-
-                    if(imageRgbA < 1.0f)
-                    {
-                        imageRgbA += 0.2f * Time.deltaTime;
-                        sahneGecisEkrani.color = new Color(sahneGecisEkrani.color.r, sahneGecisEkrani.color.g, sahneGecisEkrani.color.b,imageRgbA);
-                    
-                        
-                        textRgbA += 0.2f * Time.deltaTime;
-                        gecisEkranYazisi.text = scene_Manager.GetNextSceneName();
-                        gecisEkranYazisi.color = new Color(gecisEkranYazisi.color.r, gecisEkranYazisi.color.g, gecisEkranYazisi.color.b,textRgbA);
-
-                        if(imageRgbA >= 1.0f && textRgbA >= 1.0f)
-                        {
-                            transitionScreenOver = true;
-                        }
-                    }
-                        
-                }
-                else
-                {
-                    if(imageRgbA >= 0f)
-                    {
-                        imageRgbA -= 0.2f * Time.deltaTime;
-                        sahneGecisEkrani.color = new Color(sahneGecisEkrani.color.r, sahneGecisEkrani.color.g, sahneGecisEkrani.color.b,imageRgbA);
-
-                        textRgbA -= 0.2f * Time.deltaTime;
-                        gecisEkranYazisi.color = new Color(gecisEkranYazisi.color.r, gecisEkranYazisi.color.g, gecisEkranYazisi.color.b,textRgbA);
-
-                        if(imageRgbA <= 0f)
-                        {
-                            transitionScreenOver = false;
-                            gameManager.StageTransition =false;
-                            scene_Manager.IsStageTransition = true;
-                                
-                        }
-                    }
-                }
-
-           
         }
-           
-    }
+        if(finishStartUpProgress)
+        {
+            startUpProgresTransition  =true;
+        }
+        if(StartUpProgresTransition)
+        {
+            print("Baslangic Progresi basladi");
+            uI_ElemetsAnimator.SetBool("progres",false);
+        }
 
+
+    }
 
     private void LifeDecreaseAndReset()
     {

@@ -33,16 +33,24 @@ public class GameManager : MonoBehaviour
     public bool Finish {get {return finish;} set {finish = value;}}
     [SerializeField] private float cameraScaleChangeTime;
 
-    private bool stageTransition =false;
-    public bool StageTransition { get { return stageTransition;} set { stageTransition = value; } }
+    private bool stageTransitionReady =false;
+    public bool StageTransitionReady { get { return stageTransitionReady;} set { stageTransitionReady = value; } }
 
+    /*
     private bool sceneReadyToLoad =false;
     public bool SceneReadyToLoad { get { return sceneReadyToLoad;} set { sceneReadyToLoad = value; } }
-    
+    */
+
+    private bool stageTransitionOver =false;
+    public bool StageTransitionOver { get { return stageTransitionOver;} set { stageTransitionOver = value; } }
+
 
     private bool animationLaunched = false;
     public bool AnimationLaunched { get { return animationLaunched;} set { animationLaunched = value;}}
    
+    private bool stopGameFlow = false;
+    public bool StopGameFlow { get {return stopGameFlow;} set {stopGameFlow = value;}}
+
     [SerializeField] private float holdForSeconds;
     public float HoldForSeconds { get { return holdForSeconds;}}
 
@@ -125,31 +133,44 @@ public class GameManager : MonoBehaviour
     {
         LeftWindPosition = transform.GetChild(0);
         RightWindPosition = transform.GetChild(1);
-       
-
+               
         
     }
     private void Start() 
     {
        
-        
         Spawner.Instance.SpawnCharacter();
         
         
     }
     void Update()
     {
+        LevelPreparation();
+
         CharcterCheckPoint();
         CameraPositionControl();
         
-        IsWindStillBlowingOrEnemyFirebal();
+        //IsWindStillBlowingOrEnemyFirebal();
         
-        CreateWindObject();
-        CreateEnemyFireballObject();
+        //CreateWindObject();
+        //CreateEnemyFireballObject();
         
-        Scene_Manager.Instance.LoadScene();
+        //Scene_Manager.Instance.LoadScene();
        
-       
+
+
+    }
+
+    public void LevelPreparation()
+    {
+        if(stageTransitionReady)
+        {
+            UIManager.Instance.FinishLevelTransition(holdForSeconds,true);
+        }
+        if(stageTransitionOver)
+        {
+            Scene_Manager.Instance.LoadScene();
+        }
 
     }
 
@@ -226,7 +247,7 @@ public class GameManager : MonoBehaviour
     
     void CreateWindObject()
     {
-        if(!finish && !stageTransition )
+        if(!finish && !stageTransitionReady)
         {
             if(createWind)
             {
@@ -276,7 +297,7 @@ public class GameManager : MonoBehaviour
     }
     void CreateEnemyFireballObject()
     {
-        if(!finish && !stageTransition )
+        if(!finish && !stageTransitionReady )
         {
             if(createEnemyFireball)
             {

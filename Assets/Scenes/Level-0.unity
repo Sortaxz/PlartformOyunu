@@ -661,8 +661,6 @@ MonoBehaviour:
   fireballSpeed: 800
   isCharacterOnPoint: 0
   cameraScaleChangeTime: 0.01
-  stageTransition: 0
-  animationLaunched: 0
   holdForSeconds: 5
   time: 4
   windPrefab: {fileID: 6732087896462657310, guid: e607c582a419ab546a2da288886245cb, type: 3}
@@ -1539,13 +1537,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uI_Elemets: {fileID: 3991327544907816752}
   uI_ElemetsAnimator: {fileID: 3991327544907816751}
+  progress: {fileID: 27457957}
+  gecisEkranYazisi: {fileID: 5094676959739473144}
   heartLeftImage: {fileID: 120121163}
   heartMiddleImage: {fileID: 1384008934}
   heartRightImage: {fileID: 1451692463}
   itemCreationPoint: {fileID: 713350862}
   itemImage: {fileID: 0}
   sahneGecisEkrani: {fileID: 1892085319772121911}
-  gecisEkranYazisi: {fileID: 5094676959739473144}
   proggresAddedValue: 0.2
 --- !u!114 &1286193988
 MonoBehaviour:
@@ -1851,7 +1850,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.3962264, g: 0.3962264, b: 0.3962264, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2112,6 +2111,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sahneGecisEkrani: {fileID: 1892085319772121911}
   gecisEkranYazisi: {fileID: 5094676959739473144}
+  animationTextPerLevel: Hello
+  animationTextEndLevel: Win
   scenes:
   - {fileID: 102900000, guid: 2cda990e2423bbf4892e6590ba056729, type: 3}
   - {fileID: 102900000, guid: 67a3c5d85f265744bb3d7e705f72838c, type: 3}

@@ -150,7 +150,6 @@ public class CharacterControl : MonoBehaviour
             characterHealthDecrease  =false;
             hitObstacle = false;
             startHurtAnimation = false;
-            print("Exit");
         } 
         if(other.collider.CompareTag("Enemy"))
         {
@@ -186,18 +185,11 @@ public class CharacterControl : MonoBehaviour
 
         if(other.CompareTag("Finish"))
         {
-            gameManager.StageTransition = true;
-            //UIManager.Instance.StageTransition = true;
-            gameManager.Finish = true;
+            gameManager.StageTransitionReady = true;
         }
     }
-    private void OnTriggerExit2D(Collider2D other) 
-    {
-        if(other.CompareTag("Finish"))
-        {
-            gameManager.Finish = false;
-        }
-    }
+
+  
     
     void JumpingMovement()
     {

@@ -661,8 +661,8 @@ MonoBehaviour:
   fireballSpeed: 800
   isCharacterOnPoint: 0
   cameraScaleChangeTime: 0.01
-  holdForSeconds: 0
-  time: 0
+  holdForSeconds: 5
+  time: 4
   windPrefab: {fileID: 6732087896462657310, guid: e607c582a419ab546a2da288886245cb, type: 3}
   aerialWindPrefab: {fileID: 6732087896462657310, guid: a9555b543a1c3ba43a8456a655cce8f4, type: 3}
   windObjects:
@@ -2110,6 +2110,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sahneGecisEkrani: {fileID: 1892085319772121911}
   gecisEkranYazisi: {fileID: 5094676959739473144}
+  animationTextPerLevel: Hello
+  animationTextEndLevel: Win
   scenes:
   - {fileID: 102900000, guid: 2cda990e2423bbf4892e6590ba056729, type: 3}
   - {fileID: 102900000, guid: 67a3c5d85f265744bb3d7e705f72838c, type: 3}
