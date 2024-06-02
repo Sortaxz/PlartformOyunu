@@ -42,7 +42,8 @@ public class UITransitionControl : MonoBehaviour
     }
     private void LoadLevel()
     {
-        if(scenesIndex < scenes.Length-1)
+        int sceneIndex = PlayerPrefs.GetInt("latestSceneIndex");
+        if(sceneIndex < scenes.Length-1)
         {
             int levelIndexInstall = PlayerPrefs.GetInt("latestSceneIndex")  + 1;
             AsyncOperation asyncOperation=  SceneManager.LoadSceneAsync(levelIndexInstall); 
@@ -51,7 +52,7 @@ public class UITransitionControl : MonoBehaviour
                 transitionOver = false;
             }
         }
-        else if(scenesIndex == scenes.Length-1)
+        else if(sceneIndex == scenes.Length-1)
         {
             int levelIndexInstall = PlayerPrefs.GetInt("latestSceneIndex");
             AsyncOperation asyncOperation=  SceneManager.LoadSceneAsync(levelIndexInstall); 

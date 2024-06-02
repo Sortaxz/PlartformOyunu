@@ -83,7 +83,7 @@ public class Scene_Manager : MonoBehaviour
             nextSceneIndex = SceneManager.GetActiveScene().buildIndex ;
         }
 
-        
+        /*
         if(nextSceneIndex < scenes.Length-1)
         {
             int latestSceneIndex = SceneManager.GetActiveScene().buildIndex;
@@ -101,6 +101,14 @@ public class Scene_Manager : MonoBehaviour
             {
                 GameManager.Instance.StageTransitionOver = false;
             }
+        }
+        */
+        int latestSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        PlayerPrefs.SetInt("latestSceneIndex",latestSceneIndex);
+        AsyncOperation asyncOperation =  SceneManager.LoadSceneAsync(3,LoadSceneMode.Single);
+        if(asyncOperation.isDone)
+        {
+            GameManager.Instance.StageTransitionOver = false;
         }
     }
 

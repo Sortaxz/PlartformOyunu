@@ -186,6 +186,7 @@ public class CharacterControl : MonoBehaviour
         if(other.CompareTag("Finish"))
         {
             gameManager.StageTransitionReady = true;
+            gameManager.Finish = true;
         }
     }
 

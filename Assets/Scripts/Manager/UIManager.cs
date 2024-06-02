@@ -101,7 +101,6 @@ public class UIManager : MonoBehaviour
 
     public void FinishLevelTransition(float holdForSeconds,bool endLevelTransition)
     {
-        print("LevelTransition");
         scene_Manager.EndLevelTransition = endLevelTransition == true ? true : false;
 
         if(stageTransitionAnimationStarts)
@@ -129,7 +128,7 @@ public class UIManager : MonoBehaviour
         if(stageTransitionAnimationEnds)
         {
             uI_ElemetsAnimator.SetBool("endTextTransition",false);
-            uI_ElemetsAnimator.SetBool("endTransition",true);
+            //uI_ElemetsAnimator.SetBool("endTransition",true);
             secondsReadyStart = true;
             stageTransitionAnimationEnds = false;
         }
@@ -146,7 +145,6 @@ public class UIManager : MonoBehaviour
                 {
                     gameManager.StageTransitionOver = true;
                     gameManager.StageTransitionReady = false;
-                    print("gameManager.StageTransitionReady  " + gameManager.StageTransitionReady);
                 }
                 
             }
@@ -154,29 +152,7 @@ public class UIManager : MonoBehaviour
 
     }
 
-    public void StartupLevelTransition(bool endLevelTransition)
-    {
-        scene_Manager.EndLevelTransition = endLevelTransition == true ? true : false;
-
-        if(!startUpProgresTransition)
-        {
-            print("Baslangic Progresi basladi");
-            uI_ElemetsAnimator.SetBool("progres",true);
-            finishStartUpProgress = true;
-            
-        }
-        if(finishStartUpProgress)
-        {
-            startUpProgresTransition  =true;
-        }
-        if(StartUpProgresTransition)
-        {
-            print("Baslangic Progresi basladi");
-            uI_ElemetsAnimator.SetBool("progres",false);
-        }
-
-
-    }
+    
 
     private void LifeDecreaseAndReset()
     {
