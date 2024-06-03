@@ -9,7 +9,6 @@ public class UITransitionControl : MonoBehaviour
     [SerializeField] private Animator animator;
     private  bool transitionOver = false;
     [SerializeField] private SceneAsset[] scenes;
-    private int scenesIndex = 0;
     private void Awake() 
     {
         
