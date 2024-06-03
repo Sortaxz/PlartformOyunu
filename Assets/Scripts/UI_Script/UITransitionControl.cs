@@ -41,20 +41,26 @@ public class UITransitionControl : MonoBehaviour
     }
     private void LoadLevel()
     {
-        int sceneIndex = PlayerPrefs.GetInt("latestSceneIndex");
-        if(sceneIndex < scenes.Length-1)
+        //int sceneIndex = PlayerPrefs.GetInt("latestSceneIndex");
+        int sceneIndex = PlayerPrefs.GetInt("LastLevelIndex");
+        if(sceneIndex < scenes.Length)
         {
-            int levelIndexInstall = PlayerPrefs.GetInt("latestSceneIndex")  + 1;
+            //int levelIndexInstall = PlayerPrefs.GetInt("latestSceneIndex")  + 1;
+            int levelIndexInstall = PlayerPrefs.GetInt("LastLevelIndex")  + 1;
+            
             AsyncOperation asyncOperation=  SceneManager.LoadSceneAsync(levelIndexInstall); 
+            PlayerPrefs.DeleteKey("CheckPoint");
             if(asyncOperation.isDone)
             {
                 transitionOver = false;
             }
         }
-        else if(sceneIndex == scenes.Length-1)
+        else if(sceneIndex == scenes.Length)
         {
-            int levelIndexInstall = PlayerPrefs.GetInt("latestSceneIndex");
+            //int levelIndexInstall = PlayerPrefs.GetInt("latestSceneIndex");
+            int levelIndexInstall = PlayerPrefs.GetInt("LastLevelIndex");
             AsyncOperation asyncOperation=  SceneManager.LoadSceneAsync(levelIndexInstall); 
+            PlayerPrefs.DeleteKey("CheckPoint");
             if(asyncOperation.isDone)
             {
                 transitionOver = false;

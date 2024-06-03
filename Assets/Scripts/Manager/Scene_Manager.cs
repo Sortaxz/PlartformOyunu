@@ -45,11 +45,12 @@ public class Scene_Manager : MonoBehaviour
        
         if(endLevelTransition)
         {
-            if(activeSceneBuildingIndex < scenes.Length-1)
+            if(activeSceneBuildingIndex < scenes.Length)
             {
-                sceneName = $"{animationTextEndLevel} Level-{activeSceneBuildingIndex + 2}";
+                //sceneName = $"{animationTextEndLevel} Level-{activeSceneBuildingIndex + 2}";
+                sceneName = $"{animationTextEndLevel} Level-{activeSceneBuildingIndex + 1}";
             }
-            else if(activeSceneBuildingIndex == scenes.Length-1)
+            else if(activeSceneBuildingIndex == scenes.Length)
             {
                 sceneName = $"You Win The Game";
 
@@ -57,7 +58,8 @@ public class Scene_Manager : MonoBehaviour
         }
         else
         {
-            sceneName = $"{animationTextPerLevel} Level-{activeSceneBuildingIndex + 1}";
+            //sceneName = $"{animationTextPerLevel} Level-{activeSceneBuildingIndex + 1}";
+            sceneName = $"{animationTextPerLevel} Level-{activeSceneBuildingIndex}";
         }
 
         return sceneName;
@@ -83,26 +85,7 @@ public class Scene_Manager : MonoBehaviour
             nextSceneIndex = SceneManager.GetActiveScene().buildIndex ;
         }
 
-        /*
-        if(nextSceneIndex < scenes.Length-1)
-        {
-            int latestSceneIndex = SceneManager.GetActiveScene().buildIndex;
-            PlayerPrefs.SetInt("latestSceneIndex",latestSceneIndex);
-            AsyncOperation asyncOperation =  SceneManager.LoadSceneAsync(3,LoadSceneMode.Single);
-            if(asyncOperation.isDone)
-            {
-                GameManager.Instance.StageTransitionOver = false;
-            }
-        }
-        else if(nextSceneIndex == scenes.Length-1)
-        {
-            AsyncOperation asyncOperation =  SceneManager.LoadSceneAsync(nextSceneIndex,LoadSceneMode.Single);
-            if(asyncOperation.isDone)
-            {
-                GameManager.Instance.StageTransitionOver = false;
-            }
-        }
-        */
+       /*
         int latestSceneIndex = SceneManager.GetActiveScene().buildIndex;
         PlayerPrefs.SetInt("latestSceneIndex",latestSceneIndex);
         AsyncOperation asyncOperation =  SceneManager.LoadSceneAsync(3,LoadSceneMode.Single);
@@ -110,6 +93,17 @@ public class Scene_Manager : MonoBehaviour
         {
             GameManager.Instance.StageTransitionOver = false;
         }
+        */
+
+        int latestSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        //PlayerPrefs.SetInt("latestSceneIndex",latestSceneIndex);
+        PlayerPrefs.SetInt("LastLevelIndex",latestSceneIndex);
+        AsyncOperation asyncOperation =  SceneManager.LoadSceneAsync(4,LoadSceneMode.Single);
+        if(asyncOperation.isDone)
+        {
+            GameManager.Instance.StageTransitionOver = false;
+        }
+
     }
 
     

@@ -21,7 +21,8 @@ public class SaveManager : MonoBehaviour
 
     public static int GetLastLevelIndex()
     {
-        return PlayerPrefs.GetInt("LastLevelIndex");
+        //return PlayerPrefs.GetInt("LastLevelIndex");
+        return PlayerPrefs.HasKey("LastLevelIndex") ? PlayerPrefs.GetInt("LastLevelIndex") : 1;
     }
 
     public static float GetLastMusicVolume()
@@ -29,10 +30,7 @@ public class SaveManager : MonoBehaviour
         return PlayerPrefs.GetFloat("LastMusicVolume");
     }
 
-    public static int GetLevelSceneButtonIndex()
-    {
-        return PlayerPrefs.GetInt("LevelSceneButtonIndex");
-    }
+    
     #endregion
 
 
@@ -47,10 +45,6 @@ public class SaveManager : MonoBehaviour
     {
         PlayerPrefs.SetFloat("LastMusicVolume", value);
     }
-    public static void SetLevelSceneButtonIndex(int value)
-    {
-        PlayerPrefs.SetFloat("LevelSceneButtonIndex", value);
-
-    }
+   
     #endregion
 }

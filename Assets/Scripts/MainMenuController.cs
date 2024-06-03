@@ -17,10 +17,13 @@ public class MainMenuController : MonoBehaviour
     [SerializeField] private AudioSource musicPlayer;
     private List<GameObject> spawnedsLevelSelectionButton = new List<GameObject>();
     private int scenesIndex = 0;
+    private bool create = false;
+    int loadSceneBuildingIndex;
     private void Start() 
     {
         SaveManager.FirstTimeSaveMethod();
         musicPlayer.volume = SaveManager.GetLastMusicVolume();    
+        loadSceneBuildingIndex = SaveManager.GetLastLevelIndex();
     }
 
 
@@ -36,7 +39,8 @@ public class MainMenuController : MonoBehaviour
             Buttons.gameObject.SetActive(false);
         }
 
-
+        if(create)
+           return;
             
         
             for (int i = scenesIndex; i < scenes.Length; i++)
@@ -53,14 +57,11 @@ public class MainMenuController : MonoBehaviour
                 (
                     delegate
                     {
-                        int loadSceneIndex = spawnedLevelSelectionButton.transform.GetSiblingIndex();
+                        int loadSceneIndex = spawnedLevelSelectionButton.transform.GetSiblingIndex()+1;
                         SceneManager.LoadScene(loadSceneIndex);
                     }
                 );
-                if(scenesIndex == scenes.Length-1)
-                {
-                    SaveManager.SetLevelSceneButtonIndex(scenesIndex);
-                }    
+                create = true; 
             }
         
 
@@ -81,12 +82,11 @@ public class MainMenuController : MonoBehaviour
 
     public void StartButtonMethod()
     {
-        int loadSceneBuildingIndex = SaveManager.GetLastLevelIndex();
+        loadSceneBuildingIndex = SaveManager.GetLastLevelIndex()+1;
         SceneManager.LoadScene(loadSceneBuildingIndex);
     }
     public void LevelMenuCancelButtonMethod()
     {
-        scenesIndex = SaveManager.GetLevelSceneButtonIndex();
         LevelsMenu.SetActive(false);
         Buttons.SetActive(true);
     }
