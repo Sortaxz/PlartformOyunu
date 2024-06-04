@@ -23,14 +23,19 @@ public class GameManager : MonoBehaviour
     private Transform LeftWindPosition;
     private Transform RightWindPosition;
     [SerializeField] private Vector3 cameraMesafesi;
+
+    [SerializeField] private AudioSource musicPlayer;
+
     [SerializeField] private float fireballSpeed;
     public float FireballSpeed
     {
         get { return fireballSpeed; }
     }
+
     public bool isCharacterOnPoint = false;
     private bool finish = false;
     public bool Finish {get {return finish;} set {finish = value;}}
+    
     [SerializeField] private float cameraScaleChangeTime;
 
     private bool stageTransitionReady =false;
@@ -56,6 +61,10 @@ public class GameManager : MonoBehaviour
 
     [SerializeReference] private float time = 0f;
     public float _Time {get { return time;}}
+
+    private int numberCollectedCoins = 0;
+    public int NumberCollectedCoins { get { return numberCollectedCoins;} set { numberCollectedCoins = value;}}
+
 
     #region WindObject members
 
@@ -131,9 +140,10 @@ public class GameManager : MonoBehaviour
     
     private void Awake() 
     {
+        musicPlayer.volume = SaveManager.GetLastMusicVolume();
         LeftWindPosition = transform.GetChild(0);
         RightWindPosition = transform.GetChild(1);
-               
+        
         
     }
     private void Start() 

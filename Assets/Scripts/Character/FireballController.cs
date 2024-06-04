@@ -117,9 +117,9 @@ public class FireballController : MonoBehaviour
                 }
                 if (other.collider.tag == "Cranboline" )
                 {
-                        gameManager.CreateEnemyFireball = true;
-                        gameManager.CreateWind = false;
-                        Destroy(gameObject);
+                    gameManager.CreateEnemyFireball = true;
+                    gameManager.CreateWind = false;
+                    Destroy(gameObject);
                 }
 
                 
@@ -163,23 +163,12 @@ public class FireballController : MonoBehaviour
                     gameManager.CreateWind = true;
                     Destroy(gameObject);
                 }
-
-                if (other.collider.tag != "CheckPoint" && other.collider.tag != "Player" && other.collider.tag == "AbsorbingObject")
+                
+                if (other.collider.tag == "Cranboline" )
                 {
-                    if (other.collider.tag != "Cranboline" )
-                    {
-                        gameManager.CreateEnemyFireball = false;
-                        gameManager.CreateWind = true;
-                        Destroy(other.collider.gameObject);
-                        Destroy(gameObject);
-                    }
-                    else
-                    {
-                        gameManager.CreateEnemyFireball = false;
-                        gameManager.CreateWind = true;
-                        Destroy(gameObject);
-                    }
-
+                    gameManager.CreateEnemyFireball = false;
+                    gameManager.CreateWind = true;
+                    Destroy(gameObject);
                 }
             }
         }
@@ -229,5 +218,6 @@ public class FireballController : MonoBehaviour
                 }
             }
         }
+       
     }
 }

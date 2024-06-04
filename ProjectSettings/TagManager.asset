@@ -21,6 +21,7 @@ TagManager:
   - rightControl
   - downControl
   - Wind
+  - Coin
   layers:
   - Default
   - TransparentFX

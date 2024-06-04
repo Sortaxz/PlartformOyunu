@@ -76,5 +76,6 @@ public class WindObjectControl : MonoBehaviour
                 }
             }
         }
+       
     }
 }

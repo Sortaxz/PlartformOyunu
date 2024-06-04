@@ -61,7 +61,6 @@ public class CharacterControl : MonoBehaviour
     public bool IsAerialWind { get => isAerialWind; set => isAerialWind = value;}
 
     
-    //private  int spawnPointSiblingIndex = default;
 
    
     private void Awake() 
@@ -171,11 +170,7 @@ public class CharacterControl : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other) 
     {
-        if(other.CompareTag("CheckPoint"))
-        {
-            //spawnPointSiblingIndex =  other.transform.GetSiblingIndex();
-            
-        } 
+        
         if(other.CompareTag("Cranboline"))
         {
             jumpCounter = 0;
@@ -185,12 +180,24 @@ public class CharacterControl : MonoBehaviour
 
         if(other.CompareTag("Finish"))
         {
-            gameManager.StageTransitionReady = true;
-            gameManager.Finish = true;
+            if(gameManager.NumberCollectedCoins >= 4)
+            {
+                gameManager.StageTransitionReady = true;
+                gameManager.Finish = true;
+            }
+            
+
+        }
+
+
+        if(other.CompareTag("Coin"))
+        {
+            Destroy(other.gameObject);
+            gameManager.NumberCollectedCoins++;
         }
     }
 
-  
+   
     
     void JumpingMovement()
     {
