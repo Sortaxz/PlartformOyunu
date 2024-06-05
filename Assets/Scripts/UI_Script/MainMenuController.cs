@@ -14,6 +14,8 @@ public class MainMenuController : MonoBehaviour
     [SerializeField] private GameObject SettingsMenu;
     private GameObject levelSelectionButtonPrefab;
     [SerializeField] private SceneAsset[] scenes;
+    [SerializeField] private Button startButton;
+    [SerializeField] private Button ressartButton;
     [SerializeField] private AudioSource musicPlayer;
     private List<GameObject> spawnedsLevelSelectionButton = new List<GameObject>();
     private int scenesIndex = 0;
@@ -25,6 +27,17 @@ public class MainMenuController : MonoBehaviour
         SaveManager.FirstTimeSaveMethod();
         musicPlayer.volume = SaveManager.GetLastMusicVolume();    
         loadSceneBuildingIndex = SaveManager.GetLastLevelIndex();
+
+        if(SaveManager.GetLastLevelIndex() == 3)
+        {
+            startButton.interactable = false;
+            ressartButton.interactable = true;
+
+        }
+        else
+        {
+            startButton.interactable = true;
+        }
     }
 
 
@@ -80,15 +93,32 @@ public class MainMenuController : MonoBehaviour
         }
     }
 
-
+    private void OnEnable() 
+    {
+        
+    }
+    
     public void StartButtonMethod()
     {
-        loadSceneBuildingIndex = SaveManager.GetLastLevelIndex()+1;
+        LoadLevel();
+    }
+
+    private void LoadLevel()
+    {
+        loadSceneBuildingIndex = SaveManager.GetLastLevelIndex() + 1;
         SceneManager.LoadScene(loadSceneBuildingIndex);
     }
+
     public void LevelMenuCancelButtonMethod()
     {
         LevelsMenu.SetActive(false);
         Buttons.SetActive(true);
     }
+
+    public void RessartButtonMethod()
+    {
+        loadSceneBuildingIndex = 1;
+        SceneManager.LoadScene(loadSceneBuildingIndex);
+    }
+
 }

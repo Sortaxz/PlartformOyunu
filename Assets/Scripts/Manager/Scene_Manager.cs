@@ -47,7 +47,6 @@ public class Scene_Manager : MonoBehaviour
         {
             if(activeSceneBuildingIndex < scenes.Length)
             {
-                //sceneName = $"{animationTextEndLevel} Level-{activeSceneBuildingIndex + 2}";
                 sceneName = $"{animationTextEndLevel} Level-{activeSceneBuildingIndex + 1}";
             }
             else if(activeSceneBuildingIndex == scenes.Length)
@@ -58,7 +57,6 @@ public class Scene_Manager : MonoBehaviour
         }
         else
         {
-            //sceneName = $"{animationTextPerLevel} Level-{activeSceneBuildingIndex + 1}";
             sceneName = $"{animationTextPerLevel} Level-{activeSceneBuildingIndex}";
         }
 
@@ -85,19 +83,15 @@ public class Scene_Manager : MonoBehaviour
             nextSceneIndex = SceneManager.GetActiveScene().buildIndex ;
         }
 
-       /*
-        int latestSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        PlayerPrefs.SetInt("latestSceneIndex",latestSceneIndex);
-        AsyncOperation asyncOperation =  SceneManager.LoadSceneAsync(3,LoadSceneMode.Single);
-        if(asyncOperation.isDone)
-        {
-            GameManager.Instance.StageTransitionOver = false;
-        }
-        */
+       
 
         int latestSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        //PlayerPrefs.SetInt("latestSceneIndex",latestSceneIndex);
         PlayerPrefs.SetInt("LastLevelIndex",latestSceneIndex);
+
+        SaveManager.SetLifeValue("leftHeart",UIManager.Instance.HeartLeftImage.fillAmount);
+        SaveManager.SetLifeValue("middleHeart",UIManager.Instance.HeartMiddleImage.fillAmount);
+        SaveManager.SetLifeValue("rightHeart",UIManager.Instance.HeartRightImage.fillAmount);
+
         AsyncOperation asyncOperation =  SceneManager.LoadSceneAsync(4,LoadSceneMode.Single);
         if(asyncOperation.isDone)
         {

@@ -22,6 +22,7 @@ TagManager:
   - downControl
   - Wind
   - Coin
+  - StartButton
   layers:
   - Default
   - TransparentFX

@@ -31,9 +31,15 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private Slider progress;
     [SerializeField] private TextMeshProUGUI gecisEkranYazisi;
+
     [SerializeField] private Image heartLeftImage;
+    public Image HeartLeftImage { get { return heartLeftImage;}}
+
     [SerializeField] private Image heartMiddleImage;
+    public Image HeartMiddleImage { get { return heartMiddleImage;}}
+
     [SerializeField] private Image heartRightImage;
+    public Image HeartRightImage { get { return heartRightImage;}}
 
     [SerializeField] private GameObject itemCreationPoint;
 
@@ -87,8 +93,11 @@ public class UIManager : MonoBehaviour
         gameManager = GameManager.Instance;
         scene_Manager = Scene_Manager.Instance;
 
+        SaveManager.FirstHeartSaveMethod();
         
-        
+        heartLeftImage.fillAmount = SaveManager.GetLifeValue("leftHeart");
+        heartMiddleImage.fillAmount = SaveManager.GetLifeValue("middleHeart");
+        heartRightImage.fillAmount = SaveManager.GetLifeValue("rightHeart");
     }
 
     void Update()

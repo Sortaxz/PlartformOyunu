@@ -58,6 +58,7 @@ public class UITransitionControl : MonoBehaviour
         {
             //int levelIndexInstall = PlayerPrefs.GetInt("LastLevelIndex");
             int levelIndexInstall =0;
+            SaveManager.LastHeartSaveMethod();
             AsyncOperation asyncOperation=  SceneManager.LoadSceneAsync(levelIndexInstall); 
             PlayerPrefs.DeleteKey("CheckPoint");
             

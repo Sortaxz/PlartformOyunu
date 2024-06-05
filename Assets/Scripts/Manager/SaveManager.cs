@@ -47,4 +47,48 @@ public class SaveManager : MonoBehaviour
     }
    
     #endregion
+
+    public static float GetLifeValue(string whichLife,float heartValue = 0)
+    {
+        
+        if(whichLife == "leftHeart") 
+        {
+            heartValue= PlayerPrefs.GetFloat("leftHeart");
+        } 
+        if(whichLife == "middleHeart")
+        {
+            heartValue = PlayerPrefs.GetFloat("middleHeart");
+        }
+        if(whichLife == "rightHeart")
+        {
+            heartValue = PlayerPrefs.GetFloat("rightHeart");
+        }
+        return heartValue;
+    }
+
+    public static void SetLifeValue(string whichLife,float lifeValue)
+    {
+        PlayerPrefs.SetFloat(whichLife,lifeValue);
+    }
+    public static void FirstHeartSaveMethod()
+    {
+        if(!PlayerPrefs.HasKey("leftHeart"))
+        {
+            PlayerPrefs.SetFloat("leftHeart",1f);
+        }
+        if(!PlayerPrefs.HasKey("middleHeart"))
+        {
+            PlayerPrefs.SetFloat("middleHeart",1f);
+        }
+        if(!PlayerPrefs.HasKey("rightHeart"))
+        {
+            PlayerPrefs.SetFloat("rightHeart",1f);
+        }
+    }
+    public static void LastHeartSaveMethod()
+    {
+        PlayerPrefs.SetFloat("leftHeart",1f);
+        PlayerPrefs.SetFloat("middleHeart",1f);
+        PlayerPrefs.SetFloat("rightHeart",1f);
+    }
 }
