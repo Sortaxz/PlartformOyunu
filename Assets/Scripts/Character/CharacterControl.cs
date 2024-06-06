@@ -290,6 +290,7 @@ public class CharacterControl : MonoBehaviour
 
     void CharacterMovement()
     {
+        /*
         if(isToLeft)
         {
             movement = new Vector3(-characterSpeed,0,0);
@@ -301,6 +302,22 @@ public class CharacterControl : MonoBehaviour
             movement =new Vector3(characterSpeed,0,0);
             transform.position += movement * Time.fixedDeltaTime;
             transform.rotation = Quaternion.Euler(0,0,0);
+        }
+        */
+        if(!gameManager.StageTransitionReady)
+        {
+            if(isToLeft)
+            {
+                movement = new Vector3(-characterSpeed,0,0);
+                transform.position += movement * Time.fixedDeltaTime;
+                transform.rotation = Quaternion.Euler(0,-180 ,0);
+            }
+            if(isToRight)
+            {
+                movement =new Vector3(characterSpeed,0,0);
+                transform.position += movement * Time.fixedDeltaTime;
+                transform.rotation = Quaternion.Euler(0,0,0);
+            } 
         }
     }
 }

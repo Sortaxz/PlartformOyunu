@@ -41,11 +41,6 @@ public class GameManager : MonoBehaviour
     private bool stageTransitionReady =false;
     public bool StageTransitionReady { get { return stageTransitionReady;} set { stageTransitionReady = value; } }
 
-    /*
-    private bool sceneReadyToLoad =false;
-    public bool SceneReadyToLoad { get { return sceneReadyToLoad;} set { sceneReadyToLoad = value; } }
-    */
-
     private bool stageTransitionOver =false;
     public bool StageTransitionOver { get { return stageTransitionOver;} set { stageTransitionOver = value; } }
 
@@ -141,6 +136,8 @@ public class GameManager : MonoBehaviour
     private void Awake() 
     {
         musicPlayer.volume = SaveManager.GetLastMusicVolume();
+        musicPlayer.time = SaveManager.GetLastMusicTime();
+
         LeftWindPosition = transform.GetChild(0);
         RightWindPosition = transform.GetChild(1);
         
@@ -165,7 +162,6 @@ public class GameManager : MonoBehaviour
         //CreateWindObject();
         //CreateEnemyFireballObject();
         
-        //Scene_Manager.Instance.LoadScene();
        
 
 

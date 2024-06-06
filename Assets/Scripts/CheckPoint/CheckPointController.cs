@@ -37,7 +37,8 @@ public class CheckPointController : MonoBehaviour
         {
             siblingIndex = checkPointSiblingIndex;
             checkPointTransfom = transform.position;
-            PlayerPrefs.SetInt("CheckPoint",siblingIndex);
+            SaveManager.SetCheckPointIndex(siblingIndex);
+            //PlayerPrefs.SetInt("CheckPoint",siblingIndex);
         }
     }
     

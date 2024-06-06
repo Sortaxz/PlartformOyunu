@@ -23,9 +23,11 @@ public class MainMenuController : MonoBehaviour
     int loadSceneBuildingIndex;
     private void Start() 
     {
-        //DontDestroyOnLoad(musicPlayer);
         SaveManager.FirstTimeSaveMethod();
+
         musicPlayer.volume = SaveManager.GetLastMusicVolume();    
+        musicPlayer.time = SaveManager.GetLastMusicTime();
+
         loadSceneBuildingIndex = SaveManager.GetLastLevelIndex();
 
         if(SaveManager.GetLastLevelIndex() == 3)
@@ -106,6 +108,8 @@ public class MainMenuController : MonoBehaviour
     private void LoadLevel()
     {
         loadSceneBuildingIndex = SaveManager.GetLastLevelIndex() + 1;
+        
+        SaveManager.SetLastMusicTime(musicPlayer.time);
         SceneManager.LoadScene(loadSceneBuildingIndex);
     }
 
@@ -117,7 +121,14 @@ public class MainMenuController : MonoBehaviour
 
     public void RessartButtonMethod()
     {
+        SaveManager.SetLifeValue("leftHeart",1f);
+        SaveManager.SetLifeValue("middleHeart",1f);
+        SaveManager.SetLifeValue("rightHeart",1f);
+
         loadSceneBuildingIndex = 1;
+
+        SaveManager.SetLastMusicTime(musicPlayer.time);
+
         SceneManager.LoadScene(loadSceneBuildingIndex);
     }
 

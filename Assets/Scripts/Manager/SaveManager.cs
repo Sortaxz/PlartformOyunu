@@ -21,7 +21,6 @@ public class SaveManager : MonoBehaviour
 
     public static int GetLastLevelIndex()
     {
-        //return PlayerPrefs.GetInt("LastLevelIndex");
         return PlayerPrefs.HasKey("LastLevelIndex") ? PlayerPrefs.GetInt("LastLevelIndex") : 1;
     }
 
@@ -30,6 +29,15 @@ public class SaveManager : MonoBehaviour
         return PlayerPrefs.GetFloat("LastMusicVolume");
     }
 
+    public static float GetLastMusicTime()
+    {
+        return PlayerPrefs.GetFloat("musicPlayerTime");
+    }
+
+    public static int GetCheckPointIndex()
+    {
+        return PlayerPrefs.GetInt("CheckPoint");
+    }
     
     #endregion
 
@@ -45,7 +53,16 @@ public class SaveManager : MonoBehaviour
     {
         PlayerPrefs.SetFloat("LastMusicVolume", value);
     }
-   
+    public static void SetLastMusicTime(float timeValue)
+    {
+        PlayerPrefs.SetFloat("musicPlayerTime", timeValue);
+    }
+    
+    public static void SetCheckPointIndex(int checkPointIndex)
+    {
+        PlayerPrefs.SetInt("CheckPoint",checkPointIndex);
+    }
+
     #endregion
 
     public static float GetLifeValue(string whichLife,float heartValue = 0)
@@ -70,6 +87,7 @@ public class SaveManager : MonoBehaviour
     {
         PlayerPrefs.SetFloat(whichLife,lifeValue);
     }
+
     public static void FirstHeartSaveMethod()
     {
         if(!PlayerPrefs.HasKey("leftHeart"))
@@ -85,10 +103,13 @@ public class SaveManager : MonoBehaviour
             PlayerPrefs.SetFloat("rightHeart",1f);
         }
     }
+    
     public static void LastHeartSaveMethod()
     {
         PlayerPrefs.SetFloat("leftHeart",1f);
         PlayerPrefs.SetFloat("middleHeart",1f);
         PlayerPrefs.SetFloat("rightHeart",1f);
     }
+
+    
 }

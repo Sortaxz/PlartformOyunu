@@ -389,11 +389,7 @@ class PlartformManagerEditor : Editor
                 plartformManager.DataHold(ref plartformManager.movingGroundPositions,plartformManager.SaveMovingFloorPositions);
 
                 plartformManager.DataHold(ref plartformManager.movingFloorDirectionMovement,plartformManager.SaveMovingFloorMovemet);
-                /*
-                plartformManager.SaveMovingFloorMovemet = new List<bool>(plartformManager.MovingFloorDirectionMovement);
-                plartformManager.SaveMovingFloorMovemet.Add(new bool()); 
-                plartformManager.MovingFloorDirectionMovement = plartformManager.SaveMovingFloorMovemet.ToArray();
-                */
+                
             }
             
         }

@@ -94,7 +94,7 @@ public class UIManager : MonoBehaviour
         scene_Manager = Scene_Manager.Instance;
 
         SaveManager.FirstHeartSaveMethod();
-        
+
         heartLeftImage.fillAmount = SaveManager.GetLifeValue("leftHeart");
         heartMiddleImage.fillAmount = SaveManager.GetLifeValue("middleHeart");
         heartRightImage.fillAmount = SaveManager.GetLifeValue("rightHeart");
@@ -137,7 +137,6 @@ public class UIManager : MonoBehaviour
         if(stageTransitionAnimationEnds)
         {
             uI_ElemetsAnimator.SetBool("endTextTransition",false);
-            //uI_ElemetsAnimator.SetBool("endTransition",true);
             secondsReadyStart = true;
             stageTransitionAnimationEnds = false;
         }

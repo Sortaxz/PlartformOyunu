@@ -9,15 +9,17 @@ public class UITransitionControl : MonoBehaviour
     [SerializeField] private Animator animator;
     private  bool transitionOver = false;
     [SerializeField] private SceneAsset[] scenes;
+    [SerializeField] private AudioSource musicPlayer;
+    AudioClip audioClip;
     private void Awake() 
     {
+        audioClip = musicPlayer.clip;
         
-
-    
     }
     void Start()
     {
-
+        musicPlayer.volume = SaveManager.GetLastMusicVolume();
+        musicPlayer.time = SaveManager.GetLastMusicTime();
     }
 
     void Update()
@@ -41,12 +43,16 @@ public class UITransitionControl : MonoBehaviour
     }
     private void LoadLevel()
     {
-        //int sceneIndex = PlayerPrefs.GetInt("latestSceneIndex");
-        int sceneIndex = PlayerPrefs.GetInt("LastLevelIndex");
+        //int sceneIndex = PlayerPrefs.GetInt("LastLevelIndex");
+        int sceneIndex = SaveManager.GetLastLevelIndex();
+
         if(sceneIndex < scenes.Length)
         {
-            int levelIndexInstall = PlayerPrefs.GetInt("LastLevelIndex")  + 1;
+            //int levelIndexInstall = PlayerPrefs.GetInt("LastLevelIndex")  + 1;
+            int levelIndexInstall = SaveManager.GetLastLevelIndex()  + 1;
             
+            SaveManager.SetLastMusicTime(musicPlayer.time);
+
             AsyncOperation asyncOperation=  SceneManager.LoadSceneAsync(levelIndexInstall); 
             PlayerPrefs.DeleteKey("CheckPoint");
             if(asyncOperation.isDone)
@@ -56,10 +62,12 @@ public class UITransitionControl : MonoBehaviour
         }
         else if(sceneIndex == scenes.Length)
         {
-            //int levelIndexInstall = PlayerPrefs.GetInt("LastLevelIndex");
             int levelIndexInstall =0;
-            SaveManager.LastHeartSaveMethod();
+            
+            SaveManager.SetLastMusicTime(musicPlayer.time);
+
             AsyncOperation asyncOperation=  SceneManager.LoadSceneAsync(levelIndexInstall); 
+
             PlayerPrefs.DeleteKey("CheckPoint");
             
             if(asyncOperation.isDone)

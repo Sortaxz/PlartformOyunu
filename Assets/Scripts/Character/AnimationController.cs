@@ -73,184 +73,188 @@ public class AnimationController : MonoBehaviour
 
     void AnimationControl()
     {
-        horizontal = Input.GetAxis("Horizontal") ;
-        #region  Karakterimiz idle ve run animasyon kodlari
-        if(horizontal == 0)
-        {
-            idleSpritesTimeCounter+= Time.deltaTime;
-            if(idleSpritesTimeCounter > 0.25f)
-            {
-                idleSpritesTimeCounter = 0f;
-                characteSPR.sprite = idleSprites[idleSpritesCount++];
-
-                if(idleSpritesCount == idleSprites.Length - 1)
-                {
-                    idleSpritesCount = 0;
-                }
-            }
-        }
-        else if(horizontal > 0 )
-        {
-            runSpritesTimeCounter += Time.deltaTime;
-            
-            if(runSpritesTimeCounter > .1f)
-            {
-                runSpritesTimeCounter = 0f;
-                characteSPR.sprite = runSprites[runSpritesCount++];
-
-                if(runSpritesCount == runSprites.Length - 1)
-                {
-                    runSpritesCount = 0;
-                }
-            }
-        }
-        else
-        {
-            runSpritesTimeCounter += Time.deltaTime;
-            
-            if(runSpritesTimeCounter > 0.1f)
-            {
-                runSpritesTimeCounter = 0f;
-                characteSPR.sprite = runSprites[runSpritesCount++];
-
-                if(runSpritesCount == runSprites.Length -1 )
-                {
-                    runSpritesCount = 0;
-                }
-            }
-            
-        }
-        #endregion
-
-        #region  Karakterimiz'in Ziplama Animasyonu'nun kodlari
-        if(character.isCharacterAbove )
-        {
-            characteSPR.sprite = jumpSprites[jumpSpritesCount++];
-
-              
-
-            if(jumpSpritesCount == jumpSprites.Length - 1)
-            {
-                jumpSpritesCount = 0;
-            }
-        }
-
-        #endregion
-
-        if(character.jumpAnimationResume)
-        {
-            characteSPR.sprite = jumpSprites[jumpingContinueIndex--];
-
-              
-
-            if(jumpingContinueIndex == 0)
-            {
-                jumpingContinueIndex = jumpSprites.Length - 1;
-            }
-        }
-
-        #region  Karakterimiz'in Desh Animasyonu'nun kodlari
-        if(!character.isCharacterAbove)
-        {
-            if(character.isCharacterSlidDown)
-            {
-                characteSPR.sprite = deshSprites[deshSpritesCount++];
-
-                if(deshSpritesCount == deshSprites.Length - 1)
-                {
-                    deshSpritesCount = 0;
-                }
-                
-            }   
-        }
-        #endregion
         
-        #region  Karakterimiz'in Atak Animasyonu'nun kodlari
-        if(character.readyToAttack)
+        if(!GameManager.Instance.StageTransitionReady)
         {
-            attackSpritesTimeCounter += Time.deltaTime;
-            
-            if(attackSpritesTimeCounter > 0.07f)
+            horizontal = Input.GetAxis("Horizontal") ;
+            #region  Karakterimiz idle ve run animasyon kodlari
+            if(horizontal == 0)
             {
-                characteSPR.sprite = attackSprites[attackSpritesCount++];
-
-                if(attackSpritesCount == attackSprites.Length - 1)
+                idleSpritesTimeCounter+= Time.deltaTime;
+                if(idleSpritesTimeCounter > 0.25f)
                 {
-                    attackSpritesCount = 0;
-                    character.readyToAttack = false;
-                }
-                attackSpritesTimeCounter = 0f;
-            }
-        }
-        #endregion
+                    idleSpritesTimeCounter = 0f;
+                    characteSPR.sprite = idleSprites[idleSpritesCount++];
 
-
-        #region  Karakterimiz'in Ateş Topu Atmaya Hazilanma Animasyonu
-        if(character.readyToFireballAttack)
-        {
-            fireballSkillSpritesTimeCounter += Time.deltaTime;
-            if(fireballSkillSpritesTimeCounter > 0.05f)
-            {
-                characteSPR.sprite = fireballSkillSprites[fireballSkillSpritesCount++];
-
-                if(fireballSkillSpritesCount == fireballSkillSprites.Length - 1)
-                {
-                    fireballSkillSpritesCount = 0;
-                    character.readyToFireballAttack = false;
-                    fireballReady = true;
-                }
-                fireballSkillSpritesTimeCounter = 0f;
-
-            }
-
-        }
-        #endregion
-
-        #region  Karakterimiz'in Hurt Animasyonu
-
-        if(character.StartHurtAnimation)
-        {
-            hurtSpritesTimeCounter += Time.deltaTime;
-            if(hurtSpritesTimeCounter > 0.03f)
-            {
-                if(hurtSpritesIndex < hurtSprites.Length)
-                {
-                    characteSPR.sprite = hurtSprites[hurtSpritesIndex++];
-                    
-                    if(hurtSpritesIndex == hurtSprites.Length - 1)
+                    if(idleSpritesCount == idleSprites.Length - 1)
                     {
-                        hurtSpritesIndex = 0;
-
-                        character.StartHurtAnimation = false;
+                        idleSpritesCount = 0;
                     }
                 }
-                hurtSpritesTimeCounter = 0f;
             }
-        }
-
-        #endregion
-
-        #region  Karakterimiz'in Strike attak hazirlama kodu
-        
-        if(character.ReadyToStrikeAttack)
-        {
-            strikeSpritesTimeCounter += Time.deltaTime;
-
-            if(strikeSpritesTimeCounter > 0.05f)
+            else if(horizontal > 0 )
             {
-                characteSPR.sprite = strikeAttackSprites[strikeAttackSpritesIndex++];
-
-                if(strikeAttackSpritesIndex == strikeAttackSprites.Length - 1)
+                runSpritesTimeCounter += Time.deltaTime;
+                
+                if(runSpritesTimeCounter > .1f)
                 {
-                    strikeAttackSpritesIndex = 0;
+                    runSpritesTimeCounter = 0f;
+                    characteSPR.sprite = runSprites[runSpritesCount++];
 
-                    character.ReadyToStrikeAttack = false;
+                    if(runSpritesCount == runSprites.Length - 1)
+                    {
+                        runSpritesCount = 0;
+                    }
                 }
-                strikeSpritesTimeCounter = 0f;
             }
-        }
+            else
+            {
+                runSpritesTimeCounter += Time.deltaTime;
+                
+                if(runSpritesTimeCounter > 0.1f)
+                {
+                    runSpritesTimeCounter = 0f;
+                    characteSPR.sprite = runSprites[runSpritesCount++];
 
-        #endregion
+                    if(runSpritesCount == runSprites.Length -1 )
+                    {
+                        runSpritesCount = 0;
+                    }
+                }
+                
+            }
+            #endregion
+
+            #region  Karakterimiz'in Ziplama Animasyonu'nun kodlari
+            if(character.isCharacterAbove )
+            {
+                characteSPR.sprite = jumpSprites[jumpSpritesCount++];
+
+                
+
+                if(jumpSpritesCount == jumpSprites.Length - 1)
+                {
+                    jumpSpritesCount = 0;
+                }
+            }
+
+            #endregion
+
+            if(character.jumpAnimationResume)
+            {
+                characteSPR.sprite = jumpSprites[jumpingContinueIndex--];
+
+                
+
+                if(jumpingContinueIndex == 0)
+                {
+                    jumpingContinueIndex = jumpSprites.Length - 1;
+                }
+            }
+
+            #region  Karakterimiz'in Desh Animasyonu'nun kodlari
+            if(!character.isCharacterAbove)
+            {
+                if(character.isCharacterSlidDown)
+                {
+                    characteSPR.sprite = deshSprites[deshSpritesCount++];
+
+                    if(deshSpritesCount == deshSprites.Length - 1)
+                    {
+                        deshSpritesCount = 0;
+                    }
+                    
+                }   
+            }
+            #endregion
+            
+            #region  Karakterimiz'in Atak Animasyonu'nun kodlari
+            if(character.readyToAttack)
+            {
+                attackSpritesTimeCounter += Time.deltaTime;
+                
+                if(attackSpritesTimeCounter > 0.07f)
+                {
+                    characteSPR.sprite = attackSprites[attackSpritesCount++];
+
+                    if(attackSpritesCount == attackSprites.Length - 1)
+                    {
+                        attackSpritesCount = 0;
+                        character.readyToAttack = false;
+                    }
+                    attackSpritesTimeCounter = 0f;
+                }
+            }
+            #endregion
+
+
+            #region  Karakterimiz'in Ateş Topu Atmaya Hazilanma Animasyonu
+            if(character.readyToFireballAttack)
+            {
+                fireballSkillSpritesTimeCounter += Time.deltaTime;
+                if(fireballSkillSpritesTimeCounter > 0.05f)
+                {
+                    characteSPR.sprite = fireballSkillSprites[fireballSkillSpritesCount++];
+
+                    if(fireballSkillSpritesCount == fireballSkillSprites.Length - 1)
+                    {
+                        fireballSkillSpritesCount = 0;
+                        character.readyToFireballAttack = false;
+                        fireballReady = true;
+                    }
+                    fireballSkillSpritesTimeCounter = 0f;
+
+                }
+
+            }
+            #endregion
+
+            #region  Karakterimiz'in Hurt Animasyonu
+
+            if(character.StartHurtAnimation)
+            {
+                hurtSpritesTimeCounter += Time.deltaTime;
+                if(hurtSpritesTimeCounter > 0.03f)
+                {
+                    if(hurtSpritesIndex < hurtSprites.Length)
+                    {
+                        characteSPR.sprite = hurtSprites[hurtSpritesIndex++];
+                        
+                        if(hurtSpritesIndex == hurtSprites.Length - 1)
+                        {
+                            hurtSpritesIndex = 0;
+
+                            character.StartHurtAnimation = false;
+                        }
+                    }
+                    hurtSpritesTimeCounter = 0f;
+                }
+            }
+
+            #endregion
+
+            #region  Karakterimiz'in Strike attak hazirlama kodu
+            
+            if(character.ReadyToStrikeAttack)
+            {
+                strikeSpritesTimeCounter += Time.deltaTime;
+
+                if(strikeSpritesTimeCounter > 0.05f)
+                {
+                    characteSPR.sprite = strikeAttackSprites[strikeAttackSpritesIndex++];
+
+                    if(strikeAttackSpritesIndex == strikeAttackSprites.Length - 1)
+                    {
+                        strikeAttackSpritesIndex = 0;
+
+                        character.ReadyToStrikeAttack = false;
+                    }
+                    strikeSpritesTimeCounter = 0f;
+                }
+            }
+
+            #endregion
+        }
     }   
    
 }
