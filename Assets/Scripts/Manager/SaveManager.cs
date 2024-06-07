@@ -16,7 +16,7 @@ public class SaveManager : MonoBehaviour
         }
     }
 
-
+   
     #region  Getters
 
     public static int GetLastLevelIndex()
@@ -39,6 +39,16 @@ public class SaveManager : MonoBehaviour
         return PlayerPrefs.GetInt("CheckPoint");
     }
     
+    public static int GetCoinCounter()
+    {
+        return PlayerPrefs.HasKey("coinCounter") ? PlayerPrefs.GetInt("coinCounter") : 0;
+    }
+    
+    public static int GetCoinSiblingIndex()
+    {
+        return PlayerPrefs.GetInt("isCoinTouched");
+    }
+
     #endregion
 
 
@@ -62,7 +72,14 @@ public class SaveManager : MonoBehaviour
     {
         PlayerPrefs.SetInt("CheckPoint",checkPointIndex);
     }
-
+    public static void SetCoinCounter(int coinCounter)
+    {
+        PlayerPrefs.SetInt("coinCounter", coinCounter);
+    }
+    public static void SetCoinSiblingIndex(int coinSiblingIndex)
+    {
+        PlayerPrefs.SetInt("isCoinTouched",coinSiblingIndex);
+    }
     #endregion
 
     public static float GetLifeValue(string whichLife,float heartValue = 0)

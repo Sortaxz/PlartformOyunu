@@ -68,7 +68,6 @@ public class CharacterControl : MonoBehaviour
 
         rb2D = GetComponent<Rigidbody2D>();
         gameManager = GameManager.Instance;
-
         
     }
 
@@ -190,11 +189,7 @@ public class CharacterControl : MonoBehaviour
         }
 
 
-        if(other.CompareTag("Coin"))
-        {
-            Destroy(other.gameObject);
-            gameManager.NumberCollectedCoins++;
-        }
+       
     }
 
    

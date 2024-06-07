@@ -138,6 +138,9 @@ public class GameManager : MonoBehaviour
         musicPlayer.volume = SaveManager.GetLastMusicVolume();
         musicPlayer.time = SaveManager.GetLastMusicTime();
 
+        numberCollectedCoins = SaveManager.GetCoinCounter();
+
+
         LeftWindPosition = transform.GetChild(0);
         RightWindPosition = transform.GetChild(1);
         
@@ -157,15 +160,18 @@ public class GameManager : MonoBehaviour
         CharcterCheckPoint();
         CameraPositionControl();
         
-        IsWindStillBlowingOrEnemyFirebal();
+        //IsWindStillBlowingOrEnemyFirebal();
         
-        CreateWindObject();
-        CreateEnemyFireballObject();
+        //CreateWindObject();
+        //CreateEnemyFireballObject();
         
        
 
 
     }
+
+
+    
 
     public void LevelPreparation()
     {

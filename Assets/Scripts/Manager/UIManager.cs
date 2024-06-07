@@ -86,7 +86,8 @@ public class UIManager : MonoBehaviour
     
     private bool finishStartUpProgress = false;
     public bool FinishStartUpProgress { get { return finishStartUpProgress;} set { finishStartUpProgress = value;}}
-
+    [SerializeField] private TextMeshProUGUI coinCounterText;
+    public TextMeshProUGUI CoinCounterText {get { return coinCounterText;} set { coinCounterText= value;}}
     private float seconds = 0f;
     private void Awake()
     {
@@ -98,6 +99,8 @@ public class UIManager : MonoBehaviour
         heartLeftImage.fillAmount = SaveManager.GetLifeValue("leftHeart");
         heartMiddleImage.fillAmount = SaveManager.GetLifeValue("middleHeart");
         heartRightImage.fillAmount = SaveManager.GetLifeValue("rightHeart");
+
+        coinCounterText.text = SaveManager.GetCoinCounter().ToString();
     }
 
     void Update()
@@ -105,7 +108,6 @@ public class UIManager : MonoBehaviour
         UIInputControl();
         LifeDecreaseAndReset();
 
-        
     }
 
     public void FinishLevelTransition(float holdForSeconds,bool endLevelTransition)

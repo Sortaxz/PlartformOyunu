@@ -23,6 +23,7 @@ TagManager:
   - Wind
   - Coin
   - StartButton
+  - CoinCounter
   layers:
   - Default
   - TransparentFX
