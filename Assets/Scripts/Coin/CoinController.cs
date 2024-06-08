@@ -18,7 +18,6 @@ public class CoinController : MonoBehaviour
     }
     void Start()
     {
-        //CoinTouchedControl();
     }
 
 
@@ -31,32 +30,21 @@ public class CoinController : MonoBehaviour
     {
         CoinMove();
     }
-    public void CoinTouchedControl()
-    {
-        if(PlayerPrefs.HasKey("isCoinTouched"))
-        {
-            if(transform.GetSiblingIndex() == SaveManager.GetCoinSiblingIndex())
-            {
-                print(transform.name);
-                Destroy(transform.gameObject);
-            }
-        }
-    }
+    
     private void OnTriggerEnter2D(Collider2D other) 
     {
         if(other.CompareTag("Player"))
         {
-            print("Carpti");
             coinReadyGo = true;
-            SaveManager.SetCoinSiblingIndex(transform.GetSiblingIndex());
 
         }
         if(other.CompareTag("CoinCounter"))
         {
             isCoinHit = true;
             GameManager.Instance.NumberCollectedCoins++;
-            print(GameManager.Instance.NumberCollectedCoins);
+
             SaveManager.SetCoinCounter(GameManager.Instance.NumberCollectedCoins);
+            
             SaveManager.SetCoinSiblingIndex(transform.GetSiblingIndex());
 
             UIManager.Instance.CoinCounterText.text = SaveManager.GetCoinCounter().ToString();

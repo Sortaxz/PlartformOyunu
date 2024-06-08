@@ -33,19 +33,20 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI gecisEkranYazisi;
 
     [SerializeField] private Image heartLeftImage;
-    public Image HeartLeftImage { get { return heartLeftImage;}}
+    public Image HeartLeftImage { get { return heartLeftImage;} set { heartLeftImage = value;}}
 
     [SerializeField] private Image heartMiddleImage;
-    public Image HeartMiddleImage { get { return heartMiddleImage;}}
+    public Image HeartMiddleImage { get { return heartMiddleImage;} set { heartMiddleImage = value;}}
 
     [SerializeField] private Image heartRightImage;
-    public Image HeartRightImage { get { return heartRightImage;}}
+    public Image HeartRightImage { get { return heartRightImage;} set { heartRightImage = value;}}
 
     [SerializeField] private GameObject itemCreationPoint;
 
     [SerializeField] private Image itemImage;
     
     [SerializeField] private Image sahneGecisEkrani;
+    [SerializeField] private Image coinCounteImage;
     public Image ItemImage
     {
         get { return itemImage; }
@@ -100,7 +101,6 @@ public class UIManager : MonoBehaviour
         heartMiddleImage.fillAmount = SaveManager.GetLifeValue("middleHeart");
         heartRightImage.fillAmount = SaveManager.GetLifeValue("rightHeart");
 
-        coinCounterText.text = SaveManager.GetCoinCounter().ToString();
     }
 
     void Update()
@@ -113,7 +113,8 @@ public class UIManager : MonoBehaviour
     public void FinishLevelTransition(float holdForSeconds,bool endLevelTransition)
     {
         scene_Manager.EndLevelTransition = endLevelTransition == true ? true : false;
-
+        coinCounterText.enabled = false;
+        coinCounteImage.enabled = false;
         if(stageTransitionAnimationStarts)
         {
             uI_ElemetsAnimator.SetBool("startTransition",true);
@@ -155,6 +156,7 @@ public class UIManager : MonoBehaviour
                 {
                     gameManager.StageTransitionOver = true;
                     gameManager.StageTransitionReady = false;
+                    
                 }
                 
             }

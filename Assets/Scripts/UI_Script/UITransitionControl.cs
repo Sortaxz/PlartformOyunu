@@ -43,18 +43,17 @@ public class UITransitionControl : MonoBehaviour
     }
     private void LoadLevel()
     {
-        //int sceneIndex = PlayerPrefs.GetInt("LastLevelIndex");
         int sceneIndex = SaveManager.GetLastLevelIndex();
 
         if(sceneIndex < scenes.Length)
         {
-            //int levelIndexInstall = PlayerPrefs.GetInt("LastLevelIndex")  + 1;
             int levelIndexInstall = SaveManager.GetLastLevelIndex()  + 1;
             
             SaveManager.SetLastMusicTime(musicPlayer.time);
 
             AsyncOperation asyncOperation=  SceneManager.LoadSceneAsync(levelIndexInstall); 
             PlayerPrefs.DeleteKey("CheckPoint");
+            PlayerPrefs.DeleteKey("coinCounter");
             if(asyncOperation.isDone)
             {
                 transitionOver = false;
@@ -69,6 +68,7 @@ public class UITransitionControl : MonoBehaviour
             AsyncOperation asyncOperation=  SceneManager.LoadSceneAsync(levelIndexInstall); 
 
             PlayerPrefs.DeleteKey("CheckPoint");
+            PlayerPrefs.DeleteKey("coinCounter");
             
             if(asyncOperation.isDone)
             {

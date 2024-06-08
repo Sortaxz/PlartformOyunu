@@ -102,6 +102,8 @@ public class MainMenuController : MonoBehaviour
     
     public void StartButtonMethod()
     {
+        
+
         LoadLevel();
     }
 
