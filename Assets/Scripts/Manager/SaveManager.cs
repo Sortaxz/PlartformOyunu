@@ -87,15 +87,15 @@ public class SaveManager : MonoBehaviour
         
         if(whichLife == "leftHeart") 
         {
-            heartValue= PlayerPrefs.GetFloat("leftHeart");
+            heartValue= PlayerPrefs.HasKey("leftHeart")  ? PlayerPrefs.GetFloat("leftHeart") : 1f;
         } 
         if(whichLife == "middleHeart")
         {
-            heartValue = PlayerPrefs.GetFloat("middleHeart");
+            heartValue =  PlayerPrefs.HasKey("middleHeart") ? PlayerPrefs.GetFloat("middleHeart") : 1f;
         }
         if(whichLife == "rightHeart")
         {
-            heartValue = PlayerPrefs.GetFloat("rightHeart");
+            heartValue =PlayerPrefs.HasKey("rightHeart") ? PlayerPrefs.GetFloat("rightHeart") : 1f;
         }
         return heartValue;
     }

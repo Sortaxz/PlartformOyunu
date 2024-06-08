@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Level_Start_Transition_Scene.unity
     guid: b7f10d85c46812e449945ec339d48ea9
+  - enabled: 1
+    path: Assets/Scenes/Waiting-Scene.unity
+    guid: 2fd05bb375286c3458c80741346598a0
   m_configObjects: {}

@@ -140,7 +140,7 @@ public class GameManager : MonoBehaviour
         numberCollectedCoins = 0;
        
 
-
+       
 
         LeftWindPosition = transform.GetChild(0);
         RightWindPosition = transform.GetChild(1);
@@ -166,7 +166,7 @@ public class GameManager : MonoBehaviour
         CreateWindObject();
         CreateEnemyFireballObject();
         
-       
+        print(mainCharacter.IsCharacterDead);
 
 
     }

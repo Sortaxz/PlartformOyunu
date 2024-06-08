@@ -10,14 +10,13 @@ public class CoinController : MonoBehaviour
     private bool coinReadyGo = false;
     private bool isCoinHit = false;
     public bool IsCoinHit { get { return isCoinHit; }  set { isCoinHit = value; } }
-    private Vector3 coinCounterPosition;
-    private bool isCoinTouched = false;
     private void Awake() 
     {
         rgb2D = GetComponent<Rigidbody2D>();
     }
     void Start()
     {
+        
     }
 
 
@@ -36,18 +35,26 @@ public class CoinController : MonoBehaviour
         if(other.CompareTag("Player"))
         {
             coinReadyGo = true;
-
-        }
+            SaveManager.SetCoinSiblingIndex(transform.GetSiblingIndex());
+            print(SaveManager.GetCoinSiblingIndex());
+        }   
         if(other.CompareTag("CoinCounter"))
         {
             isCoinHit = true;
             GameManager.Instance.NumberCollectedCoins++;
 
             SaveManager.SetCoinCounter(GameManager.Instance.NumberCollectedCoins);
+
             
-            SaveManager.SetCoinSiblingIndex(transform.GetSiblingIndex());
 
             UIManager.Instance.CoinCounterText.text = SaveManager.GetCoinCounter().ToString();
+        }
+    }
+    private void OnTriggerExit2D(Collider2D other) 
+    {
+        if(other.CompareTag("CoinCounter"))
+        {
+            isCoinHit = false;
         }
     }
     private void CoinMove()
@@ -60,7 +67,8 @@ public class CoinController : MonoBehaviour
             }
             else
             {
-                Destroy(gameObject);
+                gameObject.SetActive(false);
+                //Destroy(gameObject);
             }
 
         }

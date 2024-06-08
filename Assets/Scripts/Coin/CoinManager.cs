@@ -21,24 +21,17 @@ public class CoinManager : MonoBehaviour
     private void Awake()
     {
         coinController = transform.GetChild(0).parent.GetComponent<CoinController>();
-        CoinAlignment();
+        
     }
 
     private void CoinAlignment()
     {
-        coins = new GameObject[transform.childCount];
-        for (int i = 0; i < transform.childCount; i++)
-        {
-            coins[i] = transform.GetChild(i).gameObject;
-            if (i == transform.childCount - 1)
-            {
-
-                break;
-            }
-        }
+        
     }
 
     //DENEME ASAMASINDA
+
+    
     IEnumerator Control()
     {
         if(coinsIndex < coins.Length)

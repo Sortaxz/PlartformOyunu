@@ -95,7 +95,6 @@ public class UIManager : MonoBehaviour
         gameManager = GameManager.Instance;
         scene_Manager = Scene_Manager.Instance;
 
-        SaveManager.FirstHeartSaveMethod();
 
         heartLeftImage.fillAmount = SaveManager.GetLifeValue("leftHeart");
         heartMiddleImage.fillAmount = SaveManager.GetLifeValue("middleHeart");
@@ -105,6 +104,7 @@ public class UIManager : MonoBehaviour
 
     void Update()
     {
+
         UIInputControl();
         LifeDecreaseAndReset();
 
@@ -252,7 +252,7 @@ public class UIManager : MonoBehaviour
         heartMiddleImage.fillAmount = 1f;
         heartRightImage.fillAmount = 1f;
         characterLifeReset = true;
-
+        
     }
 
 }
