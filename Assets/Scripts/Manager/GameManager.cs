@@ -51,6 +51,9 @@ public class GameManager : MonoBehaviour
     private bool stopGameFlow = false;
     public bool StopGameFlow { get {return stopGameFlow;} set {stopGameFlow = value;}}
 
+    private bool charcDead = false;
+    public bool CharcDead { get { return charcDead;} set { charcDead = value;}}
+
     [SerializeField] private float holdForSeconds;
     public float HoldForSeconds { get { return holdForSeconds;}}
 
@@ -166,8 +169,7 @@ public class GameManager : MonoBehaviour
         CreateWindObject();
         CreateEnemyFireballObject();
         
-        print(mainCharacter.IsCharacterDead);
-
+        
 
     }
 
@@ -260,7 +262,7 @@ public class GameManager : MonoBehaviour
     
     void CreateWindObject()
     {
-        if(!finish && !stageTransitionReady)
+        if(!finish && !stageTransitionReady && !UIManager.Instance.StandbyScreenWorked)
         {
             if(createWind)
             {
@@ -310,7 +312,7 @@ public class GameManager : MonoBehaviour
     }
     void CreateEnemyFireballObject()
     {
-        if(!finish && !stageTransitionReady )
+        if(!finish && !stageTransitionReady && !UIManager.Instance.StandbyScreenWorked)
         {
             if(createEnemyFireball)
             {

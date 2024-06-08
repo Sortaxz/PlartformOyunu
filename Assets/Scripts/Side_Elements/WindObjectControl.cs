@@ -53,7 +53,7 @@ public class WindObjectControl : MonoBehaviour
     
     public  void WindMovement()
     {
-        if(!gameManager.Finish)
+        if(!gameManager.Finish && !UIManager.Instance.StandbyScreenWorked)
         {
             if(gameManager.mainCharacter != null)
             {

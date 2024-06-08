@@ -188,15 +188,21 @@ public class CharacterControl : MonoBehaviour
 
         }
 
-
-       
+        if(other.CompareTag("downControl"))
+        {
+            isCharacterDead = true;
+        }
+        if(isCharacterDead)
+        {
+            gameManager.CharcDead = true;
+        }
     }
 
    
     
     void JumpingMovement()
     {
-        if(isJumping)
+        if(isJumping && !gameManager.StageTransitionReady && !UIManager.Instance.StandbyScreenWorked!)
         {
             rb2D.AddForce(Vector2.up * jumpingPower);
             isJumping =false;
@@ -285,21 +291,8 @@ public class CharacterControl : MonoBehaviour
 
     void CharacterMovement()
     {
-        /*
-        if(isToLeft)
-        {
-            movement = new Vector3(-characterSpeed,0,0);
-            transform.position += movement * Time.fixedDeltaTime;
-            transform.rotation = Quaternion.Euler(0,-180 ,0);
-        }
-        if(isToRight)
-        {
-            movement =new Vector3(characterSpeed,0,0);
-            transform.position += movement * Time.fixedDeltaTime;
-            transform.rotation = Quaternion.Euler(0,0,0);
-        }
-        */
-        if(!gameManager.StageTransitionReady)
+       
+        if(!gameManager.StageTransitionReady && !UIManager.Instance.StandbyScreenWorked)
         {
             if(isToLeft)
             {

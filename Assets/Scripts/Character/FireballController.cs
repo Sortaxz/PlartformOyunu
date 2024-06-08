@@ -198,7 +198,7 @@ public class FireballController : MonoBehaviour
     }
     private void EnemyFireballMovement()
     {
-        if(!GameManager.Instance.Finish)
+        if(!GameManager.Instance.Finish && !UIManager.Instance.StandbyScreenWorked)
         {
             if(transform.tag =="enemyFireball")
             {
@@ -206,17 +206,23 @@ public class FireballController : MonoBehaviour
                 {
                     if(gameManager.EnemyFireballLeftGo)
                     {
-                        fireballRb2D.AddForce(Vector2.left * gameManager.EnemyFireballSpeed);
+                        //fireballRb2D.AddForce(Vector2.left * gameManager.EnemyFireballSpeed);
+                        transform.Translate(Vector3.left * Time.fixedDeltaTime* gameManager.EnemyFireballSpeed);
                         transform.localScale = new Vector3(-1, 1,1);
                     }   
                     if(gameManager.EnemyFireballRightGo)
                     {
-                        fireballRb2D.AddForce(Vector2.right * gameManager.EnemyFireballSpeed);
+                        //fireballRb2D.AddForce(Vector2.right * gameManager.EnemyFireballSpeed);
+                        transform.Translate(Vector3.right * Time.fixedDeltaTime * gameManager.EnemyFireballSpeed);
                         transform.localScale = new Vector3(1, 1,1);
                     }
-                    gameManager.FireballWasFired = false;
+
                 }
             }
+        }
+        else if(!GameManager.Instance.Finish && UIManager.Instance.StandbyScreenWorked)
+        {
+            fireballRb2D.velocity = Vector2.zero;
         }
        
     }

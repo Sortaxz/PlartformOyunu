@@ -61,6 +61,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    [SerializeField] private GameObject WaltScreen;
     
     [SerializeField] private float proggresAddedValue; 
     private bool characterLifeReset = false;
@@ -87,9 +88,14 @@ public class UIManager : MonoBehaviour
     
     private bool finishStartUpProgress = false;
     public bool FinishStartUpProgress { get { return finishStartUpProgress;} set { finishStartUpProgress = value;}}
+
+    private bool standbyScreenWorked = false;
+    public bool StandbyScreenWorked { get { return standbyScreenWorked;}}
     [SerializeField] private TextMeshProUGUI coinCounterText;
     public TextMeshProUGUI CoinCounterText {get { return coinCounterText;} set { coinCounterText= value;}}
     private float seconds = 0f;
+
+
     private void Awake()
     {
         gameManager = GameManager.Instance;
@@ -104,10 +110,27 @@ public class UIManager : MonoBehaviour
 
     void Update()
     {
+        NewMethod();
 
         UIInputControl();
         LifeDecreaseAndReset();
 
+    }
+
+    private void NewMethod()
+    {
+        if (gameManager.CharcDead)
+        {
+            SaveManager.LastHeartSaveMethod();
+            heartLeftImage.fillAmount = SaveManager.GetLifeValue("leftHeart");
+            heartMiddleImage.fillAmount = SaveManager.GetLifeValue("middleHeart");
+            heartRightImage.fillAmount = SaveManager.GetLifeValue("rightHeart");
+
+            if (heartRightImage.fillAmount >= 1f)
+            {
+                gameManager.CharcDead = false;
+            }
+        }
     }
 
     public void FinishLevelTransition(float holdForSeconds,bool endLevelTransition)
@@ -223,6 +246,20 @@ public class UIManager : MonoBehaviour
         {
             hasItemChange = !hasItemChange;
         }
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            
+            standbyScreenWorked = !standbyScreenWorked;
+            if(standbyScreenWorked)
+            {
+                WaltScreen.SetActive(true);
+            }
+            else
+            {
+                WaltScreen.SetActive(false);
+
+            }
+        }
     }
 
     private void HeartFillAmountControl(float hearatValueMinimization)
@@ -255,4 +292,16 @@ public class UIManager : MonoBehaviour
         
     }
 
+    public void ResumeButtonMethod()
+    {
+        WaltScreen.SetActive(false);
+        standbyScreenWorked = false;
+    }
+
+    public void ExitButtonMethod()
+    {
+        SceneManager.LoadScene(0);
+        
+    }
+    
 }

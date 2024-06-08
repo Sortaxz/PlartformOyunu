@@ -74,7 +74,7 @@ public class AnimationController : MonoBehaviour
     void AnimationControl()
     {
         
-        if(!GameManager.Instance.StageTransitionReady)
+        if(!GameManager.Instance.StageTransitionReady && !UIManager.Instance.StandbyScreenWorked)
         {
             horizontal = Input.GetAxis("Horizontal") ;
             #region  Karakterimiz idle ve run animasyon kodlari
