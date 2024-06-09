@@ -628,7 +628,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 260810351}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1286193987}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: ExitButtonMethod
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &260810351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1009,7 +1021,7 @@ MonoBehaviour:
   enemyFireballObjects:
   - {fileID: 0}
   - {fileID: 0}
-  enemyFireballSpeed: 800
+  enemyFireballSpeed: 19
   resumeEnemyFirebal: 0
 --- !u!1 &713350862
 GameObject:
@@ -1667,6 +1679,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyCharcterSpeed: 0.4
+  enemyJumpPower: 800
 --- !u!50 &855860785
 Rigidbody2D:
   serializedVersion: 4
@@ -1707,6 +1720,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyCharacterAnimator: {fileID: 855860780}
+  enemyDeadSprites: []
+  enemyAttackSprites: []
+  enemyBlockSprites: []
 --- !u!1 &875091726
 GameObject:
   m_ObjectHideFlags: 0
@@ -2110,7 +2126,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1033996723}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1286193987}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: ResumeButtonMethod
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1033996723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2470,6 +2498,7 @@ MonoBehaviour:
   itemImage: {fileID: 0}
   sahneGecisEkrani: {fileID: 1892085319772121911}
   coinCounteImage: {fileID: 1759346195}
+  WaltScreen: {fileID: 98998819}
   proggresAddedValue: 0.2
   coinCounterText: {fileID: 1892830408}
 --- !u!114 &1286193988

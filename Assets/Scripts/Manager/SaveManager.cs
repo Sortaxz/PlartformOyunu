@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -49,6 +50,11 @@ public class SaveManager : MonoBehaviour
         return PlayerPrefs.GetInt("isCoinTouched");
     }
 
+    public static bool GetCoinHit()
+    {
+        bool hit = PlayerPrefs.HasKey("coinHit") ?  true : false;
+        return hit;
+    }
     #endregion
 
 
@@ -80,6 +86,18 @@ public class SaveManager : MonoBehaviour
     {
         PlayerPrefs.SetInt("isCoinTouched",coinSiblingIndex);
     }
+
+    public static void SetLifeValue(string whichLife,float lifeValue)
+    {
+        PlayerPrefs.SetFloat(whichLife,lifeValue);
+    }
+
+    public static void SetCoinHit()
+    {
+        PlayerPrefs.SetString("coinHit","true");
+        
+    }
+
     #endregion
 
     public static float GetLifeValue(string whichLife,float heartValue = 0)
@@ -100,27 +118,8 @@ public class SaveManager : MonoBehaviour
         return heartValue;
     }
 
-    public static void SetLifeValue(string whichLife,float lifeValue)
-    {
-        PlayerPrefs.SetFloat(whichLife,lifeValue);
-    }
 
-    public static void FirstHeartSaveMethod()
-    {
-        if(!PlayerPrefs.HasKey("leftHeart"))
-        {
-            PlayerPrefs.SetFloat("leftHeart",1f);
-        }
-        if(!PlayerPrefs.HasKey("middleHeart"))
-        {
-            PlayerPrefs.SetFloat("middleHeart",1f);
-        }
-        if(!PlayerPrefs.HasKey("rightHeart"))
-        {
-            PlayerPrefs.SetFloat("rightHeart",1f);
-        }
-    }
-    
+
     public static void LastHeartSaveMethod()
     {
         PlayerPrefs.SetFloat("leftHeart",1f);

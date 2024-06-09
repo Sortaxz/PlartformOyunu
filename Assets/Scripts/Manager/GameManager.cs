@@ -54,6 +54,9 @@ public class GameManager : MonoBehaviour
     private bool charcDead = false;
     public bool CharcDead { get { return charcDead;} set { charcDead = value;}}
 
+    private bool isWaitScreenExit = false;
+    public bool IsWaitScreenExit { get { return isWaitScreenExit;} set { isWaitScreenExit = value;}}
+
     [SerializeField] private float holdForSeconds;
     public float HoldForSeconds { get { return holdForSeconds;}}
 
@@ -142,6 +145,8 @@ public class GameManager : MonoBehaviour
         musicPlayer.time = SaveManager.GetLastMusicTime();
         numberCollectedCoins = 0;
        
+
+        isWaitScreenExit = SaveManager.GetCoinHit();
 
        
 

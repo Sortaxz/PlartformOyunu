@@ -1679,6 +1679,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyCharcterSpeed: 0.4
+  enemyJumpPower: 800
 --- !u!50 &855860785
 Rigidbody2D:
   serializedVersion: 4
@@ -1719,6 +1720,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyCharacterAnimator: {fileID: 855860780}
+  enemyDeadSprites: []
+  enemyAttackSprites: []
+  enemyBlockSprites: []
 --- !u!1 &875091726
 GameObject:
   m_ObjectHideFlags: 0
@@ -2329,7 +2333,7 @@ MonoBehaviour:
   inhalingBombPositions:
   - {x: 83, y: -1.2}
   startCreateInhalingBomb: 0
-  inhalingBombbuttonClose: 0
+  inhalingBombbuttonClose: 1
   inhalingBombsIndex: 1
   cranbolinePrefab: {fileID: 0}
   cranbolines:

@@ -250,7 +250,7 @@ public class CharacterControl : MonoBehaviour
             strikeAttackReady = false;
         }
 
-        if(Input.GetMouseButtonDown(0) )
+        if(Input.GetMouseButtonDown(0)  && !UIManager.Instance.StandbyScreenWorked)
         {
            
             if(UIAnimation.Instance.SwordAttackBegin == true)

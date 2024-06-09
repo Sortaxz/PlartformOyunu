@@ -91,8 +91,11 @@ public class UIManager : MonoBehaviour
 
     private bool standbyScreenWorked = false;
     public bool StandbyScreenWorked { get { return standbyScreenWorked;}}
+
+
     [SerializeField] private TextMeshProUGUI coinCounterText;
     public TextMeshProUGUI CoinCounterText {get { return coinCounterText;} set { coinCounterText= value;}}
+
     private float seconds = 0f;
 
 
@@ -100,12 +103,13 @@ public class UIManager : MonoBehaviour
     {
         gameManager = GameManager.Instance;
         scene_Manager = Scene_Manager.Instance;
-
+        
 
         heartLeftImage.fillAmount = SaveManager.GetLifeValue("leftHeart");
         heartMiddleImage.fillAmount = SaveManager.GetLifeValue("middleHeart");
         heartRightImage.fillAmount = SaveManager.GetLifeValue("rightHeart");
 
+        
     }
 
     void Update()
@@ -300,6 +304,21 @@ public class UIManager : MonoBehaviour
 
     public void ExitButtonMethod()
     {
+        SaveManager.SetLifeValue("leftHeart",heartLeftImage.fillAmount);
+        SaveManager.SetLifeValue("middleHeart",heartMiddleImage.fillAmount);
+        SaveManager.SetLifeValue("rightHeart",heartRightImage.fillAmount);
+
+        PlayerPrefs.DeleteKey("coinCounter");
+        
+        gameManager.IsWaitScreenExit = true;
+
+        if(gameManager.IsWaitScreenExit)
+        {
+            SaveManager.SetCoinCounter(gameManager.NumberCollectedCoins);
+        }
+
+        SaveManager.SetCoinHit();
+
         SceneManager.LoadScene(0);
         
     }

@@ -36,7 +36,6 @@ public class CoinController : MonoBehaviour
         {
             coinReadyGo = true;
             SaveManager.SetCoinSiblingIndex(transform.GetSiblingIndex());
-            print(SaveManager.GetCoinSiblingIndex());
         }   
         if(other.CompareTag("CoinCounter"))
         {
@@ -68,7 +67,6 @@ public class CoinController : MonoBehaviour
             else
             {
                 gameObject.SetActive(false);
-                //Destroy(gameObject);
             }
 
         }
