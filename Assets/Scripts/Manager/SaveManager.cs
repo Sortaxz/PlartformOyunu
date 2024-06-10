@@ -50,11 +50,24 @@ public class SaveManager : MonoBehaviour
         return PlayerPrefs.GetInt("isCoinTouched");
     }
 
-    public static bool GetCoinHit()
+    public static float GetLifeValue(string whichLife,float heartValue = 0)
     {
-        bool hit = PlayerPrefs.HasKey("coinHit") ?  true : false;
-        return hit;
+        
+        if(whichLife == "leftHeart") 
+        {
+            heartValue= PlayerPrefs.HasKey("leftHeart")  ? PlayerPrefs.GetFloat("leftHeart") : 1f;
+        } 
+        if(whichLife == "middleHeart")
+        {
+            heartValue =  PlayerPrefs.HasKey("middleHeart") ? PlayerPrefs.GetFloat("middleHeart") : 1f;
+        }
+        if(whichLife == "rightHeart")
+        {
+            heartValue =PlayerPrefs.HasKey("rightHeart") ? PlayerPrefs.GetFloat("rightHeart") : 1f;
+        }
+        return heartValue;
     }
+    
     #endregion
 
 
@@ -92,33 +105,23 @@ public class SaveManager : MonoBehaviour
         PlayerPrefs.SetFloat(whichLife,lifeValue);
     }
 
-    public static void SetCoinHit()
+    public static void SetHitCoinIndex(int hitCoinIndex)
     {
-        PlayerPrefs.SetString("coinHit","true");
-        
+        PlayerPrefs.SetInt($"hitCoin{hitCoinIndex}",hitCoinIndex);
     }
+    
 
     #endregion
 
-    public static float GetLifeValue(string whichLife,float heartValue = 0)
+    
+    public static void ResetHitCoinIndex(int coinCounter)
     {
-        
-        if(whichLife == "leftHeart") 
+        for (int i = 0; i < coinCounter; i++)
         {
-            heartValue= PlayerPrefs.HasKey("leftHeart")  ? PlayerPrefs.GetFloat("leftHeart") : 1f;
-        } 
-        if(whichLife == "middleHeart")
-        {
-            heartValue =  PlayerPrefs.HasKey("middleHeart") ? PlayerPrefs.GetFloat("middleHeart") : 1f;
+            PlayerPrefs.DeleteKey($"hitCoin{i}");
+            
         }
-        if(whichLife == "rightHeart")
-        {
-            heartValue =PlayerPrefs.HasKey("rightHeart") ? PlayerPrefs.GetFloat("rightHeart") : 1f;
-        }
-        return heartValue;
     }
-
-
 
     public static void LastHeartSaveMethod()
     {

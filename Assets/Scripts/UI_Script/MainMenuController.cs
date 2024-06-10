@@ -74,6 +74,13 @@ public class MainMenuController : MonoBehaviour
                     delegate
                     {
                         int loadSceneIndex = spawnedLevelSelectionButton.transform.GetSiblingIndex()+1;
+                        
+                        //SaveManager.SetLastMusicTime(musicPlayer.time);
+
+                        //SaveManager.ResetHitCoinIndex(4);
+                        
+                        //SaveManager.SetCoinCounter(0);
+
                         SceneManager.LoadScene(loadSceneIndex);
                     }
                 );
@@ -128,6 +135,10 @@ public class MainMenuController : MonoBehaviour
         loadSceneBuildingIndex = 1;
 
         SaveManager.SetLastMusicTime(musicPlayer.time);
+
+        SaveManager.ResetHitCoinIndex(4);
+        
+        SaveManager.SetCoinCounter(0);
 
         SceneManager.LoadScene(loadSceneBuildingIndex);
     }

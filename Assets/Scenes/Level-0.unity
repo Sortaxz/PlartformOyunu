@@ -1005,7 +1005,7 @@ MonoBehaviour:
   uI_Elemets: {fileID: 3991327544907816752}
   cameraMesafesi: {x: 1, y: 2, z: -30}
   musicPlayer: {fileID: 7444844329553172980}
-  fireballSpeed: 800
+  fireballSpeed: 19
   isCharacterOnPoint: 0
   cameraScaleChangeTime: 0.01
   holdForSeconds: 5

@@ -179,20 +179,25 @@ public class FireballController : MonoBehaviour
     {
         if(transform.tag =="fireball")
         {
-            if(!birKereYonAlindi)
+            if(!GameManager.Instance.Finish && !UIManager.Instance.StandbyScreenWorked)
             {
-                if (gameManager.mainCharacter.fireballLocalScale)
+                if(!birKereYonAlindi)
                 {
-                    yon = Vector3.left;
-                }
-                else
-                {
-                    yon = Vector3.right;
-                }
+                    if (gameManager.mainCharacter.fireballLocalScale)
+                    {
+                        yon = Vector3.left;
+                    }
+                    else
+                    {
+                        yon = Vector3.right;
+                    }
 
-                birKereYonAlindi = true;
-                fireballRb2D.AddForce(yon* fireballSpeed);
+                    birKereYonAlindi = true;
+                    //fireballRb2D.AddForce(yon* fireballSpeed);
+                }
+                transform.Translate(yon * Time.fixedDeltaTime * fireballSpeed);
             }
+            
         }
 
     }

@@ -92,6 +92,8 @@ public class Scene_Manager : MonoBehaviour
         SaveManager.SetLifeValue("middleHeart",UIManager.Instance.HeartMiddleImage.fillAmount);
         SaveManager.SetLifeValue("rightHeart",UIManager.Instance.HeartRightImage.fillAmount);
 
+        SaveManager.ResetHitCoinIndex(CoinManager.Instance.Coins.Length);
+
         AsyncOperation asyncOperation =  SceneManager.LoadSceneAsync(4,LoadSceneMode.Single);
         if(asyncOperation.isDone)
         {

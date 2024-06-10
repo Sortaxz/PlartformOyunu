@@ -16,7 +16,6 @@ public class CoinController : MonoBehaviour
     }
     void Start()
     {
-        
     }
 
 
@@ -44,7 +43,8 @@ public class CoinController : MonoBehaviour
 
             SaveManager.SetCoinCounter(GameManager.Instance.NumberCollectedCoins);
 
-            
+            SaveManager.SetHitCoinIndex(transform.GetSiblingIndex());
+           
 
             UIManager.Instance.CoinCounterText.text = SaveManager.GetCoinCounter().ToString();
         }

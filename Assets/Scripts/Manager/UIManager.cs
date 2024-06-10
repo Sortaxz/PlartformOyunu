@@ -104,6 +104,7 @@ public class UIManager : MonoBehaviour
         gameManager = GameManager.Instance;
         scene_Manager = Scene_Manager.Instance;
         
+        coinCounterText.text = SaveManager.GetCoinCounter().ToString();
 
         heartLeftImage.fillAmount = SaveManager.GetLifeValue("leftHeart");
         heartMiddleImage.fillAmount = SaveManager.GetLifeValue("middleHeart");
@@ -315,9 +316,10 @@ public class UIManager : MonoBehaviour
         if(gameManager.IsWaitScreenExit)
         {
             SaveManager.SetCoinCounter(gameManager.NumberCollectedCoins);
+            gameManager.NumberCollectedCoins = SaveManager.GetCoinCounter();
+            PlayerPrefs.SetString("Exit","true");
         }
 
-        SaveManager.SetCoinHit();
 
         SceneManager.LoadScene(0);
         

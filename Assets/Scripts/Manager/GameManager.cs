@@ -145,10 +145,8 @@ public class GameManager : MonoBehaviour
         musicPlayer.time = SaveManager.GetLastMusicTime();
         numberCollectedCoins = 0;
        
-
-        isWaitScreenExit = SaveManager.GetCoinHit();
-
-       
+        
+        numberCollectedCoins = SaveManager.GetCoinCounter();
 
         LeftWindPosition = transform.GetChild(0);
         RightWindPosition = transform.GetChild(1);
@@ -169,10 +167,10 @@ public class GameManager : MonoBehaviour
         CharcterCheckPoint();
         CameraPositionControl();
         
-        IsWindStillBlowingOrEnemyFirebal();
+        //IsWindStillBlowingOrEnemyFirebal();
         
-        CreateWindObject();
-        CreateEnemyFireballObject();
+        //CreateWindObject();
+        //CreateEnemyFireballObject();
         
         
 
