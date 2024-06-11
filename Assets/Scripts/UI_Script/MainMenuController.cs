@@ -21,6 +21,13 @@ public class MainMenuController : MonoBehaviour
     private int scenesIndex = 0;
     private bool create = false;
     int loadSceneBuildingIndex;
+    private bool end = false;
+    public bool End { get { return end; }  set { end = value; } }
+    
+    private void Awake() 
+    {
+    }
+
     private void Start() 
     {
         SaveManager.FirstTimeSaveMethod();
@@ -29,17 +36,17 @@ public class MainMenuController : MonoBehaviour
         musicPlayer.time = SaveManager.GetLastMusicTime();
 
         loadSceneBuildingIndex = SaveManager.GetLastLevelIndex();
-
-        if(SaveManager.GetLastLevelIndex() == 3)
+        if(loadSceneBuildingIndex == 3)
         {
+
             startButton.interactable = false;
             ressartButton.interactable = true;
-
         }
         else
         {
             startButton.interactable = true;
         }
+        
     }
 
 
@@ -74,12 +81,17 @@ public class MainMenuController : MonoBehaviour
                     delegate
                     {
                         int loadSceneIndex = spawnedLevelSelectionButton.transform.GetSiblingIndex()+1;
-                        
-                        //SaveManager.SetLastMusicTime(musicPlayer.time);
 
-                        //SaveManager.ResetHitCoinIndex(4);
+                        SaveManager.LastHeartSaveMethod();
+
+                        SaveManager.SetLastMusicTime(musicPlayer.time);
+
+                        SaveManager.ResetHitCoinIndex(4);
                         
-                        //SaveManager.SetCoinCounter(0);
+                        SaveManager.SetCoinCounter(0);
+
+                        SaveManager.SetNextLevelIndex(loadSceneIndex);
+                    
 
                         SceneManager.LoadScene(loadSceneIndex);
                     }
@@ -128,13 +140,14 @@ public class MainMenuController : MonoBehaviour
 
     public void RessartButtonMethod()
     {
-        SaveManager.SetLifeValue("leftHeart",1f);
-        SaveManager.SetLifeValue("middleHeart",1f);
-        SaveManager.SetLifeValue("rightHeart",1f);
+        
+        SaveManager.LastHeartSaveMethod();
 
         loadSceneBuildingIndex = 1;
 
         SaveManager.SetLastMusicTime(musicPlayer.time);
+
+        SaveManager.SetNextLevelIndex(0);
 
         SaveManager.ResetHitCoinIndex(4);
         
@@ -143,4 +156,11 @@ public class MainMenuController : MonoBehaviour
         SceneManager.LoadScene(loadSceneBuildingIndex);
     }
 
+    public void ExitButton()
+    {
+        
+        PlayerPrefs.DeleteAll();
+        EditorApplication.isPlaying = false;
+        Application.Quit();
+    }
 }

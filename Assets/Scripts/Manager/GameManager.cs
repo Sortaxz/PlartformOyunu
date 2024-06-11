@@ -146,6 +146,7 @@ public class GameManager : MonoBehaviour
         numberCollectedCoins = 0;
        
         
+        
         numberCollectedCoins = SaveManager.GetCoinCounter();
 
         LeftWindPosition = transform.GetChild(0);
@@ -167,10 +168,10 @@ public class GameManager : MonoBehaviour
         CharcterCheckPoint();
         CameraPositionControl();
         
-        //IsWindStillBlowingOrEnemyFirebal();
+        IsWindStillBlowingOrEnemyFirebal();
         
-        //CreateWindObject();
-        //CreateEnemyFireballObject();
+        CreateWindObject();
+        CreateEnemyFireballObject();
         
         
 

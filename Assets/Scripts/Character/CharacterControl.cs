@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 public class CharacterControl : MonoBehaviour
 {
     private GameManager gameManager;
@@ -185,7 +186,7 @@ public class CharacterControl : MonoBehaviour
                 gameManager.Finish = true;
             }
             
-
+            
         }
 
         if(other.CompareTag("downControl"))

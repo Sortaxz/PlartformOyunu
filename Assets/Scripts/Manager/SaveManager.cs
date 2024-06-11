@@ -22,7 +22,7 @@ public class SaveManager : MonoBehaviour
 
     public static int GetLastLevelIndex()
     {
-        return PlayerPrefs.HasKey("LastLevelIndex") ? PlayerPrefs.GetInt("LastLevelIndex") : 1;
+        return PlayerPrefs.HasKey("NextLevelIndex") ? PlayerPrefs.GetInt("NextLevelIndex") : 0;
     }
 
     public static float GetLastMusicVolume()
@@ -73,9 +73,9 @@ public class SaveManager : MonoBehaviour
 
     #region  Setters
 
-    public static void SetLastLevelIndex(int value)
+    public static void SetNextLevelIndex(int value)
     {
-        PlayerPrefs.SetInt("LastLevelIndex", value);
+        PlayerPrefs.SetInt("NextLevelIndex", value);
     }
 
     public static void SetLastMusicVolume(float value)
@@ -111,8 +111,13 @@ public class SaveManager : MonoBehaviour
     }
     
 
+    
     #endregion
 
+    public static void EndLevelControl()
+    {
+        PlayerPrefs.SetString("SonLevel","SonLevel");
+    }
     
     public static void ResetHitCoinIndex(int coinCounter)
     {

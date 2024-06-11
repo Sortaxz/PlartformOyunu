@@ -309,6 +309,7 @@ public class UIManager : MonoBehaviour
         SaveManager.SetLifeValue("middleHeart",heartMiddleImage.fillAmount);
         SaveManager.SetLifeValue("rightHeart",heartRightImage.fillAmount);
 
+
         PlayerPrefs.DeleteKey("coinCounter");
         
         gameManager.IsWaitScreenExit = true;
@@ -318,8 +319,8 @@ public class UIManager : MonoBehaviour
             SaveManager.SetCoinCounter(gameManager.NumberCollectedCoins);
             gameManager.NumberCollectedCoins = SaveManager.GetCoinCounter();
             PlayerPrefs.SetString("Exit","true");
-        }
 
+        }
 
         SceneManager.LoadScene(0);
         

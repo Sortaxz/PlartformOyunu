@@ -34,6 +34,7 @@ public class Scene_Manager : MonoBehaviour
     [SerializeField] private string animationTextPerLevel;
     [SerializeField] private string animationTextEndLevel;
     [SerializeField] private SceneAsset[] scenes;
+    public SceneAsset[] Scenes { get { return scenes; } }
     private int nextSceneIndex = 0;
     private void Awake()
     {

@@ -3496,8 +3496,8 @@ MonoBehaviour:
   animationTextEndLevel: Win
   scenes:
   - {fileID: 102900000, guid: 2cda990e2423bbf4892e6590ba056729, type: 3}
-  - {fileID: 102900000, guid: 67a3c5d85f265744bb3d7e705f72838c, type: 3}
-  - {fileID: 102900000, guid: d18155384d3def14791383bd1c7b6818, type: 3}
+  - {fileID: 102900000, guid: 0e55d4f69cea84a49b67ac651cc56648, type: 3}
+  - {fileID: 102900000, guid: 2a4855421fc611244a78d3790ceb80aa, type: 3}
 --- !u!4 &1891976055
 Transform:
   m_ObjectHideFlags: 0

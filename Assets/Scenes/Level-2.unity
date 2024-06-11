@@ -1022,7 +1022,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   enemyFireballSpeed: 19
-  resumeEnemyFirebal: 0
+  resumeEnemyFirebal: 1
 --- !u!1 &713350862
 GameObject:
   m_ObjectHideFlags: 0
@@ -2282,14 +2282,32 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   SpakeObjectPositons:
   - {x: -5, y: -2}
   - {x: 15, y: -2}
   - {x: 25, y: -2}
-  - {x: 47, y: -2}
-  - {x: 60, y: -2}
+  - {x: 27, y: -2}
+  - {x: 34, y: -2}
+  - {x: 41, y: -2}
+  - {x: 48, y: -2}
+  - {x: 55, y: -2}
+  - {x: 62, y: -2}
+  - {x: 69, y: -2}
+  - {x: 76, y: -2}
+  - {x: 83, y: -2}
   - {x: 90, y: -2}
-  SpakeDuration: 010001000100
+  - {x: 97, y: -2}
+  - {x: 107, y: -2}
+  SpakeDuration: 010001000100010101010001010001
   spakeDurationTime: 3
   movingFloorPrefab: {fileID: 0}
   movingFloors:
@@ -3496,8 +3514,8 @@ MonoBehaviour:
   animationTextEndLevel: Win
   scenes:
   - {fileID: 102900000, guid: 2cda990e2423bbf4892e6590ba056729, type: 3}
-  - {fileID: 102900000, guid: 67a3c5d85f265744bb3d7e705f72838c, type: 3}
-  - {fileID: 102900000, guid: d18155384d3def14791383bd1c7b6818, type: 3}
+  - {fileID: 102900000, guid: 0e55d4f69cea84a49b67ac651cc56648, type: 3}
+  - {fileID: 102900000, guid: 2a4855421fc611244a78d3790ceb80aa, type: 3}
 --- !u!4 &1891976055
 Transform:
   m_ObjectHideFlags: 0
