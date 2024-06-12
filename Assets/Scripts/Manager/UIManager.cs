@@ -318,8 +318,6 @@ public class UIManager : MonoBehaviour
         {
             SaveManager.SetCoinCounter(gameManager.NumberCollectedCoins);
             gameManager.NumberCollectedCoins = SaveManager.GetCoinCounter();
-            PlayerPrefs.SetString("Exit","true");
-
         }
 
         SceneManager.LoadScene(0);

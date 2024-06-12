@@ -22,7 +22,7 @@ public class SaveManager : MonoBehaviour
 
     public static int GetLastLevelIndex()
     {
-        return PlayerPrefs.HasKey("NextLevelIndex") ? PlayerPrefs.GetInt("NextLevelIndex") : 0;
+        return PlayerPrefs.HasKey("NextLevelIndex") ? PlayerPrefs.GetInt("NextLevelIndex") : 1;
     }
 
     public static float GetLastMusicVolume()

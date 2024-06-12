@@ -42,7 +42,7 @@ public class MainMenuController : MonoBehaviour
             startButton.interactable = false;
             ressartButton.interactable = true;
         }
-        else
+        else if(loadSceneBuildingIndex >= 1)
         {
             startButton.interactable = true;
         }
@@ -126,7 +126,7 @@ public class MainMenuController : MonoBehaviour
 
     private void LoadLevel()
     {
-        loadSceneBuildingIndex = SaveManager.GetLastLevelIndex() + 1;
+        loadSceneBuildingIndex = SaveManager.GetLastLevelIndex();
         
         SaveManager.SetLastMusicTime(musicPlayer.time);
         SceneManager.LoadScene(loadSceneBuildingIndex);
@@ -143,15 +143,17 @@ public class MainMenuController : MonoBehaviour
         
         SaveManager.LastHeartSaveMethod();
 
-        loadSceneBuildingIndex = 1;
 
         SaveManager.SetLastMusicTime(musicPlayer.time);
 
-        SaveManager.SetNextLevelIndex(0);
 
         SaveManager.ResetHitCoinIndex(4);
         
         SaveManager.SetCoinCounter(0);
+
+        loadSceneBuildingIndex = 1;
+
+        SaveManager.SetNextLevelIndex(loadSceneBuildingIndex);
 
         SceneManager.LoadScene(loadSceneBuildingIndex);
     }
