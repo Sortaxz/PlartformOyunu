@@ -31,10 +31,11 @@ public class EnemyController : MonoBehaviour
 
     private bool enemyDead = false;
     public bool EnemyDead { get { return enemyDead; }}
-
+    bool carpti = false;
     [SerializeField] private float enemyJumpPower;
 
-
+    RaycastHit2D hit2D;
+    Transform  targetTranform;
     private void Awake() 
     {
         rgb2D = GetComponent<Rigidbody2D>();
@@ -46,11 +47,51 @@ public class EnemyController : MonoBehaviour
 
     void Update()
     {
-        
+
     }
+
+    private void LookMove()
+    {
+        int layerMask = 1 << 8 | 1 << 9;
+        layerMask = ~layerMask;
+
+        if (!leftPosition)
+        {
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector2.right) * 10, Color.blue);
+            hit2D = Physics2D.Raycast(transform.position, transform.TransformDirection(Vector2.right), 10f, layerMask);
+        }
+        if (rightPosition)
+        {
+            hit2D = Physics2D.Raycast(transform.position, transform.TransformDirection(Vector2.left), 10f, layerMask);
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector2.left) * 10, Color.blue);
+        }
+
+
+        if (hit2D)
+        {
+            if (hit2D.transform.CompareTag("Player"))
+            {
+                targetTranform = hit2D.transform;
+                carpti = true;
+            }
+
+
+        }
+
+        if (carpti)
+        {
+            transform.position = Vector2.Lerp(transform.position, targetTranform.position, 1f * Time.deltaTime);
+        }
+    }
+
     private void FixedUpdate() 
     {
-        EnemyCharacterMove();    
+        if(!UIManager.Instance.StandbyScreenWorked)
+        {
+            LookMove();
+            if(!carpti)
+                EnemyCharacterMove();
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D other) 
@@ -69,8 +110,19 @@ public class EnemyController : MonoBehaviour
             print("dead");
             enemyDead = true;
         }
-    }
+        if(other.collider.CompareTag("Player"))
+        {
+            carpti = false;
 
+        }
+    }
+    private void OnCollisionExit2D(Collision2D other) 
+    {
+        if(other.collider.CompareTag("Player"))
+        {
+            carpti = false;
+        }    
+    }
     private void EnemyCharacterMove()
     {
 

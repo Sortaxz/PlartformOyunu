@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3230777811517411060}
   - component: {fileID: 7562595170466426651}
   - component: {fileID: 5277763520281212657}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Spake
   m_TagString: obstacle
   m_Icon: {fileID: 0}

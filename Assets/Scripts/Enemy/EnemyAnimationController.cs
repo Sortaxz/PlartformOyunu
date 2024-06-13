@@ -19,7 +19,10 @@ public class EnemyAnimationController : MonoBehaviour
 
     void Update()
     {
-        EnemyCharacterAnimationControl();
+        if(!UIManager.Instance.StandbyScreenWorked)
+        {
+            EnemyCharacterAnimationControl();
+        }
     }
 
     private void EnemyCharacterAnimationControl()
