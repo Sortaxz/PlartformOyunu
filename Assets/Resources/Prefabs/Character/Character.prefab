@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6386562593393496619}
   - component: {fileID: 7701891207121582956}
   - component: {fileID: 2010948801021296029}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Character
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -259,7 +259,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6316460915781152761}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: FireBallPosition
   m_TagString: Untagged
   m_Icon: {fileID: 0}

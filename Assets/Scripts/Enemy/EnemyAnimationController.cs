@@ -8,6 +8,7 @@ public class EnemyAnimationController : MonoBehaviour
     [SerializeField] private Sprite[] enemyDeadSprites;
     [SerializeField] private Sprite[] enemyAttackSprites;
     [SerializeField] private Sprite[] enemyBlockSprites;
+    float timeEnemyDead = 0f;
     private void Awake() 
     {
     }
@@ -23,22 +24,56 @@ public class EnemyAnimationController : MonoBehaviour
         {
             EnemyCharacterAnimationControl();
         }
+       
+        
     }
 
     private void EnemyCharacterAnimationControl()
     {
-        if(!EnemyController.Instance.LeftPosition)
+        if(!EnemyController.Instance.LeftPosition || EnemyController.Instance.RightPosition)
         {
             enemyCharacterAnimator.SetBool("IsMaleEnemyWalk",true);
         }
+        
+        if(EnemyController.Instance.EnemyAttackAnimation)
+        {
+            enemyCharacterAnimator.SetBool("IsMaleEnemyWalk",false);
+
+            enemyCharacterAnimator.SetBool("IsMaleEnemyAttack",true);
+            
+            GameManager.Instance.mainCharacter.CharacterHealthDecrease = true;
+            GameManager.Instance.mainCharacter.HitEnemy = true;
+        }
+        else
+        {
+            enemyCharacterAnimator.SetBool("IsMaleEnemyWalk",true);
+
+            enemyCharacterAnimator.SetBool("IsMaleEnemyAttack",false);
+            
+
+        }
+        
 
         if(EnemyController.Instance.EnemyDead)
         {
+            timeEnemyDead += Time.deltaTime;
+
             enemyCharacterAnimator.SetBool("IsMaleEnemyWalk",false);
             enemyCharacterAnimator.SetBool("IsMaleEnemyDead",true);
-            if(AnimationStateControl("IsMaleEnemyDead"))
+            
+            if(AnimationStateControl("Male_Enemy_Died"))
             {
                 enemyCharacterAnimator.SetBool("IsMaleEnemyDead",false);
+
+            }
+            
+
+            if(timeEnemyDead > 5f)
+            {
+                if(EnemyController.Instance.Healt == 0)
+                {
+                    gameObject.SetActive(false);
+                }
             }
         }
     }
@@ -48,4 +83,5 @@ public class EnemyAnimationController : MonoBehaviour
     {
         return enemyCharacterAnimator.GetCurrentAnimatorStateInfo(0).IsName(animationName);
     }
+    
 }

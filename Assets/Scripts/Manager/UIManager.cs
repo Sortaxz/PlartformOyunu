@@ -204,7 +204,7 @@ public class UIManager : MonoBehaviour
             }
             if (gameManager.mainCharacter.HitEnemy)
             {
-                HeartFillAmountControl(0.04f);
+                HeartFillAmountControl(0.001f);
 
             }
             if (gameManager.mainCharacter.HitAbsorbingObject)
@@ -318,6 +318,8 @@ public class UIManager : MonoBehaviour
         {
             SaveManager.SetCoinCounter(gameManager.NumberCollectedCoins);
             gameManager.NumberCollectedCoins = SaveManager.GetCoinCounter();
+            
+            SaveManager.SetNextLevelIndex(SceneManager.GetActiveScene().buildIndex);
         }
 
         SceneManager.LoadScene(0);

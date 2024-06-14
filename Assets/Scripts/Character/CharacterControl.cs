@@ -19,7 +19,9 @@ public class CharacterControl : MonoBehaviour
     private bool isJumping = false;
     public bool isCharacterAbove  =false;
     public bool isCharacterSlidDown = false;
+    
     public bool readyToAttack = false;
+
 
     public bool readyToFireballAttack = false;
 
@@ -101,8 +103,10 @@ public class CharacterControl : MonoBehaviour
         }
         if(other.collider.CompareTag("Enemy"))
         {
+            /*
             characterHealthDecrease = true;
             hitEnemy =true;
+            */
         }
         if(other.collider.CompareTag("enemyFireball"))
         {
