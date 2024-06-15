@@ -1,6 +1,11 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 public class GameManager : MonoBehaviour
 {
     
@@ -16,6 +21,9 @@ public class GameManager : MonoBehaviour
             return instance;
         }
     }
+    
+    [SerializeField] private GameObject enemyFireballs;
+    [SerializeField] private GameObject winds;
 
     public CharacterControl mainCharacter;
     [SerializeField] private UI_Elemets uI_Elemets;
@@ -68,7 +76,8 @@ public class GameManager : MonoBehaviour
 
 
     #region WindObject members
-
+    [SerializeField] private Sprite windSprite;
+    [SerializeField] private Sprite windSprite2;
     [SerializeField] private GameObject windPrefab; 
     [SerializeField] private GameObject aerialWindPrefab; 
     [SerializeField] private GameObject[] windObjects;
@@ -146,14 +155,30 @@ public class GameManager : MonoBehaviour
         numberCollectedCoins = 0;
        
         
-        
         numberCollectedCoins = SaveManager.GetCoinCounter();
 
         LeftWindPosition = transform.GetChild(0);
         RightWindPosition = transform.GetChild(1);
         
+        Create(windObjects,winds,"Wind","Prefabs/Side_Tools/Wind",new Vector2(LeftWindPosition.position.x,-0.9681435f));
+        
         
     }
+
+    private void Create(GameObject[] createObjects,GameObject parentObject,string name,string prafabPath,Vector2 position)
+    {
+        for (int i = 0; i < createObjects.Length; i++)
+        {
+            GameObject objectPrafab = Resources.Load<GameObject>(prafabPath);
+            GameObject newObject = Instantiate(objectPrafab);
+            createObjects[i] = newObject;
+
+            newObject.SetActive(false);
+            newObject.transform.SetParent(parentObject.transform);
+            newObject.transform.name = $"{name}-{newObject.transform.GetSiblingIndex()}";
+        }
+    }
+
     private void Start() 
     {
        
@@ -172,7 +197,6 @@ public class GameManager : MonoBehaviour
         
         CreateWindObject();
         CreateEnemyFireballObject();
-        
         
 
     }
@@ -227,7 +251,10 @@ public class GameManager : MonoBehaviour
             }
             if (windObject)
             {
-                windIndex = 0;
+                //windIndex = 0;
+
+                
+
                 CreateWindObject();
                 if (windIndex == windObjects.Length)
                 {
@@ -236,6 +263,7 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
     private void CharcterCheckPoint()
     {
         if (!isCharacterOnPoint && mainCharacter != null)
@@ -276,36 +304,55 @@ public class GameManager : MonoBehaviour
                     if(createWindObjectTimer <= 50)
                     {
                         createWindObjectTimer = 0f;
+
+                        
                         if(leftHandSide)
                         {
-                            
-                            if(!mainCharacter.IsAerialWind)
+                            if(mainCharacter.transform.position.y > 0)
                             {
-                                windObjects[windIndex++] = Instantiate(windPrefab,new Vector2(LeftWindPosition.position.x,-0.9681435f),Quaternion.identity,LeftWindPosition);
+                                windObjects[windIndex].GetComponent<SpriteRenderer>().sprite = windSprite;
                             }
-                            else
+                            else if(mainCharacter.transform.position.y <= 0)
                             {
-                                windObjects[windIndex++] = Instantiate(aerialWindPrefab,new Vector2(LeftWindPosition.position.x,mainCharacter.transform.position.y),Quaternion.identity,LeftWindPosition);
+                                windObjects[windIndex].GetComponent<SpriteRenderer>().sprite = windSprite2;
                             }
-                            leftHandSide = false;
-                            windRightGo = true;
-                            windLeftGo = false;
-                        }
-                        else if(!leftHandSide)
-                        {
 
-                            if(!mainCharacter.IsAerialWind)
+                            windObjects[windIndex].transform.position = new Vector2(LeftWindPosition.position.x,mainCharacter.transform.position.y);
+                            windObjects[windIndex++].SetActive(true);
+
+
+                            leftHandSide =false;
+
+                            windLeftGo = false;
+                            windRightGo = true;
+
+                        }
+                        else
+                        {
+                            if(mainCharacter.transform.position.y > 0)
                             {
-                                windObjects[windIndex++] = Instantiate(windPrefab,new Vector2(RightWindPosition.position.x,-0.9681435f),Quaternion.identity,RightWindPosition);
+                                windObjects[windIndex].GetComponent<SpriteRenderer>().sprite = windSprite;
                             }
-                            else
+                            else if(mainCharacter.transform.position.y <= 0)
                             {
-                                windObjects[windIndex++] = Instantiate(aerialWindPrefab,new Vector2(RightWindPosition.position.x,mainCharacter.transform.position.y),Quaternion.identity,RightWindPosition);
+                                windObjects[windIndex].GetComponent<SpriteRenderer>().sprite = windSprite2;
                             }
+
+                            windObjects[windIndex].transform.position = new Vector2(RightWindPosition.position.x,mainCharacter.transform.position.y);
+                            windObjects[windIndex++].SetActive(true);
+
 
                             leftHandSide = true;
+                                
                             windLeftGo = true;
-                            windRightGo =false;
+                            windRightGo = false;
+
+                        }
+                        
+                        if(windIndex == windObjects.Length)
+                        {
+                            windIndex = 0;
+                            createWind =false;
                         }
                     }
 
@@ -350,8 +397,8 @@ public class GameManager : MonoBehaviour
             }
         }  
     }
-    
-
-    
-
 }
+
+
+
+

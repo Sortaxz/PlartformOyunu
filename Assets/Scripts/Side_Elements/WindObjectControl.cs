@@ -35,7 +35,9 @@ public class WindObjectControl : MonoBehaviour
             {
                 gameManager.CreateWind = false;
                 gameManager.CreateEnemyFireball = true;
-                Destroy(gameObject);
+                
+                gameObject.SetActive(false);
+                //Destroy(gameObject);
             }
         }
         
@@ -45,7 +47,8 @@ public class WindObjectControl : MonoBehaviour
             {
                 gameManager.CreateWind = true;
                 gameManager.CreateEnemyFireball = false;
-                Destroy(gameObject);
+                //Destroy(gameObject);
+                gameObject.SetActive(false);
             }
         }
        
@@ -60,10 +63,12 @@ public class WindObjectControl : MonoBehaviour
                 if(gameManager.WindLeftGo)
                 {
                     leftGo = true;
+                    rightGo = false;
                 }
                 else if(gameManager.WindRightGo)
                 {
                     rightGo = true;
+                    leftGo =false;
                 }
                 if(leftGo)
                 {

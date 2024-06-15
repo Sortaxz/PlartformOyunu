@@ -679,6 +679,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 260810348}
   m_CullTransparentMesh: 1
+--- !u!1 &464942407
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 464942408}
+  m_Layer: 0
+  m_Name: Winds
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &464942408
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 464942407}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 705500760}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &479374453
 GameObject:
   m_ObjectHideFlags: 0
@@ -785,6 +816,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 595862686}
   m_CullTransparentMesh: 1
+--- !u!1 &597339808
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 597339809}
+  m_Layer: 0
+  m_Name: EnemyFireballs
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &597339809
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 597339808}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 705500760}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &611093299
 GameObject:
   m_ObjectHideFlags: 0
@@ -987,6 +1049,8 @@ Transform:
   m_Children:
   - {fileID: 2036452778}
   - {fileID: 1723021178}
+  - {fileID: 597339809}
+  - {fileID: 464942408}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &705500761
@@ -1001,6 +1065,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54771ee3a60d31f428f34c254a0e9683, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyFireballs: {fileID: 597339808}
+  winds: {fileID: 464942407}
   mainCharacter: {fileID: 0}
   uI_Elemets: {fileID: 3991327544907816752}
   cameraMesafesi: {x: 1, y: 2, z: -30}
@@ -1010,6 +1076,8 @@ MonoBehaviour:
   cameraScaleChangeTime: 0.01
   holdForSeconds: 5
   time: 4
+  windSprite: {fileID: -1215840108, guid: 1ee174ae22f319246ba5ea0dd1130da6, type: 3}
+  windSprite2: {fileID: -1446931358, guid: 1ee174ae22f319246ba5ea0dd1130da6, type: 3}
   windPrefab: {fileID: 6732087896462657310, guid: e607c582a419ab546a2da288886245cb, type: 3}
   aerialWindPrefab: {fileID: 6732087896462657310, guid: a9555b543a1c3ba43a8456a655cce8f4, type: 3}
   windObjects:
@@ -1022,7 +1090,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   enemyFireballSpeed: 19
-  resumeEnemyFirebal: 0
+  resumeEnemyFirebal: 1
 --- !u!1 &713350862
 GameObject:
   m_ObjectHideFlags: 0
