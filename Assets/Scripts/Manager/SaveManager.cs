@@ -110,6 +110,10 @@ public class SaveManager : MonoBehaviour
         PlayerPrefs.SetInt($"hitCoin{hitCoinIndex}",hitCoinIndex);
     }
     
+    public static void SetcheckLastLevel()
+    {
+        PlayerPrefs.SetString("recorded","lastLevel");
+    }
 
     
     #endregion

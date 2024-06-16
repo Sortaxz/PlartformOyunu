@@ -84,7 +84,8 @@ public class Scene_Manager : MonoBehaviour
             nextSceneIndex = SceneManager.GetActiveScene().buildIndex ;
         }
 
-       
+        //SaveManager.SetCheckPointIndex(0);
+        SaveManager.SetcheckLastLevel();
 
         int latestSceneIndex = SceneManager.GetActiveScene().buildIndex;
         PlayerPrefs.SetInt("LastLevelIndex",latestSceneIndex);

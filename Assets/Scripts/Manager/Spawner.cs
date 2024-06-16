@@ -77,7 +77,6 @@ public class Spawner : MonoBehaviour
     {
         if(currentSpawnIndex >= 0 && currentSpawnIndex < checkPoints.Length)
         {
-            //currentSpawnIndex = PlayerPrefs.GetInt("CheckPoint");
             currentSpawnIndex = SaveManager.GetCheckPointIndex();
             
             spawnCharacter = Instantiate(character, checkPoints[currentSpawnIndex] .transform.position, Quaternion.identity);

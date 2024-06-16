@@ -188,6 +188,12 @@ public class CharacterControl : MonoBehaviour
             {
                 gameManager.StageTransitionReady = true;
                 gameManager.Finish = true;
+                if(SceneManager.GetActiveScene().name == Scene_Manager.Instance.Scenes[Scene_Manager.Instance.Scenes.Length-1].name)
+                {
+                    
+                    SaveManager.SetCheckPointIndex(0);
+                    //print(Scene_Manager.Instance.Scenes[Scene_Manager.Instance.Scenes.Length-1].name);
+                }
             }
             
             

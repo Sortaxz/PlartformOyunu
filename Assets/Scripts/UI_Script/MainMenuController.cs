@@ -36,17 +36,20 @@ public class MainMenuController : MonoBehaviour
         musicPlayer.time = SaveManager.GetLastMusicTime();
 
         loadSceneBuildingIndex = SaveManager.GetLastLevelIndex();
-        if(loadSceneBuildingIndex == 3)
+       
+        if(PlayerPrefs.HasKey("recorded"))
         {
-
-            startButton.interactable = false;
-            ressartButton.interactable = true;
+            if(loadSceneBuildingIndex == 3)
+            {
+                startButton.interactable = false;
+                ressartButton.interactable = true;
+            }
         }
         else if(loadSceneBuildingIndex >= 1)
         {
+            PlayerPrefs.DeleteKey("recorded");
             startButton.interactable = true;
         }
-        
     }
 
 

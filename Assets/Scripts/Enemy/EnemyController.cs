@@ -51,9 +51,6 @@ public class EnemyController : MonoBehaviour
 
     void Update()
     {
-
-        print(healt);
-        
         if(healt ==0)
         {
             enemyDead = true;
