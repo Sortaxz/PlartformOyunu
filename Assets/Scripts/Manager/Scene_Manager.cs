@@ -78,17 +78,17 @@ public class Scene_Manager : MonoBehaviour
         if(loadSceneIndex != scenes.Length-1)
         {
             nextSceneIndex = loadSceneIndex + 1;
+
         }
         else if(loadSceneIndex == scenes.Length-1)
         {
             nextSceneIndex = SceneManager.GetActiveScene().buildIndex ;
         }
 
-        //SaveManager.SetCheckPointIndex(0);
-        SaveManager.SetcheckLastLevel();
+        SaveManager.SetNextLevelIndex(SceneManager.GetActiveScene().buildIndex);
+       
 
-        int latestSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        PlayerPrefs.SetInt("LastLevelIndex",latestSceneIndex);
+        
 
         SaveManager.SetLifeValue("leftHeart",UIManager.Instance.HeartLeftImage.fillAmount);
         SaveManager.SetLifeValue("middleHeart",UIManager.Instance.HeartMiddleImage.fillAmount);

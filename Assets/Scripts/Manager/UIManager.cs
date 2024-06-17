@@ -320,6 +320,9 @@ public class UIManager : MonoBehaviour
             gameManager.NumberCollectedCoins = SaveManager.GetCoinCounter();
             
             SaveManager.SetNextLevelIndex(SceneManager.GetActiveScene().buildIndex);
+
+            PlayerPrefs.DeleteKey("recorded");
+            
         }
 
         SceneManager.LoadScene(0);

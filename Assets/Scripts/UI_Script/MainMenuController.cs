@@ -26,6 +26,22 @@ public class MainMenuController : MonoBehaviour
     
     private void Awake() 
     {
+        loadSceneBuildingIndex = SaveManager.GetLastLevelIndex();
+
+
+        if(PlayerPrefs.HasKey("recorded"))
+        {
+            if(loadSceneBuildingIndex == 3)
+            {
+                startButton.interactable = false;
+                ressartButton.interactable = true;
+            }
+        }
+        else if(loadSceneBuildingIndex >= 1)
+        {
+            PlayerPrefs.DeleteKey("recorded");
+            startButton.interactable = true;
+        }
     }
 
     private void Start() 
@@ -163,8 +179,7 @@ public class MainMenuController : MonoBehaviour
 
     public void ExitButton()
     {
-        
-        PlayerPrefs.DeleteAll();
+        loadSceneBuildingIndex = 1;
         EditorApplication.isPlaying = false;
         Application.Quit();
     }

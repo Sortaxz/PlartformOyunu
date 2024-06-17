@@ -20,7 +20,7 @@ public class EnemyAnimationController : MonoBehaviour
 
     void Update()
     {
-        if(!UIManager.Instance.StandbyScreenWorked)
+        if(!UIManager.Instance.StandbyScreenWorked && !GameManager.Instance.Finish)
         {
             EnemyCharacterAnimationControl();
         }

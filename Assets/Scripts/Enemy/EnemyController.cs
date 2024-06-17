@@ -101,7 +101,7 @@ public class EnemyController : MonoBehaviour
 
     private void FixedUpdate() 
     {
-        if(!UIManager.Instance.StandbyScreenWorked)
+        if(!UIManager.Instance.StandbyScreenWorked && !GameManager.Instance.Finish)
         {
             if(!enemyDead)
             {

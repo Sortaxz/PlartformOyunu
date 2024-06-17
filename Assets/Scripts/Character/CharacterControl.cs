@@ -190,8 +190,7 @@ public class CharacterControl : MonoBehaviour
                 gameManager.Finish = true;
                 if(SceneManager.GetActiveScene().name == Scene_Manager.Instance.Scenes[Scene_Manager.Instance.Scenes.Length-1].name)
                 {
-                    
-                    SaveManager.SetCheckPointIndex(0);
+                    SaveManager.SetcheckLastLevel();
                     //print(Scene_Manager.Instance.Scenes[Scene_Manager.Instance.Scenes.Length-1].name);
                 }
             }
