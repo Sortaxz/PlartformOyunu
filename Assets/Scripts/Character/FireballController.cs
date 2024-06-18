@@ -17,11 +17,16 @@ public class FireballController : MonoBehaviour
             return isCollider;
         }
     }
+    [SerializeField] private GameObject fireball;
+    [SerializeField] private Transform fireballPosition;
+
+
     private void Awake() 
     {
         fireballRb2D = GetComponent<Rigidbody2D>();    
         gameManager = GameManager.Instance;
         fireballSpeed = gameManager.FireballSpeed;
+
     }
 
     void Start()
@@ -31,7 +36,7 @@ public class FireballController : MonoBehaviour
 
     void Update()
     {
-        
+       
     }
 
     private void FixedUpdate()
@@ -44,7 +49,7 @@ public class FireballController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("leftControl") || other.gameObject.CompareTag("rightControl"))
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
         
         
@@ -64,7 +69,6 @@ public class FireballController : MonoBehaviour
             if (other.collider.CompareTag("Enemy"))
             {
                 Destroy(gameObject);
-                //Destroy(other.gameObject, 1);
                 isCollider = true;
             }
 
@@ -80,6 +84,8 @@ public class FireballController : MonoBehaviour
         }
     }
 
+
+
     private void ContinuosEnemyFireballCollisionControl(Collision2D other)
     {
         if (gameManager.EnemyFireballl)
@@ -92,34 +98,42 @@ public class FireballController : MonoBehaviour
                     gameManager.CreateWind = false;
                     gameManager.mainCharacter.HitEnemyFireball = false;
 
-                    Destroy(gameObject, 0.01f);
+                    gameObject.SetActive(false);
                 }
                 if (other.collider.CompareTag("obstacle"))
                 {
                     gameManager.CreateEnemyFireball = true;
                     gameManager.CreateWind = false;
+                    
                     Destroy(other.gameObject);
-                    Destroy(gameObject);
+
+                    gameObject.SetActive(false);
                 }
 
                 if (other.collider.gameObject.layer == LayerMask.NameToLayer("Zemin"))
                 {
                     gameManager.CreateEnemyFireball = true;
                     gameManager.CreateWind = false;
+                    
                     Destroy(other.collider.gameObject);
-                    Destroy(gameObject);
+                    gameObject.SetActive(false);
                 }
                 if (other.collider.gameObject.layer == 7)
                 {
                     gameManager.CreateEnemyFireball = true;
                     gameManager.CreateWind = false;
-                    Destroy(gameObject);
+                    
+                    gameObject.SetActive(false);
+                    
+                    //Destroy(gameObject);
                 }
                 if (other.collider.tag == "Cranboline" )
                 {
                     gameManager.CreateEnemyFireball = true;
                     gameManager.CreateWind = false;
-                    Destroy(gameObject);
+                    
+                    gameObject.SetActive(false);
+                    
                 }
 
                 
@@ -139,36 +153,44 @@ public class FireballController : MonoBehaviour
                     gameManager.CreateWind = true;
                     gameManager.mainCharacter.HitEnemyFireball = false;
 
-                    Destroy(gameObject, 0.01f);
+                    gameObject.SetActive(false);
                 }
 
                 if (other.collider.CompareTag("obstacle"))
                 {
                     gameManager.CreateEnemyFireball = false;
                     gameManager.CreateWind = true;
+                    
                     Destroy(other.gameObject);
-                    Destroy(gameObject);
+                    gameObject.SetActive(false);
+                    
                 }
 
                 if (other.collider.gameObject.layer == LayerMask.NameToLayer("Zemin"))
                 {
                     gameManager.CreateEnemyFireball = false;
                     gameManager.CreateWind = true;
+                    
                     Destroy(other.collider.gameObject);
-                    Destroy(gameObject);
+                    gameObject.SetActive(false);
+                    
                 }
                 if(other.collider.gameObject.layer == 7)
                 {
                     gameManager.CreateEnemyFireball = false;
                     gameManager.CreateWind = true;
-                    Destroy(gameObject);
+                    
+                    gameObject.SetActive(false);
+
                 }
                 
                 if (other.collider.tag == "Cranboline" )
                 {
                     gameManager.CreateEnemyFireball = false;
                     gameManager.CreateWind = true;
-                    Destroy(gameObject);
+                    
+                    gameObject.SetActive(false);
+
                 }
             }
         }
@@ -193,7 +215,6 @@ public class FireballController : MonoBehaviour
                     }
 
                     birKereYonAlindi = true;
-                    //fireballRb2D.AddForce(yon* fireballSpeed);
                 }
                 transform.Translate(yon * Time.fixedDeltaTime * fireballSpeed);
             }

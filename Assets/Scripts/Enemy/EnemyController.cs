@@ -20,6 +20,8 @@ public class EnemyController : MonoBehaviour
     private RaycastHit2D hit2D;
     private Transform  targetTranform;
 
+    private Vector2 colliderHitPoint;
+
     [SerializeField] private float enemyCharcterSpeed;
     private bool leftPosition = false;
     public bool LeftPosition { get { return leftPosition; } set { leftPosition = value; } }
@@ -127,11 +129,22 @@ public class EnemyController : MonoBehaviour
         }
         if(other.collider.CompareTag("fireball") || other.collider.CompareTag("enemyFireball"))
         {
+            colliderHitPoint = other.GetContact(0).point;
+
+            if(colliderHitPoint.x > 0)
+            {
+                leftPosition =false;
+            }
+            else if(colliderHitPoint.x < 0)
+            {
+                rightPosition = true;
+            }
+
             EnemyHealthReduction();
         }
         if(other.collider.CompareTag("Player"))
         {
-            enemyAttackAnimation = true;
+            //enemyAttackAnimation = true;
 
             if(GameManager.Instance.mainCharacter.readyToAttack || GameManager.Instance.mainCharacter.ReadyToStrikeAttack)
             {
@@ -140,7 +153,13 @@ public class EnemyController : MonoBehaviour
         } 
     }
     
-    
+    private void OnCollisionStay2D(Collision2D other) 
+    {
+        if(other.collider.CompareTag("Player"))
+        {
+            enemyAttackAnimation = true;
+        }    
+    }
 
     private void OnCollisionExit2D(Collision2D other) 
     {

@@ -27,18 +27,11 @@ public class Spawner : MonoBehaviour
     private GameManager gameManager;
     GameObject spawnCharacter;
     [SerializeField]private GameObject character;
-    [SerializeField]private GameObject fireball;
     [SerializeField]private GameObject checkPointPrefab;
     
     private GameObject checkPoint;
     public GameObject CheckPoint{get {return checkPoint;} set {checkPoint = value;} }
 
-    public GameObject Fireball
-    {
-        get { return fireball; }
-    }
-
-    [SerializeField]private Transform fireballPosition;
 
     private Transform charcterParent;
     public Transform CharacterParent { get => charcterParent; }
@@ -55,7 +48,6 @@ public class Spawner : MonoBehaviour
     public void Resource()
     {
         character = Resources.Load<GameObject>("Prefabs/Character/Character");
-        fireball = Resources.Load<GameObject>("Prefabs/Fireball/fireball");
         checkPointPrefab = Resources.Load<GameObject>("Prefabs/CheckPoint/CheckPoint");
     }
 
@@ -63,15 +55,11 @@ public class Spawner : MonoBehaviour
 
     void Start()
     {
-        if(gameManager.mainCharacter != null)
-        {
-            fireballPosition = gameManager.mainCharacter.transform.GetChild(0).transform; 
-        }
+        
     }
 
     void Update()
     {
-        SpawnFireball();
     }
     public void SpawnCharacter()
     {
@@ -88,29 +76,7 @@ public class Spawner : MonoBehaviour
         }
     }
 
-    private void SpawnFireball()
-    {   
-        if(gameManager.mainCharacter != null)
-        {
-            if(AnimationController.Instance.fireballReady)
-            {   
-                GameObject newFireBall = Instantiate(fireball,fireballPosition.position,Quaternion.identity);
-                newFireBall.GetComponent<FireballController>().birKereYonAlindi = false;
-                
-                AnimationController.Instance.fireballReady = false;
-                gameManager.mainCharacter.jumpAnimationResume = true;
-                if(gameManager.mainCharacter.fireballLocalScale)
-                {
-                    newFireBall.transform.localScale = new Vector3(-1,1,1);
-                }
-                else
-                {
-                    newFireBall.transform.localScale = new Vector3(1,1,1);
-                }
-
-            }
-        }
-    }
+    
 
 
     public void SpawnCheckPoint()
@@ -135,7 +101,6 @@ class SpawnerEditor : Editor
         Spawner spawner = (Spawner)target;
         
         EditorGUILayout.PropertyField(serializedObject.FindProperty("character"));
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("fireball"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("checkPointsIndex"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("checkPoints"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("checkPointsPosition"));

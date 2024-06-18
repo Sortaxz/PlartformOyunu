@@ -1067,6 +1067,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyFireballs: {fileID: 597339808}
   winds: {fileID: 464942407}
+  fireball: {fileID: 0}
+  fireballPosition: {fileID: 0}
   mainCharacter: {fileID: 0}
   uI_Elemets: {fileID: 3991327544907816752}
   cameraMesafesi: {x: 1, y: 2, z: -30}
@@ -1083,7 +1085,7 @@ MonoBehaviour:
   windObjects:
   - {fileID: 0}
   - {fileID: 0}
-  resumeWind: 0
+  resumeWind: 1
   windSpeed: 19
   enemyFireballPrefab: {fileID: 7339145356308524819, guid: 57d7f64654c52a4498ca2d200e3df4ea, type: 3}
   enemyFireballObjects:
@@ -2961,9 +2963,7 @@ MonoBehaviour:
   - {x: 70, y: -1}
   - {x: 108, y: -1}
   character: {fileID: 0}
-  fireball: {fileID: 0}
   checkPointPrefab: {fileID: 0}
-  fireballPosition: {fileID: 0}
   checkPointsIndex: 3
 --- !u!1 &1460577465
 GameObject:

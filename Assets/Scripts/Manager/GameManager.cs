@@ -25,6 +25,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject enemyFireballs;
     [SerializeField] private GameObject winds;
 
+    [SerializeField] private GameObject fireball;
+    public GameObject Fireball { get { return fireball; } }
+    [SerializeField] private Transform fireballPosition;
+
     public CharacterControl mainCharacter;
     [SerializeField] private UI_Elemets uI_Elemets;
 
@@ -153,19 +157,22 @@ public class GameManager : MonoBehaviour
         musicPlayer.volume = SaveManager.GetLastMusicVolume();
         musicPlayer.time = SaveManager.GetLastMusicTime();
         numberCollectedCoins = 0;
-       
+        
+        fireball = Resources.Load<GameObject>("Prefabs/Fireball/fireball");
         
         numberCollectedCoins = SaveManager.GetCoinCounter();
 
         LeftWindPosition = transform.GetChild(0);
         RightWindPosition = transform.GetChild(1);
         
-        Create(windObjects,winds,"Wind","Prefabs/Side_Tools/Wind",new Vector2(LeftWindPosition.position.x,-0.9681435f));
+        Create(windObjects,winds,"Wind","Prefabs/Side_Tools/Wind");
         
+        Create(enemyFireballObjects,enemyFireballs,"EnemyFireball","Prefabs/Fireball/enemyFireball");
         
+
     }
 
-    private void Create(GameObject[] createObjects,GameObject parentObject,string name,string prafabPath,Vector2 position)
+    private void Create(GameObject[] createObjects,GameObject parentObject,string name,string prafabPath)
     {
         for (int i = 0; i < createObjects.Length; i++)
         {
@@ -184,7 +191,10 @@ public class GameManager : MonoBehaviour
        
         Spawner.Instance.SpawnCharacter();
         
-        
+        if(mainCharacter != null)
+        {
+            fireballPosition = mainCharacter.transform.GetChild(0).transform; 
+        }
     }
     void Update()
     {
@@ -193,15 +203,16 @@ public class GameManager : MonoBehaviour
         CharcterCheckPoint();
         CameraPositionControl();
         
-        IsWindStillBlowingOrEnemyFirebal();
+        //IsWindStillBlowingOrEnemyFirebal();
         
-        CreateWindObject();
-        CreateEnemyFireballObject();
+        //CreateWindObject();
+        //CreateEnemyFireballObject();
         
-
+        SpawnFireball();
+        
     }
 
-
+    
     
 
     public void LevelPreparation()
@@ -233,7 +244,8 @@ public class GameManager : MonoBehaviour
             {
                 enemyFireballIndex = 0;
                 CreateEnemyFireballObject();
-                if (enemyFireballIndex == enemyFireballObjects.Length - 1)
+
+                if (enemyFireballIndex == enemyFireballObjects.Length)
                 {
                     enemyFireballl = false;
                 }
@@ -251,7 +263,7 @@ public class GameManager : MonoBehaviour
             }
             if (windObject)
             {
-                //windIndex = 0;
+                windIndex = 0;
 
                 
 
@@ -292,6 +304,30 @@ public class GameManager : MonoBehaviour
         
     }
     
+    private void SpawnFireball()
+    {   
+        if(mainCharacter != null)
+        {
+            if(AnimationController.Instance.fireballReady)
+            {   
+                GameObject newFireBall = Instantiate(fireball,fireballPosition.position,Quaternion.identity);
+                newFireBall.GetComponent<FireballController>().birKereYonAlindi = false;
+                
+                AnimationController.Instance.fireballReady = false;
+                mainCharacter.jumpAnimationResume = true;
+                if(mainCharacter.fireballLocalScale)
+                {
+                    newFireBall.transform.localScale = new Vector3(-1,1,1);
+                }
+                else
+                {
+                    newFireBall.transform.localScale = new Vector3(1,1,1);
+                }
+
+            }
+        }
+    }
+
     void CreateWindObject()
     {
         if(!finish && !stageTransitionReady && !UIManager.Instance.StandbyScreenWorked)
@@ -349,11 +385,7 @@ public class GameManager : MonoBehaviour
 
                         }
                         
-                        if(windIndex == windObjects.Length)
-                        {
-                            windIndex = 0;
-                            createWind =false;
-                        }
+                        
                     }
 
                 }
@@ -375,7 +407,9 @@ public class GameManager : MonoBehaviour
                         createEnemyFireballObjectTimer = 0f;
                         if(enemyFireballRightHandSide)
                         {
-                            enemyFireballObjects[enemyFireballIndex++] = Instantiate(enemyFireballPrefab,new Vector2(RightWindPosition.position.x,mainCharacter.transform.position.y),Quaternion.identity,RightWindPosition);
+                            //enemyFireballObjects[enemyFireballIndex++] = Instantiate(enemyFireballPrefab,new Vector2(RightWindPosition.position.x,mainCharacter.transform.position.y),Quaternion.identity,RightWindPosition);
+                            enemyFireballObjects[enemyFireballIndex].transform.position = new Vector2(RightWindPosition.position.x,mainCharacter.transform.position.y);
+                            enemyFireballObjects[enemyFireballIndex++].SetActive(true);
 
                             fireballWasFired = true;
                             enemyFireballRightHandSide = false;
@@ -384,7 +418,9 @@ public class GameManager : MonoBehaviour
                         }
                         else if(!enemyFireballRightHandSide)
                         {
-                            enemyFireballObjects[enemyFireballIndex++] = Instantiate(enemyFireballPrefab,new Vector2(LeftWindPosition.position.x,mainCharacter.transform.position.y),Quaternion.identity,LeftWindPosition);
+                            //enemyFireballObjects[enemyFireballIndex++] = Instantiate(enemyFireballPrefab,new Vector2(LeftWindPosition.position.x,mainCharacter.transform.position.y),Quaternion.identity,LeftWindPosition);
+                            enemyFireballObjects[enemyFireballIndex].transform.position = new Vector2(LeftWindPosition.position.x,mainCharacter.transform.position.y);
+                            enemyFireballObjects[enemyFireballIndex++].SetActive(true);
 
                             fireballWasFired = true;
                             enemyFireballRightHandSide = true;

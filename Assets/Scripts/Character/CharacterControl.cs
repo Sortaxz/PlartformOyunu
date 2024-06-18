@@ -101,13 +101,7 @@ public class CharacterControl : MonoBehaviour
             hitObstacle =true;
             isCharacterAbove =false;
         }
-        if(other.collider.CompareTag("Enemy"))
-        {
-            /*
-            characterHealthDecrease = true;
-            hitEnemy =true;
-            */
-        }
+       
         if(other.collider.CompareTag("enemyFireball"))
         {
             characterHealthDecrease = true;
@@ -191,7 +185,6 @@ public class CharacterControl : MonoBehaviour
                 if(SceneManager.GetActiveScene().name == Scene_Manager.Instance.Scenes[Scene_Manager.Instance.Scenes.Length-1].name)
                 {
                     SaveManager.SetcheckLastLevel();
-                    //print(Scene_Manager.Instance.Scenes[Scene_Manager.Instance.Scenes.Length-1].name);
                 }
             }
             
@@ -280,7 +273,8 @@ public class CharacterControl : MonoBehaviour
                 isCharacterAbove = false;
                 readyToFireballAttack = true;
                 jumpAnimationResume = false;
-                Spawner.Instance.Fireball.GetComponent<FireballController>().birKereYonAlindi = false;// düzeltilicek field olarak tanımla
+                
+                gameManager.Fireball.GetComponent<FireballController>().birKereYonAlindi = false;
             }
 
             
