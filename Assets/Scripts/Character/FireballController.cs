@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//enemyFireball
 public class FireballController : MonoBehaviour
 {
     private Rigidbody2D fireballRb2D;
@@ -19,7 +18,8 @@ public class FireballController : MonoBehaviour
     }
     [SerializeField] private GameObject fireball;
     [SerializeField] private Transform fireballPosition;
-
+    private float time =0f;
+    private bool dead = false;
 
     private void Awake() 
     {
@@ -36,7 +36,11 @@ public class FireballController : MonoBehaviour
 
     void Update()
     {
-       
+       if(dead)
+       {
+        gameObject.SetActive(false);
+        dead = false;
+       }
     }
 
     private void FixedUpdate()
@@ -96,9 +100,11 @@ public class FireballController : MonoBehaviour
                 {
                     gameManager.CreateEnemyFireball = true;
                     gameManager.CreateWind = false;
-                    gameManager.mainCharacter.HitEnemyFireball = false;
+                    
+                    //gameManager.mainCharacter.HitEnemyFireball = false;
 
-                    gameObject.SetActive(false);
+                    dead = true;
+                    
                 }
                 if (other.collider.CompareTag("obstacle"))
                 {
@@ -116,6 +122,7 @@ public class FireballController : MonoBehaviour
                     gameManager.CreateWind = false;
                     
                     Destroy(other.collider.gameObject);
+                    
                     gameObject.SetActive(false);
                 }
                 if (other.collider.gameObject.layer == 7)
@@ -125,7 +132,6 @@ public class FireballController : MonoBehaviour
                     
                     gameObject.SetActive(false);
                     
-                    //Destroy(gameObject);
                 }
                 if (other.collider.tag == "Cranboline" )
                 {
@@ -151,9 +157,13 @@ public class FireballController : MonoBehaviour
                 {
                     gameManager.CreateEnemyFireball = false;
                     gameManager.CreateWind = true;
-                    gameManager.mainCharacter.HitEnemyFireball = false;
+                    
+                    //gameManager.mainCharacter.HitEnemyFireball = false;
 
-                    gameObject.SetActive(false);
+                    dead = true;
+
+                    //gameObject.SetActive(false);
+                    //Destroy(gameObject,0.01f);
                 }
 
                 if (other.collider.CompareTag("obstacle"))

@@ -213,7 +213,7 @@ public class UIManager : MonoBehaviour
             }
             if (gameManager.mainCharacter.HitEnemyFireball)
             {
-                HeartFillAmountControl(0.045f);
+                HeartFillAmountControl(0.5f);
 
             }
             if (gameManager.mainCharacter.LifeDwindling)

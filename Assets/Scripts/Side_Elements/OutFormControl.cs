@@ -25,7 +25,6 @@ public class OutFormControl : MonoBehaviour
             gameManager.CreateWind = false;
             gameManager.CreateEnemyFireball = true;
             gameManager.FireballWasFired = true;
-            //Destroy(other.gameObject);
             other.gameObject.SetActive(false);
         }
 
@@ -37,7 +36,6 @@ public class OutFormControl : MonoBehaviour
                 gameManager.CreateWind = true;
                 gameManager.CreateEnemyFireball = false;
                 gameManager.FireballWasFired = false;
-                //Destroy(other.gameObject);
                 other.gameObject.SetActive(false);
             } 
         }
@@ -46,7 +44,8 @@ public class OutFormControl : MonoBehaviour
         {
             gameManager.CreateEnemyFireball = false;
             gameManager.CreateWind = true;
-            Destroy(other.gameObject);
+
+            other.gameObject.SetActive(false);            
         } 
         if(gameManager.EnemyFireballl)
         {
@@ -54,7 +53,8 @@ public class OutFormControl : MonoBehaviour
             {
                 gameManager.CreateEnemyFireball = true;
                 gameManager.CreateWind = false;
-                Destroy(other.gameObject);
+
+                other.gameObject.SetActive(false);            
             }  
         }
 

@@ -129,16 +129,7 @@ public class EnemyController : MonoBehaviour
         }
         if(other.collider.CompareTag("fireball") || other.collider.CompareTag("enemyFireball"))
         {
-            colliderHitPoint = other.GetContact(0).point;
-
-            if(colliderHitPoint.x > 0)
-            {
-                leftPosition =false;
-            }
-            else if(colliderHitPoint.x < 0)
-            {
-                rightPosition = true;
-            }
+            
 
             EnemyHealthReduction();
         }

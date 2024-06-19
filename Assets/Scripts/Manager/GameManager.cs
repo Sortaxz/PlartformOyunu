@@ -25,10 +25,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject enemyFireballs;
     [SerializeField] private GameObject winds;
 
-    [SerializeField] private GameObject fireball;
-    public GameObject Fireball { get { return fireball; } }
-    [SerializeField] private Transform fireballPosition;
-
     public CharacterControl mainCharacter;
     [SerializeField] private UI_Elemets uI_Elemets;
 
@@ -78,6 +74,13 @@ public class GameManager : MonoBehaviour
     private int numberCollectedCoins = 0;
     public int NumberCollectedCoins { get { return numberCollectedCoins;} set { numberCollectedCoins = value;}}
 
+
+    #region  Character Fireball
+    [SerializeField] private GameObject[] characterFireballObjects;
+    [SerializeField] private GameObject fireball;
+    public GameObject Fireball { get { return fireball; } }
+    [SerializeField] private Transform fireballPosition;
+    #endregion
 
     #region WindObject members
     [SerializeField] private Sprite windSprite;
@@ -169,7 +172,7 @@ public class GameManager : MonoBehaviour
         
         Create(enemyFireballObjects,enemyFireballs,"EnemyFireball","Prefabs/Fireball/enemyFireball");
         
-
+        
     }
 
     private void Create(GameObject[] createObjects,GameObject parentObject,string name,string prafabPath)
@@ -194,6 +197,7 @@ public class GameManager : MonoBehaviour
         if(mainCharacter != null)
         {
             fireballPosition = mainCharacter.transform.GetChild(0).transform; 
+            //Create(characterFireballObjects,fireballPosition.gameObject,"Fireball","Prefabs/Fireball/fireball");
         }
     }
     void Update()
@@ -242,11 +246,14 @@ public class GameManager : MonoBehaviour
             }
             if (enemyFireballl)
             {
-                enemyFireballIndex = 0;
+                
+
+
                 CreateEnemyFireballObject();
 
                 if (enemyFireballIndex == enemyFireballObjects.Length)
                 {
+                    enemyFireballIndex = 0;
                     enemyFireballl = false;
                 }
             }
@@ -258,20 +265,19 @@ public class GameManager : MonoBehaviour
             {
                 createEnemyFireball = false;
                 windObject = true;
-
                
             }
             if (windObject)
             {
-                windIndex = 0;
-
-                
 
                 CreateWindObject();
+
                 if (windIndex == windObjects.Length)
                 {
+                    windIndex = 0;
                     windObject = false;
                 }
+
             }
         }
     }
@@ -387,9 +393,10 @@ public class GameManager : MonoBehaviour
                         
                         
                     }
+                    createWind = false;
 
                 }
-                createWind = false;
+                
             }
         }
     }
@@ -427,6 +434,7 @@ public class GameManager : MonoBehaviour
                             enemyFireballRightGo = true;
                             enemyFireballLeftGo =false;
                         }
+
                     }
                 }
                 createEnemyFireball = false;
