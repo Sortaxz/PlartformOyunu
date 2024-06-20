@@ -18,7 +18,6 @@ public class FireballController : MonoBehaviour
     }
     [SerializeField] private GameObject fireball;
     [SerializeField] private Transform fireballPosition;
-    private float time =0f;
     private bool dead = false;
 
     private void Awake() 
@@ -72,18 +71,22 @@ public class FireballController : MonoBehaviour
         {
             if (other.collider.CompareTag("Enemy"))
             {
-                Destroy(gameObject);
+                //Destroy(gameObject);
                 isCollider = true;
+                gameObject.SetActive(false);
             }
 
             if (other.collider.CompareTag("obstacle"))
             {
                 Destroy(other.gameObject);
-                Destroy(gameObject);
+                //Destroy(gameObject);
+                gameObject.SetActive(false);
             }
             if (!other.collider.CompareTag("Player"))
             {
-                Destroy(gameObject);
+                gameObject.SetActive(false);
+
+                //Destroy(gameObject);
             }
         }
     }
@@ -211,7 +214,7 @@ public class FireballController : MonoBehaviour
     {
         if(transform.tag =="fireball")
         {
-            if(!GameManager.Instance.Finish && !UIManager.Instance.StandbyScreenWorked)
+            if(!GameManager.Instance.Finish && !UIManager.Instance.StandbyScreenWorked )
             {
                 if(!birKereYonAlindi)
                 {

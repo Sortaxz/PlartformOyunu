@@ -1,6 +1,8 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
+
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -80,6 +82,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject fireball;
     public GameObject Fireball { get { return fireball; } }
     [SerializeField] private Transform fireballPosition;
+
+    private bool againFireball = false;
+    public bool AgainFireball {get {return againFireball;}}
+
+    private int characterFireballIndex = 0;
+
     #endregion
 
     #region WindObject members
@@ -151,7 +159,8 @@ public class GameManager : MonoBehaviour
     private bool uploadNewLevel = false;
     public  bool UploadNewLevel { get { return uploadNewLevel;} set { uploadNewLevel = value; } }
 
-    
+   
+
     private int enemyFireballIndex= 0;
     #endregion
     
@@ -197,7 +206,7 @@ public class GameManager : MonoBehaviour
         if(mainCharacter != null)
         {
             fireballPosition = mainCharacter.transform.GetChild(0).transform; 
-            //Create(characterFireballObjects,fireballPosition.gameObject,"Fireball","Prefabs/Fireball/fireball");
+            Create(characterFireballObjects,fireballPosition.gameObject,"Fireball","Prefabs/Fireball/fireball");
         }
     }
     void Update()
@@ -210,6 +219,7 @@ public class GameManager : MonoBehaviour
         IsWindStillBlowingOrEnemyFirebal();
         
         CreateWindObject();
+        
         CreateEnemyFireballObject();
         
         SpawnFireball();
@@ -316,21 +326,61 @@ public class GameManager : MonoBehaviour
         {
             if(AnimationController.Instance.fireballReady)
             {   
-                GameObject newFireBall = Instantiate(fireball,fireballPosition.position,Quaternion.identity);
-                newFireBall.GetComponent<FireballController>().birKereYonAlindi = false;
-                
-                AnimationController.Instance.fireballReady = false;
-                mainCharacter.jumpAnimationResume = true;
-                if(mainCharacter.fireballLocalScale)
+                if(!againFireball)
                 {
-                    newFireBall.transform.localScale = new Vector3(-1,1,1);
-                }
-                else
-                {
-                    newFireBall.transform.localScale = new Vector3(1,1,1);
+                    if(characterFireballIndex != characterFireballObjects.Length)
+                    {
+                        characterFireballObjects[characterFireballIndex].transform.SetParent(null);
+                        characterFireballObjects[characterFireballIndex].transform.localPosition = fireballPosition.position;
+                        characterFireballObjects[characterFireballIndex].transform.localRotation = Quaternion.identity;
+                        characterFireballObjects[characterFireballIndex].SetActive(true);
+
+                        characterFireballObjects[characterFireballIndex].GetComponent<FireballController>().birKereYonAlindi = false;
+
+                        AnimationController.Instance.fireballReady = false;
+                        mainCharacter.jumpAnimationResume = true;
+
+                        if(mainCharacter.fireballLocalScale)
+                        {
+                            characterFireballObjects[characterFireballIndex].transform.localScale = new Vector3(-1,1,1);
+                        }
+                        else
+                        {
+                            characterFireballObjects[characterFireballIndex].transform.localScale = new Vector3(1,1,1);
+                        }
+
+                        characterFireballIndex++;
+                    }
+                    else if(characterFireballIndex == characterFireballObjects.Length)
+                    {
+                        againFireball = true;
+                        AnimationController.Instance.fireballReady = false;
+
+                        
+                    }
                 }
 
+                
             }
+            if(Input.GetKeyDown(KeyCode.R) && againFireball)
+            {
+                AgainSpawnFireball();
+                againFireball =  false;
+            }
+        }
+    }
+
+    public void AgainSpawnFireball()
+    {
+        characterFireballIndex = 0;
+        for (int i = 0; i < characterFireballObjects.Length; i++)
+        {
+            characterFireballObjects[i].SetActive(false);
+            characterFireballObjects[i].transform.SetParent(fireballPosition);
+            characterFireballObjects[i].transform.position = fireballPosition.position;
+            characterFireballObjects[i].transform.localRotation = Quaternion.identity;
+            
+
         }
     }
 
@@ -414,7 +464,6 @@ public class GameManager : MonoBehaviour
                         createEnemyFireballObjectTimer = 0f;
                         if(enemyFireballRightHandSide)
                         {
-                            //enemyFireballObjects[enemyFireballIndex++] = Instantiate(enemyFireballPrefab,new Vector2(RightWindPosition.position.x,mainCharacter.transform.position.y),Quaternion.identity,RightWindPosition);
                             enemyFireballObjects[enemyFireballIndex].transform.position = new Vector2(RightWindPosition.position.x,mainCharacter.transform.position.y);
                             enemyFireballObjects[enemyFireballIndex++].SetActive(true);
 
@@ -425,7 +474,6 @@ public class GameManager : MonoBehaviour
                         }
                         else if(!enemyFireballRightHandSide)
                         {
-                            //enemyFireballObjects[enemyFireballIndex++] = Instantiate(enemyFireballPrefab,new Vector2(LeftWindPosition.position.x,mainCharacter.transform.position.y),Quaternion.identity,LeftWindPosition);
                             enemyFireballObjects[enemyFireballIndex].transform.position = new Vector2(LeftWindPosition.position.x,mainCharacter.transform.position.y);
                             enemyFireballObjects[enemyFireballIndex++].SetActive(true);
 

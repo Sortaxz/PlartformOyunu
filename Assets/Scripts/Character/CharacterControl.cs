@@ -268,7 +268,7 @@ public class CharacterControl : MonoBehaviour
                     readyToStrikeAttack = true;
                 }
             }
-            else
+            else if(!UIAnimation.Instance.SwordAttackBegin && !gameManager.AgainFireball)
             {
                 isCharacterAbove = false;
                 readyToFireballAttack = true;

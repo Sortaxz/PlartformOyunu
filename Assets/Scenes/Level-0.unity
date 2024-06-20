@@ -1067,8 +1067,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyFireballs: {fileID: 597339808}
   winds: {fileID: 464942407}
-  fireball: {fileID: 0}
-  fireballPosition: {fileID: 0}
   mainCharacter: {fileID: 0}
   uI_Elemets: {fileID: 3991327544907816752}
   cameraMesafesi: {x: 1, y: 2, z: -30}
@@ -1078,6 +1076,19 @@ MonoBehaviour:
   cameraScaleChangeTime: 0.01
   holdForSeconds: 5
   time: 4
+  characterFireballObjects:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  fireball: {fileID: 0}
+  fireballPosition: {fileID: 0}
   windSprite: {fileID: -1215840108, guid: 1ee174ae22f319246ba5ea0dd1130da6, type: 3}
   windSprite2: {fileID: -1446931358, guid: 1ee174ae22f319246ba5ea0dd1130da6, type: 3}
   windPrefab: {fileID: 6732087896462657310, guid: e607c582a419ab546a2da288886245cb, type: 3}
@@ -1553,7 +1564,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &855860778
 SpriteRenderer:
   m_ObjectHideFlags: 0

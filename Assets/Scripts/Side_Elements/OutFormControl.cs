@@ -58,6 +58,10 @@ public class OutFormControl : MonoBehaviour
             }  
         }
 
+        if(other.gameObject.CompareTag("fireball"))
+        {
+            other.gameObject.SetActive(false);
+        }
         
     }
 }
