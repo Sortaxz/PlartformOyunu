@@ -1076,7 +1076,17 @@ MonoBehaviour:
   cameraScaleChangeTime: 0.01
   holdForSeconds: 5
   time: 4
-  characterFireballObjects: []
+  characterFireballObjects:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   fireball: {fileID: 0}
   fireballPosition: {fileID: 0}
   windSprite: {fileID: -1215840108, guid: 1ee174ae22f319246ba5ea0dd1130da6, type: 3}
@@ -1086,10 +1096,26 @@ MonoBehaviour:
   windObjects:
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   resumeWind: 1
   windSpeed: 19
   enemyFireballPrefab: {fileID: 7339145356308524819, guid: 57d7f64654c52a4498ca2d200e3df4ea, type: 3}
   enemyFireballObjects:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   enemyFireballSpeed: 19
@@ -2353,14 +2379,26 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   SpakeObjectPositons:
+  - {x: -10, y: -2}
   - {x: -5, y: -2}
+  - {x: 5, y: -2}
+  - {x: 10, y: -2}
   - {x: 15, y: -2}
   - {x: 25, y: -2}
-  - {x: 47, y: -2}
-  - {x: 60, y: -2}
-  - {x: 90, y: -2}
-  SpakeDuration: 010001000100
+  - {x: 35, y: -2}
+  - {x: 45, y: -2}
+  - {x: 55, y: -2}
+  - {x: 75, y: -2}
+  - {x: 95, y: -2}
+  - {x: 105, y: -2}
+  SpakeDuration: 010001000100000101010001
   spakeDurationTime: 3
   movingFloorPrefab: {fileID: 0}
   movingFloors:
@@ -5441,7 +5479,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
