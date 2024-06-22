@@ -50,6 +50,7 @@ public class EnemyAnimationController : MonoBehaviour
 
             enemyCharacterAnimator.SetBool("IsMaleEnemyAttack",false);
             
+            
 
         }
         

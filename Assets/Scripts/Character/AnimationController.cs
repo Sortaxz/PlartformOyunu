@@ -35,6 +35,8 @@ public class AnimationController : MonoBehaviour
     [SerializeField ]SpriteRenderer characteSPR; // character'ın SpriteRenderer'ı
 
     public bool fireballReady = false;
+    private bool birKere = false;
+
 
     private float idleSpritesTimeCounter = 0f;
     private float runSpritesTimeCounter = 0f;
@@ -175,16 +177,20 @@ public class AnimationController : MonoBehaviour
                 
                 if(attackSpritesTimeCounter > 0.07f)
                 {
+                    gameObject.GetComponent<PolygonCollider2D>().enabled =true;
                     characteSPR.sprite = attackSprites[attackSpritesCount++];
 
                     if(attackSpritesCount == attackSprites.Length - 1)
                     {
                         attackSpritesCount = 0;
                         character.readyToAttack = false;
+
+                        
                     }
                     attackSpritesTimeCounter = 0f;
                 }
             }
+            
             #endregion
 
 

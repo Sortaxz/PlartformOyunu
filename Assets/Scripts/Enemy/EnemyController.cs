@@ -57,6 +57,7 @@ public class EnemyController : MonoBehaviour
         {
             enemyDead = true;
         }
+
     }
 
     
@@ -91,12 +92,9 @@ public class EnemyController : MonoBehaviour
             transform.position = Vector2.Lerp(transform.position, targetTranform.position, 1f  * Time.deltaTime * enemyCharcterSpeed * 4);
         }
 
-        if(!enemyAttackAnimation)
-        {
-            carpti = false;
-        }
         
-        EnemyJumpMove();
+        
+        EnemyJumpMove(enemyJumpPower);
         
         
     }
@@ -130,6 +128,18 @@ public class EnemyController : MonoBehaviour
         if(other.collider.CompareTag("fireball") || other.collider.CompareTag("enemyFireball"))
         {
             
+            if(other.collider.transform.position.x < transform.position.x)
+            {
+                leftPosition = false;
+                rightPosition = false;
+            }
+            else if(other.collider.transform.position.x > transform.position.x)
+            {
+                leftPosition = true;
+                rightPosition = true;
+                
+            }
+
 
             EnemyHealthReduction();
         }
@@ -150,6 +160,21 @@ public class EnemyController : MonoBehaviour
         {
             enemyAttackAnimation = true;
         }    
+        if(other.collider.gameObject.layer == LayerMask.NameToLayer("Zemin"))
+        {
+            float sonuc = transform.position.x - other.transform.position.x;
+            if(sonuc > 3)
+            {
+                rgb2D.AddForce(Vector2.up * 30);
+            }
+        }
+
+        if(other.collider.CompareTag("Wind"))
+        {
+            enemyReadyJump = true;
+
+            EnemyJumpMove(50);
+        }
     }
 
     private void OnCollisionExit2D(Collision2D other) 
@@ -199,13 +224,13 @@ public class EnemyController : MonoBehaviour
                 }
             }
 
-            EnemyJumpMove();
+            EnemyJumpMove(enemyJumpPower);
         }
 
 
     }
 
-    private void EnemyJumpMove()
+    private void EnemyJumpMove(float enemyJumpPower)
     {
         if (enemyReadyJump)
         {
