@@ -43,6 +43,7 @@ public class EnemyAnimationController : MonoBehaviour
             
             GameManager.Instance.mainCharacter.CharacterHealthDecrease = true;
             GameManager.Instance.mainCharacter.HitEnemy = true;
+            EnemyController.Instance.SwordStrike = true;
         }
         else
         {
@@ -51,7 +52,6 @@ public class EnemyAnimationController : MonoBehaviour
             enemyCharacterAnimator.SetBool("IsMaleEnemyAttack",false);
             
             
-
         }
         
 

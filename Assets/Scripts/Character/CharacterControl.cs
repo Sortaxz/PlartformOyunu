@@ -63,8 +63,10 @@ public class CharacterControl : MonoBehaviour
     private bool isAerialWind = false;
     public bool IsAerialWind { get => isAerialWind; set => isAerialWind = value;}
 
-    
+    private bool slidDownMove = false;
 
+    private bool leftSlidDown=  false;
+    private bool rightSlidDown= false;
    
     private void Awake() 
     {
@@ -79,10 +81,28 @@ public class CharacterControl : MonoBehaviour
         MovementInputController();
     }
 
-    private void FixedUpdate() 
+    private void FixedUpdate()
     {
-        CharacterMovement();    
+        CharacterMovement();
         JumpingMovement();
+        
+        SlidDownMoveMethod();
+    }
+
+    private void SlidDownMoveMethod()
+    {
+        if (slidDownMove)
+        {
+            if (leftSlidDown)
+            {
+                rb2D.AddForce(Vector2.left * 10);
+            }
+            if (rightSlidDown)
+            {
+                rb2D.AddForce(Vector2.right * 10);
+
+            }
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D other) 
@@ -136,6 +156,7 @@ public class CharacterControl : MonoBehaviour
         {
             characterHealthDecrease  =false;
             hitEnemy = false;
+            startHurtAnimation = true;
         }
         
     }
@@ -219,9 +240,11 @@ public class CharacterControl : MonoBehaviour
         {
             isToLeft = true;
             fireballLocalScale = true;
+            leftSlidDown = true;
         }
         else if (Input.GetKeyUp(KeyCode.A))
         {
+            leftSlidDown = false;
             isToLeft = false;
         }
 
@@ -229,19 +252,23 @@ public class CharacterControl : MonoBehaviour
         {
             fireballLocalScale = false;
             isToRight = true;
+            rightSlidDown = true;
         }
         else if (Input.GetKeyUp(KeyCode.D))
         {
             isToRight = false;
+            rightSlidDown = false;
         }
 
         if(Input.GetKeyDown(KeyCode.S))
         {
             isCharacterSlidDown  =true;
+            slidDownMove = true;
         }
         else if(Input.GetKeyUp(KeyCode.S))
         {
             isCharacterSlidDown = false;
+            slidDownMove = false;
         }
 
         if(Input.GetKey(KeyCode.Q))

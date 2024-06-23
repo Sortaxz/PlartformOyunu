@@ -41,6 +41,9 @@ public class EnemyController : MonoBehaviour
     private bool enemyAttackAnimation = false;
     public bool EnemyAttackAnimation { get { return enemyAttackAnimation;} set { enemyAttackAnimation = value; }}
     
+    private bool swordStrike = false;
+    public bool SwordStrike { get { return swordStrike;} set { swordStrike = value; }}
+
     [SerializeField] private float enemyJumpPower;
     private int healt = 3; 
     public int Healt { get { return healt;}}
@@ -112,6 +115,8 @@ public class EnemyController : MonoBehaviour
                 }
             }
         }
+
+        
     }
 
     private void OnCollisionEnter2D(Collision2D other) 
@@ -145,7 +150,6 @@ public class EnemyController : MonoBehaviour
         }
         if(other.collider.CompareTag("Player"))
         {
-            //enemyAttackAnimation = true;
 
             if(GameManager.Instance.mainCharacter.readyToAttack || GameManager.Instance.mainCharacter.ReadyToStrikeAttack)
             {
@@ -159,8 +163,11 @@ public class EnemyController : MonoBehaviour
         if(other.collider.CompareTag("Player"))
         {
             enemyAttackAnimation = true;
-        }    
-        if(other.collider.gameObject.layer == LayerMask.NameToLayer("Zemin"))
+
+            SwordStrikeMethod(other);
+
+        }
+        if (other.collider.gameObject.layer == LayerMask.NameToLayer("Zemin"))
         {
             float sonuc = transform.position.x - other.transform.position.x;
             if(sonuc > 3)
@@ -177,11 +184,44 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    private void SwordStrikeMethod(Collision2D other)
+    {
+        if (swordStrike)
+        {
+            if (!leftPosition)
+            {
+                if (carpti)
+                {
+                    other.rigidbody.AddForce(Vector2.left * 60);
+                }
+                else
+                {
+                    swordStrike = false;
+                }
+            }
+            if (rightPosition)
+            {
+                if (carpti)
+                {
+                    other.rigidbody.AddForce(Vector2.right * 60);
+                }
+                else
+                {
+
+                    swordStrike = false;
+                }
+            }
+
+        }
+    }
+
     private void OnCollisionExit2D(Collision2D other) 
     {
         if(other.collider.CompareTag("Player"))
         {
             enemyAttackAnimation = false;
+            swordStrike = false;
+            
         }     
     }
 

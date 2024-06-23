@@ -35,7 +35,6 @@ public class AnimationController : MonoBehaviour
     [SerializeField ]SpriteRenderer characteSPR; // character'ın SpriteRenderer'ı
 
     public bool fireballReady = false;
-    private bool birKere = false;
 
 
     private float idleSpritesTimeCounter = 0f;

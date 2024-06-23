@@ -1760,7 +1760,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyCharcterSpeed: 0.4
-  enemyJumpPower: 800
+  enemyJumpPower: 500
 --- !u!50 &855860785
 Rigidbody2D:
   serializedVersion: 4
