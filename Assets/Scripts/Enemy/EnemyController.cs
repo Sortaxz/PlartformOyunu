@@ -170,7 +170,7 @@ public class EnemyController : MonoBehaviour
         if (other.collider.gameObject.layer == LayerMask.NameToLayer("Zemin"))
         {
             float sonuc = transform.position.x - other.transform.position.x;
-            if(sonuc > 3)
+            if(sonuc > 3 || sonuc <-3)
             {
                 rgb2D.AddForce(Vector2.up * 30);
             }

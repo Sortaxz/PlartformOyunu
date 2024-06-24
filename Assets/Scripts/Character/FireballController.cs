@@ -71,7 +71,6 @@ public class FireballController : MonoBehaviour
         {
             if (other.collider.CompareTag("Enemy"))
             {
-                //Destroy(gameObject);
                 isCollider = true;
                 gameObject.SetActive(false);
             }
@@ -79,14 +78,12 @@ public class FireballController : MonoBehaviour
             if (other.collider.CompareTag("obstacle"))
             {
                 Destroy(other.gameObject);
-                //Destroy(gameObject);
                 gameObject.SetActive(false);
             }
             if (!other.collider.CompareTag("Player"))
             {
                 gameObject.SetActive(false);
 
-                //Destroy(gameObject);
             }
         }
     }
@@ -104,7 +101,6 @@ public class FireballController : MonoBehaviour
                     gameManager.CreateEnemyFireball = true;
                     gameManager.CreateWind = false;
                     
-                    //gameManager.mainCharacter.HitEnemyFireball = false;
 
                     dead = true;
                     
@@ -161,12 +157,9 @@ public class FireballController : MonoBehaviour
                     gameManager.CreateEnemyFireball = false;
                     gameManager.CreateWind = true;
                     
-                    //gameManager.mainCharacter.HitEnemyFireball = false;
 
                     dead = true;
 
-                    //gameObject.SetActive(false);
-                    //Destroy(gameObject,0.01f);
                 }
 
                 if (other.collider.CompareTag("obstacle"))
@@ -204,6 +197,11 @@ public class FireballController : MonoBehaviour
                     
                     gameObject.SetActive(false);
 
+                }
+
+                if(other.collider.CompareTag("Enemy"))
+                {
+                    gameObject.SetActive(false);
                 }
             }
         }

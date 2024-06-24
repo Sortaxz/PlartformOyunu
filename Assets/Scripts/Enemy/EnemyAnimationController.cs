@@ -43,6 +43,7 @@ public class EnemyAnimationController : MonoBehaviour
             
             GameManager.Instance.mainCharacter.CharacterHealthDecrease = true;
             GameManager.Instance.mainCharacter.HitEnemy = true;
+            GameManager.Instance.mainCharacter.StartHurtAnimation = true;
             EnemyController.Instance.SwordStrike = true;
         }
         else
