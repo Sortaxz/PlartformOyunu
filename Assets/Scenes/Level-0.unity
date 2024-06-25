@@ -1759,6 +1759,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f15f27b8cb3e224f9b57256ef336975, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyAnimationController: {fileID: 855860786}
   enemyCharcterSpeed: 0.4
   enemyJumpPower: 500
 --- !u!50 &855860785

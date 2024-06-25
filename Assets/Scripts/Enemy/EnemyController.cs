@@ -15,6 +15,7 @@ public class EnemyController : MonoBehaviour
         }
         
     }
+    [SerializeField] private EnemyAnimationController enemyAnimationController;
 
     private Rigidbody2D rgb2D ;
     private RaycastHit2D hit2D;
@@ -166,13 +167,27 @@ public class EnemyController : MonoBehaviour
 
             SwordStrikeMethod(other);
 
+            if(swordStrike)
+            {
+                GameManager.Instance.mainCharacter.CharacterHealthDecrease = true;
+                GameManager.Instance.mainCharacter.HitEnemy = true;
+                GameManager.Instance.mainCharacter.StartHurtAnimation = true;
+            }
+
         }
         if (other.collider.gameObject.layer == LayerMask.NameToLayer("Zemin"))
         {
             float sonuc = transform.position.x - other.transform.position.x;
+
             if(sonuc > 3 || sonuc <-3)
             {
                 rgb2D.AddForce(Vector2.up * 30);
+            }
+            
+            if(other.transform.position.y < 1.5f)
+            {
+                rgb2D.AddForce(Vector2.down * 100);
+
             }
         }
 

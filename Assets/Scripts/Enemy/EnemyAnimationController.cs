@@ -28,7 +28,7 @@ public class EnemyAnimationController : MonoBehaviour
         
     }
 
-    private void EnemyCharacterAnimationControl()
+    public void EnemyCharacterAnimationControl()
     {
         if(!EnemyController.Instance.LeftPosition || EnemyController.Instance.RightPosition)
         {
@@ -41,9 +41,7 @@ public class EnemyAnimationController : MonoBehaviour
 
             enemyCharacterAnimator.SetBool("IsMaleEnemyAttack",true);
             
-            GameManager.Instance.mainCharacter.CharacterHealthDecrease = true;
-            GameManager.Instance.mainCharacter.HitEnemy = true;
-            GameManager.Instance.mainCharacter.StartHurtAnimation = true;
+            
             EnemyController.Instance.SwordStrike = true;
         }
         else
