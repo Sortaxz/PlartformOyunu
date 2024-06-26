@@ -27,6 +27,27 @@ public class WindObjectControl : MonoBehaviour
     {
         WindMovement();
     }
+    private void OnCollisionEnter2D(Collision2D other) 
+    {
+        if(!gameManager.WindObject)
+        {
+            if(other.collider.CompareTag("Player"))
+            {
+                EnemyController.Instance.CharacterCollidesWind = true;
+                
+                
+            }
+        }
+        
+        if(gameManager.WindObject)
+        {
+            if(other.collider.CompareTag("Player"))
+            {
+                EnemyController.Instance.CharacterCollidesWind = true;
+            }
+        }
+    }
+    
     private void OnCollisionExit2D(Collision2D other) 
     {
         if(!gameManager.WindObject)
@@ -36,8 +57,9 @@ public class WindObjectControl : MonoBehaviour
                 gameManager.CreateWind = false;
                 gameManager.CreateEnemyFireball = true;
                 
+                EnemyController.Instance.CharacterCollidesWind = false;
+                
                 gameObject.SetActive(false);
-                //Destroy(gameObject);
             }
         }
         
@@ -47,7 +69,9 @@ public class WindObjectControl : MonoBehaviour
             {
                 gameManager.CreateWind = true;
                 gameManager.CreateEnemyFireball = false;
-                //Destroy(gameObject);
+                
+                EnemyController.Instance.CharacterCollidesWind = false;
+                
                 gameObject.SetActive(false);
             }
         }

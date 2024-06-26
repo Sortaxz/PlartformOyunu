@@ -45,6 +45,16 @@ public class EnemyController : MonoBehaviour
     private bool swordStrike = false;
     public bool SwordStrike { get { return swordStrike;} set { swordStrike = value; }}
 
+    private bool characterCollidesWind = false;
+    public bool CharacterCollidesWind { get { return characterCollidesWind;} set { characterCollidesWind = value; }}  
+
+    private bool zeminHit = false;
+
+    private bool calculateOnce = false;
+
+    private float minDistanceTravel = 0f;
+    private float maxDistanceTravel = 0f;
+
     [SerializeField] private float enemyJumpPower;
     private int healt = 3; 
     public int Healt { get { return healt;}}
@@ -61,6 +71,7 @@ public class EnemyController : MonoBehaviour
         {
             enemyDead = true;
         }
+
 
     }
 
@@ -98,7 +109,7 @@ public class EnemyController : MonoBehaviour
 
         
         
-        EnemyJumpMove(enemyJumpPower);
+        //EnemyJumpMove(enemyJumpPower);
         
         
     }
@@ -110,10 +121,14 @@ public class EnemyController : MonoBehaviour
             if(!enemyDead)
             {
                 LookMove();
+                
+                EnemyJumpMove(enemyJumpPower);
+                
                 if(!carpti)
                 {
                     EnemyCharacterMove();
                 }
+                
             }
         }
 
@@ -122,7 +137,7 @@ public class EnemyController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other) 
     {
-        if(other.collider.CompareTag("obstacle") || other.collider.CompareTag("Cranboline"))
+        if( other.collider.CompareTag("Cranboline"))
         {
             enemyReadyJump = true;
         }    
@@ -149,14 +164,24 @@ public class EnemyController : MonoBehaviour
 
             EnemyHealthReduction();
         }
+
         if(other.collider.CompareTag("Player"))
         {
 
             if(GameManager.Instance.mainCharacter.readyToAttack || GameManager.Instance.mainCharacter.ReadyToStrikeAttack)
             {
                 EnemyHealthReduction();
+
             }
         } 
+        if(other.collider.CompareTag("Enemy"))
+        {
+            enemyReadyJump = true;
+
+            //EnemyJumpMove(45);
+        }
+
+        Method(other);
     }
     
     private void OnCollisionStay2D(Collision2D other) 
@@ -174,28 +199,96 @@ public class EnemyController : MonoBehaviour
                 GameManager.Instance.mainCharacter.StartHurtAnimation = true;
             }
 
+            if(characterCollidesWind)
+            {
+                enemyReadyJump = true;
+                characterCollidesWind = false;
+            }
         }
+
         if (other.collider.gameObject.layer == LayerMask.NameToLayer("Zemin"))
         {
             float sonuc = transform.position.x - other.transform.position.x;
 
-            if(sonuc > 3 || sonuc <-3)
+
+            if(transform.position.y > 1.5f)
+            {
+                if(sonuc > 3 || sonuc <-3 )
+                {
+                    rgb2D.AddForce(Vector2.up * 30);
+                }
+            }
+            else if(transform.position.y < 1.5f)
+            {
+                rgb2D.AddForce(Vector2.down * 30);
+            }
+
+            /*
+            if(sonuc > 3 || sonuc <-3 )
             {
                 rgb2D.AddForce(Vector2.up * 30);
             }
-            
-            if(other.transform.position.y < 1.5f)
-            {
-                rgb2D.AddForce(Vector2.down * 100);
+            */
 
-            }
+            zeminHit = true;
+            
+            
+
+            
         }
 
         if(other.collider.CompareTag("Wind"))
         {
             enemyReadyJump = true;
 
-            EnemyJumpMove(50);
+            EnemyJumpMove(45);
+
+        }
+
+        if(other.collider.CompareTag("obstacle"))
+        {
+
+            if(!zeminHit)
+            {
+                enemyReadyJump = true;
+                
+                EnemyJumpMove(45);
+            }
+            else
+            {
+                if(!leftPosition)
+                {
+                    rightPosition = true;
+                    leftPosition = true;
+                   print("leftPosition : " + leftPosition);
+                }
+                if(rightPosition)
+                {
+                    rightPosition = false;
+                    leftPosition = false;
+                    
+                   print("rightPosition : " + rightPosition);
+                }
+                zeminHit = false;
+            }
+            
+        }
+    }
+
+    private void Method(Collision2D other)
+    {
+        if(other.collider.CompareTag("Player"))
+        {
+            if(transform.position.x > other.transform.position.x)
+            {
+                leftPosition = false;
+                rightPosition = false;
+            }
+            else if(transform.position.x < other.transform.position.x)
+            {
+                rightPosition = true;
+                leftPosition = true;
+            }
         }
     }
 
@@ -249,17 +342,24 @@ public class EnemyController : MonoBehaviour
     }
 
     private void EnemyCharacterMove()
-    {
+    {   
+        if(!calculateOnce)
+        {
+            minDistanceTravel = transform.position.x + -25;
+            print( "minDistanceTravel : " + minDistanceTravel);
+            maxDistanceTravel = transform.position.x + 25;
+            print( "minDistanceTravel : " + maxDistanceTravel);
+            calculateOnce = true;
+        }
 
         if(!enemyDead)
         {
             if (!leftPosition)
             {
-
                 transform.rotation = Quaternion.Euler(0, 180, 0);
 
                 transform.position += new Vector3(-10, 0, 0) * Time.deltaTime * enemyCharcterSpeed;
-                if (transform.position.x <= -10)
+                if (transform.position.x <= minDistanceTravel)
                 {
                     leftPosition = true;
                     rightPosition = true;
@@ -272,7 +372,7 @@ public class EnemyController : MonoBehaviour
 
 
                 transform.position += new Vector3(10, 0, 0) * Time.deltaTime * enemyCharcterSpeed;
-                if (transform.position.x >= 10)
+                if (transform.position.x >= maxDistanceTravel)
                 {
                     leftPosition = false;
                     rightPosition = false;

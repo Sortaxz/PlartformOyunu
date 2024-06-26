@@ -6,6 +6,7 @@ public class CharacterControl : MonoBehaviour
 {
     private GameManager gameManager;
     private Rigidbody2D rb2D;
+    public Rigidbody2D Rb2D { get { return rb2D; }  set { rb2D = value; } }
     private Vector3 movement =  Vector3.zero;
     [SerializeField] private float jumpingPower;
     [SerializeField] private float characterSpeed; 

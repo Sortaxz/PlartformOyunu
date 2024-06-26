@@ -28,6 +28,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject winds;
 
     public CharacterControl mainCharacter;
+
+
     [SerializeField] private UI_Elemets uI_Elemets;
 
     private Transform LeftWindPosition;
@@ -216,16 +218,21 @@ public class GameManager : MonoBehaviour
         CharcterCheckPoint();
         CameraPositionControl();
         
-        IsWindStillBlowingOrEnemyFirebal();
+        //IsWindStillBlowingOrEnemyFirebal();
         
-        CreateWindObject();
+        //CreateWindObject();
         
-        CreateEnemyFireballObject();
+        //CreateEnemyFireballObject();
         
         SpawnFireball();
         
+        if(charcDead)
+        {
+            mainCharacter.Rb2D.velocity = Vector2.zero;
+        }
     }
 
+    
     
     
 
