@@ -260,14 +260,11 @@ public class EnemyController : MonoBehaviour
                 {
                     rightPosition = true;
                     leftPosition = true;
-                   print("leftPosition : " + leftPosition);
                 }
-                if(rightPosition)
+                else if(rightPosition)
                 {
                     rightPosition = false;
-                    leftPosition = false;
-                    
-                   print("rightPosition : " + rightPosition);
+                    leftPosition = false;   
                 }
                 zeminHit = false;
             }
@@ -346,9 +343,7 @@ public class EnemyController : MonoBehaviour
         if(!calculateOnce)
         {
             minDistanceTravel = transform.position.x + -25;
-            print( "minDistanceTravel : " + minDistanceTravel);
             maxDistanceTravel = transform.position.x + 25;
-            print( "minDistanceTravel : " + maxDistanceTravel);
             calculateOnce = true;
         }
 
