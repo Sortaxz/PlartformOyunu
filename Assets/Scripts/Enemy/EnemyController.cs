@@ -19,6 +19,9 @@ public class EnemyController : MonoBehaviour
 
     private Rigidbody2D rgb2D ;
     private RaycastHit2D hit2D;
+
+    private Animator enemyAnimator;
+
     private Transform  targetTranform;
 
     private Vector2 colliderHitPoint;
@@ -35,8 +38,10 @@ public class EnemyController : MonoBehaviour
     public bool EnemyWalkAnimationStart { get { return enemyWalkAnimationStart;} set{enemyWalkAnimationStart = value;}} 
 
     private bool enemyDead = false;
-    public bool EnemyDead { get { return enemyDead; }}
+    public bool EnemyDead { get { return enemyDead; } set {enemyDead = value;}}
+
     bool carpti = false;
+
     private bool runAnimation = false;
     public bool RunAnimation { get { return runAnimation; } set { runAnimation = value; }}
     private bool enemyAttackAnimation = false;
@@ -52,27 +57,54 @@ public class EnemyController : MonoBehaviour
 
     private bool calculateOnce = false;
 
+    private bool changeEnemyCharacter = false;
+    public bool ChangeEnemyCharacter { get { return changeEnemyCharacter;} set { changeEnemyCharacter = value; }}
+
+    private bool deadly = false;
+    public bool Deadly { get { return deadly;} set { deadly = value; }}
+
+   
+
+    private string enemyName = default(string);
+    public string EnemyName { get { return enemyName;} set { enemyName = value; }}
+
     private float minDistanceTravel = 0f;
     private float maxDistanceTravel = 0f;
 
     [SerializeField] private float enemyJumpPower;
     private int healt = 3; 
-    public int Healt { get { return healt;}}
+    public int Healt { get { return healt;} set { healt = value; }}
     
     private void Awake() 
     {
         rgb2D = GetComponent<Rigidbody2D>();
+        enemyAnimator = GetComponent<Animator>();
     }
     
 
     void Update()
     {
-        if(healt ==0)
+        print(transform.name + "  :  " + healt);
+
+        if(deadly)
         {
-            enemyDead = true;
+            if(enemyName == transform.name)
+            {
+                enemyAnimator.enabled = false;
+                enemyDead = true;
+                enemyAnimationController.DeadAnimationStart = true;
+                enemyAttackAnimation = false;
+            }
+            
         }
-
-
+        
+        if(enemyAttackAnimation)
+        {
+            enemyAnimationController.Attack = true;
+            enemyAnimator.enabled = false;
+            enemyAttackAnimation  =false;
+        }
+        
     }
 
     
@@ -109,7 +141,6 @@ public class EnemyController : MonoBehaviour
 
         
         
-        //EnemyJumpMove(enemyJumpPower);
         
         
     }
@@ -146,9 +177,10 @@ public class EnemyController : MonoBehaviour
         {
             enemyReadyJump = false;
         }
-        if(other.collider.CompareTag("fireball") || other.collider.CompareTag("enemyFireball"))
+        if(other.collider.CompareTag("fireball") )
         {
             
+
             if(other.collider.transform.position.x < transform.position.x)
             {
                 leftPosition = false;
@@ -161,34 +193,72 @@ public class EnemyController : MonoBehaviour
                 
             }
 
-
+            
             EnemyHealthReduction();
         }
 
+
+        if(other.collider.CompareTag("enemyFireball"))
+        {
+            
+            ChangeDirectionEnemy(other);
+            
+            EnemyHealthReduction();
+        }
+
+
         if(other.collider.CompareTag("Player"))
         {
-
-            if(GameManager.Instance.mainCharacter.readyToAttack || GameManager.Instance.mainCharacter.ReadyToStrikeAttack)
+          
+            if(!deadly)
             {
-                EnemyHealthReduction();
-
+                swordStrike = true;
             }
+
+           
         } 
         if(other.collider.CompareTag("Enemy"))
         {
             enemyReadyJump = true;
 
-            //EnemyJumpMove(45);
+            EnemyDirectionControl();
+
+            EnemyJumpMove(45);
+
         }
 
-        Method(other);
+        if (other.collider.gameObject.layer == LayerMask.NameToLayer("Zemin"))
+        {
+            zeminHit = true;
+        }
+
+
+        if(other.collider.CompareTag("CoinCounter"))
+        {
+            other.gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
+        }
+
     }
-    
+
+    private void EnemyDirectionControl()
+    {
+        if (!leftPosition)
+        {
+            rightPosition = true;
+            leftPosition = true;
+        }
+        else if (rightPosition)
+        {
+            rightPosition = false;
+            leftPosition = false;
+        }
+    }
+
     private void OnCollisionStay2D(Collision2D other) 
     {
         if(other.collider.CompareTag("Player"))
         {
-            enemyAttackAnimation = true;
+
 
             SwordStrikeMethod(other);
 
@@ -208,33 +278,34 @@ public class EnemyController : MonoBehaviour
 
         if (other.collider.gameObject.layer == LayerMask.NameToLayer("Zemin"))
         {
-            float sonuc = transform.position.x - other.transform.position.x;
+            float resultX = transform.position.x - other.transform.position.x;
+            float ressultY = transform.position.y - other.transform.position.y;
 
 
-            if(transform.position.y > 1.5f)
+            if(transform.position.y > 1.5f && ressultY > 0)
             {
-                if(sonuc > 3 || sonuc <-3 )
+                
+                if(resultX > other.transform.position.x)
                 {
-                    rgb2D.AddForce(Vector2.up * 30);
+                    UpForce();
+                }
+                if (resultX < other.transform.position.x )
+                {
+                    UpForce();
+
                 }
             }
-            else if(transform.position.y < 1.5f)
+            else if(transform.position.y < 1.5f && ressultY < 0)
             {
-                rgb2D.AddForce(Vector2.down * 30);
+                DownForce();
             }
 
-            /*
-            if(sonuc > 3 || sonuc <-3 )
+            if (transform.position.y  == other.transform.position.y)
             {
-                rgb2D.AddForce(Vector2.up * 30);
+                DownForce();
+
             }
-            */
 
-            zeminHit = true;
-            
-            
-
-            
         }
 
         if(other.collider.CompareTag("Wind"))
@@ -256,36 +327,57 @@ public class EnemyController : MonoBehaviour
             }
             else
             {
-                if(!leftPosition)
-                {
-                    rightPosition = true;
-                    leftPosition = true;
-                }
-                else if(rightPosition)
-                {
-                    rightPosition = false;
-                    leftPosition = false;   
-                }
+                EnemyDirectionControl();
+                
                 zeminHit = false;
             }
             
         }
     }
 
-    private void Method(Collision2D other)
+    private void OnCollisionExit2D(Collision2D other) 
     {
         if(other.collider.CompareTag("Player"))
         {
-            if(transform.position.x > other.transform.position.x)
-            {
-                leftPosition = false;
-                rightPosition = false;
-            }
-            else if(transform.position.x < other.transform.position.x)
-            {
-                rightPosition = true;
-                leftPosition = true;
-            }
+            enemyAttackAnimation = false;
+            swordStrike = false;
+            
+        }   
+
+        if(other.collider.gameObject.layer == LayerMask.NameToLayer("Zemin"))  
+        {
+            zeminHit = false;
+        }
+        
+        if(other.collider.CompareTag("CoinCounter"))
+        {
+            other.gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
+        }
+    }
+
+
+    private void UpForce()
+    {
+        rgb2D.AddForce(Vector2.up * 30);
+    }
+
+    private void DownForce()
+    {
+        rgb2D.AddForce(Vector2.down * 30);
+    }
+
+    private void ChangeDirectionEnemy(Collision2D other)
+    {
+        
+        if(transform.position.x > other.transform.position.x)
+        {
+            leftPosition = false;
+            rightPosition = false;
+        }
+        else if(transform.position.x < other.transform.position.x)
+        {
+            rightPosition = true;
+            leftPosition = true;
         }
     }
 
@@ -320,19 +412,11 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    private void OnCollisionExit2D(Collision2D other) 
-    {
-        if(other.collider.CompareTag("Player"))
-        {
-            enemyAttackAnimation = false;
-            swordStrike = false;
-            
-        }     
-    }
+    
 
     private void EnemyHealthReduction()
     {
-        if(healt > 0)
+        if(healt > 1)
         {
             healt --;
         }
@@ -376,6 +460,7 @@ public class EnemyController : MonoBehaviour
 
             EnemyJumpMove(enemyJumpPower);
         }
+        
 
 
     }

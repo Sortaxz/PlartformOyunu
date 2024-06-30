@@ -17,6 +17,7 @@ public class OutFormControl : MonoBehaviour
         {
             gameManager.mainCharacter.IsCharacterDead = true;
             gameManager.isCharacterOnPoint = false;
+            other.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
         }
 
 
@@ -59,6 +60,11 @@ public class OutFormControl : MonoBehaviour
         }
 
         if(other.gameObject.CompareTag("fireball"))
+        {
+            other.gameObject.SetActive(false);
+        }
+
+        if(other.CompareTag("Enemy"))
         {
             other.gameObject.SetActive(false);
         }

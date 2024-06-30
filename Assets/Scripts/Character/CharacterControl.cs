@@ -41,7 +41,7 @@ public class CharacterControl : MonoBehaviour
     public bool jumpAnimationResume = false;
 
     private bool characterHealthDecrease = false;
-    public bool CharacterHealthDecrease { get => characterHealthDecrease; set => characterHealthDecrease = value; }
+    public bool   CharacterHealthDecrease { get => characterHealthDecrease; set => characterHealthDecrease = value; }
 
     private bool hitObstacle = false;
     public bool HitObstacle { get => hitObstacle; set => hitObstacle = value; }
@@ -133,6 +133,8 @@ public class CharacterControl : MonoBehaviour
         {
             isAerialWind = false;
         }
+
+       
     }
 
 
@@ -157,7 +159,14 @@ public class CharacterControl : MonoBehaviour
         {
             characterHealthDecrease  =false;
             hitEnemy = false;
-            startHurtAnimation = true;
+
+            if(!EnemyController.Instance.Deadly)
+            {
+                other.gameObject.GetComponent<EnemyController>().EnemyAttackAnimation = true;
+                other.gameObject.GetComponent<EnemyController>().EnemyName = other.gameObject.name;
+            }
+
+            //startHurtAnimation = true;
         }
         
     }
@@ -174,6 +183,8 @@ public class CharacterControl : MonoBehaviour
         {
             characterHealthDecrease  =false;
             hitEnemy = false;
+
+
         }    
         if(other.collider.CompareTag("enemyFireball"))
         {

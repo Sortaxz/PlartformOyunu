@@ -46,6 +46,11 @@ public class WindObjectControl : MonoBehaviour
                 EnemyController.Instance.CharacterCollidesWind = true;
             }
         }
+
+        if(other.collider.CompareTag("CoinCounter"))
+        {
+            other.gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
+        }
     }
     
     private void OnCollisionExit2D(Collision2D other) 
@@ -75,12 +80,16 @@ public class WindObjectControl : MonoBehaviour
                 gameObject.SetActive(false);
             }
         }
-       
+
+        if(other.collider.CompareTag("CoinCounter"))
+        {
+            other.gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
+        }
     }
     
     public  void WindMovement()
     {
-        if(!gameManager.Finish && !UIManager.Instance.StandbyScreenWorked)
+        if(!gameManager.Finish && !UIManager.Instance.StandbyScreenWorked && !gameManager.mainCharacter.IsCharacterDead) 
         {
             if(gameManager.mainCharacter != null)
             {

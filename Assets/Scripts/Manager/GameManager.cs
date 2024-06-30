@@ -211,6 +211,8 @@ public class GameManager : MonoBehaviour
             Create(characterFireballObjects,fireballPosition.gameObject,"Fireball","Prefabs/Fireball/fireball");
         }
     }
+
+
     void Update()
     {
         LevelPreparation();
@@ -218,15 +220,15 @@ public class GameManager : MonoBehaviour
         CharcterCheckPoint();
         CameraPositionControl();
         
-        //IsWindStillBlowingOrEnemyFirebal();
+        IsWindStillBlowingOrEnemyFirebal();
         
-        //CreateWindObject();
+        CreateWindObject();
         
-        //CreateEnemyFireballObject();
+        CreateEnemyFireballObject();
         
         SpawnFireball();
         
-        if(charcDead)
+        if(mainCharacter.IsCharacterDead)
         {
             mainCharacter.Rb2D.velocity = Vector2.zero;
         }
@@ -459,7 +461,7 @@ public class GameManager : MonoBehaviour
     }
     void CreateEnemyFireballObject()
     {
-        if(!finish && !stageTransitionReady && !UIManager.Instance.StandbyScreenWorked)
+        if(!finish && !stageTransitionReady && !UIManager.Instance.StandbyScreenWorked )
         {
             if(createEnemyFireball)
             {

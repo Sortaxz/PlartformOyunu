@@ -102,7 +102,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: c543a8029e047ca48afe967e11b3eca8, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -232,8 +232,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyCharacterAnimator: {fileID: 3913201189600151732}
-  enemyDeadSprites: []
-  enemyAttackSprites: []
+  enemyDeadSprites:
+  - {fileID: 21300000, guid: 5179d1fe54fb47848bf5fc6afb99d542, type: 3}
+  - {fileID: 21300000, guid: dd30bac53f29585458b1a447c3df72c7, type: 3}
+  - {fileID: 21300000, guid: cc68fe9d549db6847bfbeb548b612105, type: 3}
+  - {fileID: 21300000, guid: 6c4852b53872e0c4d8704b22a0794ae0, type: 3}
+  - {fileID: 21300000, guid: 97c9450ec90775f4ea8cb2769a3c6b06, type: 3}
+  - {fileID: 21300000, guid: 14ca38b940ba1c846940a1e935f372ef, type: 3}
+  - {fileID: 21300000, guid: 079c15cbb0d2fd943be7f9bf9370f8ac, type: 3}
+  - {fileID: 21300000, guid: 5e43c64d7cfdf1e46abfc1f4489138d9, type: 3}
+  - {fileID: 21300000, guid: 05c128c9c55624746a1b639c823e5d31, type: 3}
+  - {fileID: 21300000, guid: 9350d984d21440c4799e0b1055d3a12a, type: 3}
+  - {fileID: 21300000, guid: c8136ba35d4b4ba4fad46830ce322e5c, type: 3}
+  - {fileID: 21300000, guid: 91e971b67437b5140aba33a397e068ad, type: 3}
+  enemyAttackSprites:
+  - {fileID: 21300000, guid: 6060178d2f2ed1b44a3faba1c8488b27, type: 3}
+  - {fileID: 21300000, guid: 3665746c35955654085c240f4c02eeef, type: 3}
+  - {fileID: 21300000, guid: dfaf281544b129d40a1340e98776351d, type: 3}
+  - {fileID: 21300000, guid: 088b479137b30ad4c8486c0366cffca3, type: 3}
+  - {fileID: 21300000, guid: 4a23e4d54757dd346adadee10b54f03f, type: 3}
+  - {fileID: 21300000, guid: c8e7c9cb51041f047aa4de665dc441f8, type: 3}
+  - {fileID: 21300000, guid: da84892a9d05b9a4b98af088a9390882, type: 3}
+  - {fileID: 21300000, guid: bea4fe4d3ab57a6458dd31f76f17e9a9, type: 3}
+  - {fileID: 21300000, guid: 9bced1c5a2eb9bf4f8f345cd2b80855b, type: 3}
+  - {fileID: 21300000, guid: 430e895c8eb48b04881e7988bf011386, type: 3}
+  - {fileID: 21300000, guid: 4456326f54457f44597cb3c17d83252d, type: 3}
+  - {fileID: 21300000, guid: 56839feb0428878478d61aad17d64c91, type: 3}
   enemyBlockSprites: []
 --- !u!50 &7995000708454658814
 Rigidbody2D:

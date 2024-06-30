@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class GroundControl : MonoBehaviour
 {
+    private PolygonCollider2D passeblePolygonCollider2D;
     [SerializeField] private BoxCollider2D passebleBoxCollide2D;
     [SerializeField] private bool movementDirectionUp;
     public bool MovementDirectionUp { get=> movementDirectionUp; set=> movementDirectionUp = value; }
@@ -21,6 +22,7 @@ public class GroundControl : MonoBehaviour
         if (transform.tag == "PassableFloor")
         {
             passebleBoxCollide2D = GetComponent<BoxCollider2D>();
+            passeblePolygonCollider2D = GetComponent<PolygonCollider2D>();
         }
     }
 
@@ -70,6 +72,13 @@ public class GroundControl : MonoBehaviour
             {
                 passebleBoxCollide2D.isTrigger = true;
             }
+        }
+        if(other.CompareTag("Enemy"))
+        {
+            if(transform.tag == "PassableFloor")
+            {
+                passeblePolygonCollider2D.isTrigger =false;
+            }
         }    
     }
     private void OnTriggerExit2D(Collider2D other) 
@@ -81,6 +90,13 @@ public class GroundControl : MonoBehaviour
                 passebleBoxCollide2D.isTrigger = false;
             }
         }   
+        if(other.CompareTag("Enemy"))
+        {
+            if(transform.tag == "PassableFloor")
+            {
+                passeblePolygonCollider2D.isTrigger =true;
+            }
+        } 
     }
     #endregion
 }
