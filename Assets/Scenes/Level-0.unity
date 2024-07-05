@@ -5515,6 +5515,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Male_Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 7457990499612403988, guid: 1a76b2cb43162c247b6fe75acaa51eb4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

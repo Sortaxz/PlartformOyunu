@@ -18,6 +18,8 @@ public class FireballController : MonoBehaviour
     }
     [SerializeField] private GameObject fireball;
     [SerializeField] private Transform fireballPosition;
+
+    private bool dead = false;
     private void Awake() 
     {
         fireballRb2D = GetComponent<Rigidbody2D>();    
@@ -33,7 +35,10 @@ public class FireballController : MonoBehaviour
 
     void Update()
     {
-      
+        if(dead)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     private void FixedUpdate()
@@ -67,8 +72,11 @@ public class FireballController : MonoBehaviour
             {
                 gameObject.SetActive(false);
             }
+            
         }    
+        
     }
+    
 
 
     private void OnCollisionExit2D(Collision2D other) 
@@ -77,6 +85,15 @@ public class FireballController : MonoBehaviour
         {
             other.gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
         }    
+
+        if(transform.tag == "enemyFireball")
+        {
+            if(other.collider.CompareTag("Player"))
+            {
+                dead = false;
+            }
+            
+        }
     }
 
     private void FireballCollisionControl(Collision2D other)
@@ -123,10 +140,8 @@ public class FireballController : MonoBehaviour
                 {
                     gameManager.CreateEnemyFireball = true;
                     gameManager.CreateWind = false;
-                    
 
-                    //gameObject.SetActive(false);
-                    
+                    dead = true;
                 }
                 if (other.collider.CompareTag("obstacle"))
                 {
@@ -169,7 +184,12 @@ public class FireballController : MonoBehaviour
                     gameManager.CreateEnemyFireball = true;
                     gameManager.CreateWind = false;
                     
-
+                    if(other.gameObject.GetComponent<EnemyController>().Healt == 1)
+                    {
+                        other.gameObject.GetComponent<EnemyController>().Deadly  =true;
+                        other.gameObject.GetComponent<EnemyController>().EnemyName = other.gameObject.name;
+                    }
+                    
                     gameObject.SetActive(false);
                 }
 
@@ -193,9 +213,7 @@ public class FireballController : MonoBehaviour
                     gameManager.CreateEnemyFireball = false;
                     gameManager.CreateWind = true;
                     
-            
-
-                    //gameObject.SetActive(false);
+                    dead = true;
                 }
 
                 if (other.collider.CompareTag("obstacle"))
@@ -240,7 +258,12 @@ public class FireballController : MonoBehaviour
                     gameManager.CreateEnemyFireball = false;
                     gameManager.CreateWind = true;
 
-                    
+                    if(other.gameObject.GetComponent<EnemyController>().Healt == 1)
+                    {
+                        other.gameObject.GetComponent<EnemyController>().Deadly  =true;
+                        other.gameObject.GetComponent<EnemyController>().EnemyName = other.gameObject.name;
+                    }
+
                     gameObject.SetActive(false);
                 }
             }

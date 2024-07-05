@@ -29,21 +29,21 @@ public class WindObjectControl : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D other) 
     {
-        if(!gameManager.WindObject)
+        if(EnemyController.Instance != null)
         {
-            if(other.collider.CompareTag("Player"))
+            if(!gameManager.WindObject)
             {
-                EnemyController.Instance.CharacterCollidesWind = true;
-                
-                
+                if(other.collider.CompareTag("Player"))
+                {
+                    EnemyController.Instance.CharacterCollidesWind = true;
+                }
             }
-        }
-        
-        if(gameManager.WindObject)
-        {
-            if(other.collider.CompareTag("Player"))
+            if(gameManager.WindObject)
             {
-                EnemyController.Instance.CharacterCollidesWind = true;
+                if(other.collider.CompareTag("Player"))
+                {
+                    EnemyController.Instance.CharacterCollidesWind = true;
+                }
             }
         }
 
@@ -62,8 +62,13 @@ public class WindObjectControl : MonoBehaviour
                 gameManager.CreateWind = false;
                 gameManager.CreateEnemyFireball = true;
                 
-                EnemyController.Instance.CharacterCollidesWind = false;
-                
+                if(EnemyController.Instance != null)
+                {
+                    EnemyController.Instance.CharacterCollidesWind = false;
+                    
+                }
+
+
                 gameObject.SetActive(false);
             }
         }
@@ -75,7 +80,11 @@ public class WindObjectControl : MonoBehaviour
                 gameManager.CreateWind = true;
                 gameManager.CreateEnemyFireball = false;
                 
-                EnemyController.Instance.CharacterCollidesWind = false;
+                if(EnemyController.Instance != null)
+                {
+                    EnemyController.Instance.CharacterCollidesWind = false;
+                    
+                }
                 
                 gameObject.SetActive(false);
             }
