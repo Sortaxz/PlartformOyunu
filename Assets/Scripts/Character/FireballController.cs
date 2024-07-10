@@ -20,6 +20,9 @@ public class FireballController : MonoBehaviour
     [SerializeField] private Transform fireballPosition;
 
     private bool dead = false;
+
+    private int multiplicationNumber = 0;
+
     private void Awake() 
     {
         fireballRb2D = GetComponent<Rigidbody2D>();    
@@ -61,7 +64,7 @@ public class FireballController : MonoBehaviour
 
         EnemyFireballCollisionControl(other);
         
-
+       
     }
 
     private void OnCollisionStay2D(Collision2D other) 
@@ -175,6 +178,7 @@ public class FireballController : MonoBehaviour
                     gameManager.CreateEnemyFireball = true;
                     gameManager.CreateWind = false;
                     
+                    
                     gameObject.SetActive(false);
                     
                 }
@@ -249,8 +253,9 @@ public class FireballController : MonoBehaviour
                     gameManager.CreateEnemyFireball = false;
                     gameManager.CreateWind = true;
                     
-                    gameObject.SetActive(false);
+                
 
+                    gameObject.SetActive(false);
                 }
 
                 if(other.collider.CompareTag("Enemy"))

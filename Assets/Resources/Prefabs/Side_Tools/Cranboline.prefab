@@ -245,6 +245,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3900616095020192060}
   - component: {fileID: 4364619386612203195}
+  - component: {fileID: 9040410139592927045}
   m_Layer: 0
   m_Name: Cranboline
   m_TagString: Cranboline
@@ -314,3 +315,15 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3.002411, y: 0.99999964}
   m_EdgeRadius: 0
+--- !u!114 &9040410139592927045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4544674389238645486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc21ed1ad50b9bc4898d7a314d365659, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
