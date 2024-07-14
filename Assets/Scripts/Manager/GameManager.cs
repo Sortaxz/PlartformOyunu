@@ -220,11 +220,11 @@ public class GameManager : MonoBehaviour
         CharcterCheckPoint();
         CameraPositionControl();
         
-        //IsWindStillBlowingOrEnemyFirebal();
+        IsWindStillBlowingOrEnemyFirebal();
         
-        //CreateWindObject();
+        CreateWindObject();
         
-        //CreateEnemyFireballObject();
+        CreateEnemyFireballObject();
         
         SpawnFireball();
         

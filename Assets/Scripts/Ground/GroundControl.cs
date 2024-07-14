@@ -77,7 +77,7 @@ public class GroundControl : MonoBehaviour
         {
             if(transform.tag == "PassableFloor")
             {
-                passeblePolygonCollider2D.isTrigger =false;
+                passeblePolygonCollider2D.isTrigger =true;
             }
         }    
     }
