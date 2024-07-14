@@ -68,6 +68,10 @@ public class CharacterControl : MonoBehaviour
 
     private bool leftSlidDown=  false;
     private bool rightSlidDown= false;
+
+    [SerializeField] private BoxCollider2D boxCollider2D;
+    private PolygonCollider2D polygonCollider2D;
+
    
     private void Awake() 
     {
@@ -75,11 +79,27 @@ public class CharacterControl : MonoBehaviour
         rb2D = GetComponent<Rigidbody2D>();
         gameManager = GameManager.Instance;
         
+        boxCollider2D = GetComponent<BoxCollider2D>();
+        polygonCollider2D = GetComponent<PolygonCollider2D>();
+        
     }
 
     void Update()
     {
         MovementInputController();
+
+        if(readyToAttack)
+        {
+            boxCollider2D.enabled = true;
+            polygonCollider2D.enabled = false;
+        }
+        else
+        {
+            boxCollider2D.enabled = false;
+            polygonCollider2D.enabled = true;
+        }
+
+        
     }
 
     private void FixedUpdate()
@@ -134,6 +154,14 @@ public class CharacterControl : MonoBehaviour
             isAerialWind = false;
         }
 
+        if(other.collider.CompareTag("Enemy"))
+        {
+            if(readyToStrikeAttack ||readyToAttack)
+            {
+                EnemyController.Instance.EnemyHealthReduction();
+                print(EnemyController.Instance.Healt);
+            }
+        }
        
     }
 

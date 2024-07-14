@@ -220,11 +220,11 @@ public class GameManager : MonoBehaviour
         CharcterCheckPoint();
         CameraPositionControl();
         
-        IsWindStillBlowingOrEnemyFirebal();
+        //IsWindStillBlowingOrEnemyFirebal();
         
-        CreateWindObject();
+        //CreateWindObject();
         
-        CreateEnemyFireballObject();
+        //CreateEnemyFireballObject();
         
         SpawnFireball();
         
@@ -409,11 +409,11 @@ public class GameManager : MonoBehaviour
                         
                         if(leftHandSide)
                         {
-                            if(mainCharacter.transform.position.y > 0)
+                            if(mainCharacter.transform.position.y >= 0)
                             {
                                 windObjects[windIndex].GetComponent<SpriteRenderer>().sprite = windSprite;
                             }
-                            else if(mainCharacter.transform.position.y <= 0)
+                            else if(mainCharacter.transform.position.y < 0)
                             {
                                 windObjects[windIndex].GetComponent<SpriteRenderer>().sprite = windSprite2;
                             }
@@ -430,11 +430,11 @@ public class GameManager : MonoBehaviour
                         }
                         else
                         {
-                            if(mainCharacter.transform.position.y > 0)
+                            if(mainCharacter.transform.position.y >= 0)
                             {
                                 windObjects[windIndex].GetComponent<SpriteRenderer>().sprite = windSprite;
                             }
-                            else if(mainCharacter.transform.position.y <= 0)
+                            else if(mainCharacter.transform.position.y < 0)
                             {
                                 windObjects[windIndex].GetComponent<SpriteRenderer>().sprite = windSprite2;
                             }

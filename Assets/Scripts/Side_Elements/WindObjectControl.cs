@@ -5,10 +5,12 @@ using UnityEngine;
 public class WindObjectControl : MonoBehaviour
 {
     private GameManager gameManager;
+    private Animator animator;
+    [SerializeField] private AnimationClip animationClip;
+    private Rigidbody2D windRb2D;
     private bool toRight;
     public bool ToRight { get { return toRight; } set { toRight = value; } }
     private float windSpeed;
-    private Rigidbody2D windRb2D;
     private bool rightGo= false;
     private bool leftGo= false;
     private void Awake() 
@@ -16,6 +18,7 @@ public class WindObjectControl : MonoBehaviour
         gameManager = GameManager.Instance;
         windRb2D = GetComponent<Rigidbody2D>();
         windSpeed = gameManager.WindSpeed;
+        animator = GetComponent<Animator>();
     }
 
     void Start()
@@ -59,17 +62,24 @@ public class WindObjectControl : MonoBehaviour
         {
             if(other.collider.CompareTag("Player"))
             {
+                /*
                 gameManager.CreateWind = false;
                 gameManager.CreateEnemyFireball = true;
-                
+                */
                 if(EnemyController.Instance != null)
                 {
                     EnemyController.Instance.CharacterCollidesWind = false;
                     
                 }
 
+                animator.SetBool("Wind",true);
+                
 
-                gameObject.SetActive(false);
+                //gameObject.SetActive(false);
+
+                StartCoroutine(timer());
+
+
             }
         }
         
@@ -77,16 +87,22 @@ public class WindObjectControl : MonoBehaviour
         {
             if(other.collider.CompareTag("Player"))
             {
+                /*
                 gameManager.CreateWind = true;
                 gameManager.CreateEnemyFireball = false;
-                
+                */
+
                 if(EnemyController.Instance != null)
                 {
                     EnemyController.Instance.CharacterCollidesWind = false;
                     
                 }
+
+                animator.SetBool("Wind",true);
                 
-                gameObject.SetActive(false);
+                //gameObject.SetActive(false);
+
+                StartCoroutine(timer());
             }
         }
 
@@ -94,6 +110,8 @@ public class WindObjectControl : MonoBehaviour
         {
             other.gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
         }
+
+
     }
     
     public  void WindMovement()
@@ -125,4 +143,31 @@ public class WindObjectControl : MonoBehaviour
         }
        
     }
+
+
+    private IEnumerator timer()
+    {
+        yield return new WaitForSeconds(animationClip.length);
+        if(!gameManager.WindObject)
+        {
+            gameManager.CreateWind = false;
+            gameManager.CreateEnemyFireball = true;
+        }
+
+        if(gameManager.WindObject)
+        {
+            gameManager.CreateWind = true;
+            gameManager.CreateEnemyFireball = false;
+        }
+        gameObject.SetActive(false);
+    }
+
+    #region  Wind Animation
+
+    
+
+    #endregion
+
+
+
 }

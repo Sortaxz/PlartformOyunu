@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4376100058365799833}
   - component: {fileID: 3557906581068469247}
   - component: {fileID: 1205336223825780167}
+  - component: {fileID: 9009990999126058400}
   m_Layer: 0
   m_Name: Wind
   m_TagString: Wind
@@ -171,3 +172,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a72c7d716f371544aaf32ddf276a9a63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animationClip: {fileID: 7400000, guid: ca62770c7068d1146bfca327640b9614, type: 2}
+--- !u!95 &9009990999126058400
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6732087896462657310}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f4cf599f41c9eeb4ab0032d660f6ecfc, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

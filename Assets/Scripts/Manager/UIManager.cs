@@ -32,6 +32,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Slider progress;
     [SerializeField] private TextMeshProUGUI gecisEkranYazisi;
 
+    [SerializeField] private GameObject Hearts;
     [SerializeField] private Image heartLeftImage;
     public Image HeartLeftImage { get { return heartLeftImage;} set { heartLeftImage = value;}}
 
@@ -105,7 +106,7 @@ public class UIManager : MonoBehaviour
         scene_Manager = Scene_Manager.Instance;
         
         coinCounterText.text = SaveManager.GetCoinCounter().ToString();
-
+        
         heartLeftImage.fillAmount = SaveManager.GetLifeValue("leftHeart");
         heartMiddleImage.fillAmount = SaveManager.GetLifeValue("middleHeart");
         heartRightImage.fillAmount = SaveManager.GetLifeValue("rightHeart");

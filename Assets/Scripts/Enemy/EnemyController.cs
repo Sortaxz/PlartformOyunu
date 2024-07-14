@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyController : MonoBehaviour
 {
@@ -21,6 +22,8 @@ public class EnemyController : MonoBehaviour
     private RaycastHit2D hit2D;
 
     private Animator enemyAnimator;
+
+    [SerializeField] private Image exclamation;
 
     private Transform  targetTranform;
 
@@ -79,12 +82,12 @@ public class EnemyController : MonoBehaviour
     {
         rgb2D = GetComponent<Rigidbody2D>();
         enemyAnimator = GetComponent<Animator>();
+        exclamation = transform.GetChild(0).GetChild(0).GetComponent<Image>();
     }
     
 
     void Update()
     {
-        print(transform.name + "  :  " + healt);
 
         if(deadly)
         {
@@ -94,6 +97,7 @@ public class EnemyController : MonoBehaviour
                 enemyDead = true;
                 enemyAnimationController.DeadAnimationStart = true;
                 enemyAttackAnimation = false;
+                exclamation.enabled = false;
             }
             
         }
@@ -134,9 +138,16 @@ public class EnemyController : MonoBehaviour
 
         if(carpti)
         {
+            exclamation.fillAmount += .3f;
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector2.right) * 10, Color.blue);
-            
+
+
             transform.position = Vector2.Lerp(transform.position, targetTranform.position, 1f  * Time.deltaTime * enemyCharcterSpeed * 4);
+        }
+        else
+        {
+            exclamation.fillAmount -= .3f;
+
         }
 
         
@@ -414,11 +425,15 @@ public class EnemyController : MonoBehaviour
 
     
 
-    private void EnemyHealthReduction()
+    public void EnemyHealthReduction()
     {
         if(healt > 1)
         {
             healt --;
+        }
+        else
+        {
+            deadly = true;
         }
     }
 
