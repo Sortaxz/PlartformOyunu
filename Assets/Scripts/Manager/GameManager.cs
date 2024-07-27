@@ -409,14 +409,21 @@ public class GameManager : MonoBehaviour
                         
                         if(leftHandSide)
                         {
-                            if(mainCharacter.transform.position.y >= 0)
+                            if(mainCharacter.transform.position.y >= -1)
                             {
                                 windObjects[windIndex].GetComponent<SpriteRenderer>().sprite = windSprite;
                             }
+                            /*
                             else if(mainCharacter.transform.position.y < 0)
                             {
                                 windObjects[windIndex].GetComponent<SpriteRenderer>().sprite = windSprite2;
                             }
+                            */
+                            else if(mainCharacter.transform.position.y <= -1)
+                            {
+                                windObjects[windIndex].GetComponent<SpriteRenderer>().sprite = windSprite2;
+                            }
+
 
                             windObjects[windIndex].transform.position = new Vector2(LeftWindPosition.position.x,mainCharacter.transform.position.y);
                             windObjects[windIndex++].SetActive(true);
@@ -430,14 +437,21 @@ public class GameManager : MonoBehaviour
                         }
                         else
                         {
-                            if(mainCharacter.transform.position.y >= 0)
+                            if(mainCharacter.transform.position.y > -1)
                             {
                                 windObjects[windIndex].GetComponent<SpriteRenderer>().sprite = windSprite;
                             }
+                            /*
                             else if(mainCharacter.transform.position.y < 0)
                             {
                                 windObjects[windIndex].GetComponent<SpriteRenderer>().sprite = windSprite2;
                             }
+                            */
+                            else if(mainCharacter.transform.position.y <= -1)
+                            {
+                                windObjects[windIndex].GetComponent<SpriteRenderer>().sprite = windSprite2;
+                            }
+
 
                             windObjects[windIndex].transform.position = new Vector2(RightWindPosition.position.x,mainCharacter.transform.position.y);
                             windObjects[windIndex++].SetActive(true);

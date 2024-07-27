@@ -18,7 +18,7 @@ public class EnemyAnimationController : MonoBehaviour
     public bool Attack { get { return attack;} set { attack = value; }}
 
     float timeEnemyDead = 0f;
-    float timeEnemyAttack = 0f;
+    //float timeEnemyAttack = 0f;
     private float enemyDeadTimeCounter = 0f;
     private int enemyDeadSpritesIndex = 0;
 
@@ -51,6 +51,7 @@ public class EnemyAnimationController : MonoBehaviour
     {
         if (deadAnimationStart)
         {
+            enemyCharacterAnimator.SetBool("IsMaleEnemyWalk",false);
             enemyDeadTimeCounter += Time.deltaTime;
 
             if (enemyDeadTimeCounter > 0.01f)
@@ -89,8 +90,7 @@ public class EnemyAnimationController : MonoBehaviour
         {
             enemyAttackTimeCounter += Time.deltaTime;
             
-            print("Attack");
-            if(enemyAttackTimeCounter > 0.1f)
+            if(enemyAttackTimeCounter > 0.01f)
             {
                 if (enemyAttackpritesIndex < enemyAttackSprites.Length)
                 {
@@ -104,8 +104,7 @@ public class EnemyAnimationController : MonoBehaviour
                     enemyCharacterAnimator.enabled = true;
                 }
 
-                timeEnemyAttack += Time.deltaTime;
-
+                enemyAttackTimeCounter = 0f;
                 
             }
         }
@@ -124,9 +123,6 @@ public class EnemyAnimationController : MonoBehaviour
     }
     
 
-    private bool AnimationStateControl(string animationName)
-    {
-        return enemyCharacterAnimator.GetCurrentAnimatorStateInfo(0).IsName(animationName);
-    }
+    
     
 }

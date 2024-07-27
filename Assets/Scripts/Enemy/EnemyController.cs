@@ -66,7 +66,11 @@ public class EnemyController : MonoBehaviour
     private bool deadly = false;
     public bool Deadly { get { return deadly;} set { deadly = value; }}
 
+    private bool attackReady = false;
+    public bool AttackReady { get { return attackReady; } set { attackReady = value; }}
    
+    private bool upForce = false;
+    private bool downForce = false;
 
     private string enemyName = default(string);
     public string EnemyName { get { return enemyName;} set { enemyName = value; }}
@@ -89,7 +93,9 @@ public class EnemyController : MonoBehaviour
     void Update()
     {
 
-        if(deadly)
+        print(healt);
+
+        if(deadly || healt == 1)
         {
             if(enemyName == transform.name)
             {
@@ -100,6 +106,11 @@ public class EnemyController : MonoBehaviour
                 exclamation.enabled = false;
             }
             
+        }
+        else
+        {
+            enemyDead = false;
+            enemyAnimationController.DeadAnimationStart = false;
         }
         
         if(enemyAttackAnimation)
@@ -114,40 +125,44 @@ public class EnemyController : MonoBehaviour
     
     private void LookMove()
     {
-        int layerMask = 1 <<10;
-        layerMask = ~1 <<8;
-        
-
-        Debug.DrawRay(transform.position, transform.TransformDirection(Vector2.right) * 10, Color.red);
-        RaycastHit2D hit2D = Physics2D.Raycast(transform.position, transform.TransformDirection(Vector2.right), 10f,layerMask);
-
-        if (hit2D.collider != null)
+        if(!enemyDead)
         {
-            if(hit2D.collider.CompareTag("Player"))
+            int layerMask = 1 <<10;
+            layerMask = ~1 <<8;
+            
+
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector2.right) * 10, Color.red);
+            RaycastHit2D hit2D = Physics2D.Raycast(transform.position, transform.TransformDirection(Vector2.right), 10f,layerMask);
+
+            if (hit2D.collider != null)
             {
-                targetTranform = hit2D.collider.transform;
-                carpti = true;
+                if(hit2D.collider.CompareTag("Player"))
+                {
+                    attackReady = true;
+                    targetTranform = hit2D.collider.transform;
+                    carpti = true;
+                }
+                
             }
-            
-        }
-        else
-        {
-            carpti = false;
-            
-        }
+            else
+            {
+                carpti = false;
+                
+            }
 
-        if(carpti)
-        {
-            exclamation.fillAmount += .3f;
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector2.right) * 10, Color.blue);
+            if(carpti)
+            {
+                exclamation.fillAmount += .3f;
+                Debug.DrawRay(transform.position, transform.TransformDirection(Vector2.right) * 10, Color.blue);
 
 
-            transform.position = Vector2.Lerp(transform.position, targetTranform.position, 1f  * Time.deltaTime * enemyCharcterSpeed * 4);
-        }
-        else
-        {
-            exclamation.fillAmount -= .3f;
+                transform.position = Vector2.Lerp(transform.position, targetTranform.position, 1f  * Time.deltaTime * enemyCharcterSpeed * 4);
+            }
+            else
+            {
+                exclamation.fillAmount -= .3f;
 
+            }
         }
 
         
@@ -190,21 +205,8 @@ public class EnemyController : MonoBehaviour
         }
         if(other.collider.CompareTag("fireball") )
         {
-            
-
-            if(other.collider.transform.position.x < transform.position.x)
-            {
-                leftPosition = false;
-                rightPosition = false;
-            }
-            else if(other.collider.transform.position.x > transform.position.x)
-            {
-                leftPosition = true;
-                rightPosition = true;
-                
-            }
-
-            
+            ChangeDirectionEnemy(other);
+           
             EnemyHealthReduction();
         }
 
@@ -224,6 +226,10 @@ public class EnemyController : MonoBehaviour
             if(!deadly)
             {
                 swordStrike = true;
+            }
+            else
+            {
+                swordStrike = false;
             }
 
            
@@ -251,7 +257,7 @@ public class EnemyController : MonoBehaviour
 
     }
 
-    private void EnemyDirectionControl()
+    public void EnemyDirectionControl()
     {
         if (!leftPosition)
         {
@@ -270,20 +276,40 @@ public class EnemyController : MonoBehaviour
         if(other.collider.CompareTag("Player"))
         {
 
-
-            SwordStrikeMethod(other);
-
-            if(swordStrike)
+            if(!deadly)
             {
-                GameManager.Instance.mainCharacter.CharacterHealthDecrease = true;
-                GameManager.Instance.mainCharacter.HitEnemy = true;
-                GameManager.Instance.mainCharacter.StartHurtAnimation = true;
+                if(attackReady)
+                {
+                    enemyAttackAnimation = true;
+                    enemyName = gameObject.transform.name;
+                }
+            }
+            else
+            {
+                if(attackReady)
+                {
+                    enemyAttackAnimation = false;
+                    enemyName = "";
+                }
             }
 
-            if(characterCollidesWind)
+
+            if(!deadly)
             {
-                enemyReadyJump = true;
-                characterCollidesWind = false;
+                SwordStrikeMethod(other);
+
+                if(swordStrike)
+                {
+                    GameManager.Instance.mainCharacter.CharacterHealthDecrease = true;
+                    GameManager.Instance.mainCharacter.HitEnemy = true;
+                    GameManager.Instance.mainCharacter.StartHurtAnimation = true;
+                }
+
+                if(characterCollidesWind)
+                {
+                    enemyReadyJump = true;
+                    characterCollidesWind = false;
+                }
             }
         }
 
@@ -300,22 +326,23 @@ public class EnemyController : MonoBehaviour
                 {
                     UpForce();
                 }
+                
+
                 if (resultX < other.transform.position.x )
                 {
                     UpForce();
-
                 }
+                
             }
             else if(transform.position.y < 1.5f && ressultY < 0)
             {
                 DownForce();
             }
-
             if (transform.position.y  == other.transform.position.y)
             {
                 DownForce();
-
             }
+            
 
         }
 
@@ -377,6 +404,8 @@ public class EnemyController : MonoBehaviour
         rgb2D.AddForce(Vector2.down * 30);
     }
 
+
+
     private void ChangeDirectionEnemy(Collision2D other)
     {
         
@@ -431,7 +460,7 @@ public class EnemyController : MonoBehaviour
         {
             healt --;
         }
-        else
+        else if( healt <= 1)
         {
             deadly = true;
         }
@@ -439,15 +468,16 @@ public class EnemyController : MonoBehaviour
 
     private void EnemyCharacterMove()
     {   
-        if(!calculateOnce)
-        {
-            minDistanceTravel = transform.position.x + -25;
-            maxDistanceTravel = transform.position.x + 25;
-            calculateOnce = true;
-        }
 
         if(!enemyDead)
         {
+            if(!calculateOnce)
+            {
+                minDistanceTravel = transform.position.x + -25;
+                maxDistanceTravel = transform.position.x + 25;
+                calculateOnce = true;
+            }
+
             if (!leftPosition)
             {
                 transform.rotation = Quaternion.Euler(0, 180, 0);
@@ -482,10 +512,13 @@ public class EnemyController : MonoBehaviour
 
     private void EnemyJumpMove(float enemyJumpPower)
     {
-        if (enemyReadyJump)
+        if(!enemyDead)
         {
-            rgb2D.AddForce(Vector2.up * enemyJumpPower);
-            enemyReadyJump = false;
+            if (enemyReadyJump)
+            {
+                rgb2D.AddForce(Vector2.up * enemyJumpPower);
+                enemyReadyJump = false;
+            }
         }
     }
 }

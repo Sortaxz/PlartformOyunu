@@ -69,6 +69,9 @@ public class CharacterControl : MonoBehaviour
     private bool leftSlidDown=  false;
     private bool rightSlidDown= false;
 
+    private bool leftForce = false;
+    private bool rightForce = false;
+
     [SerializeField] private BoxCollider2D boxCollider2D;
     private PolygonCollider2D polygonCollider2D;
 
@@ -156,14 +159,39 @@ public class CharacterControl : MonoBehaviour
 
         if(other.collider.CompareTag("Enemy"))
         {
-            if(readyToStrikeAttack ||readyToAttack)
+            if(readyToStrikeAttack || readyToAttack)
             {
                 EnemyController.Instance.EnemyHealthReduction();
-                print(EnemyController.Instance.Healt);
+                EnemyController.Instance.EnemyDirectionControl();
+
+
+                if (other.gameObject.GetComponent<EnemyController>().Healt == 1)
+                {
+                    other.gameObject.GetComponent<EnemyController>().Deadly = true;
+                    other.gameObject.GetComponent<EnemyController>().EnemyName = other.gameObject.name;
+                }
+
             }
+
+
         }
        
     }
+
+    private void NewMethod(Collision2D other)
+    {
+        if (leftForce)
+        {
+            other.rigidbody.AddForce(Vector2.left * 60);
+
+        }
+        if (rightForce)
+        {
+            other.rigidbody.AddForce(Vector2.right * 60);
+
+        }
+    }
+
 
 
     private void OnCollisionStay2D(Collision2D other) 
@@ -185,15 +213,27 @@ public class CharacterControl : MonoBehaviour
         }
         if(other.collider.CompareTag("Enemy"))
         {
-            characterHealthDecrease  =false;
-            hitEnemy = false;
+            NewMethod(other);
 
+            //characterHealthDecrease  =false;
+            //hitEnemy = false;
+
+            
+            /*
             if(!EnemyController.Instance.Deadly)
             {
-                other.gameObject.GetComponent<EnemyController>().EnemyAttackAnimation = true;
-                other.gameObject.GetComponent<EnemyController>().EnemyName = other.gameObject.name;
+                //other.gameObject.GetComponent<EnemyController>().EnemyAttackAnimation = true;
+                //other.gameObject.GetComponent<EnemyController>().EnemyName = other.gameObject.name;
+                
+                /*
+                if(other.gameObject.GetComponent<EnemyController>().AttackReady)
+                {
+                    other.gameObject.GetComponent<EnemyController>().EnemyAttackAnimation = true;
+                    other.gameObject.GetComponent<EnemyController>().EnemyName = other.gameObject.name;
+                }
             }
 
+                */
             //startHurtAnimation = true;
         }
         
@@ -211,7 +251,8 @@ public class CharacterControl : MonoBehaviour
         {
             characterHealthDecrease  =false;
             hitEnemy = false;
-
+            leftForce = false;
+            rightForce = false;
 
         }    
         if(other.collider.CompareTag("enemyFireball"))
