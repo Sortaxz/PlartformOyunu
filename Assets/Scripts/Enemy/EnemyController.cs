@@ -72,6 +72,9 @@ public class EnemyController : MonoBehaviour
     private bool upForce = false;
     private bool downForce = false;
 
+    private bool enemyHurtAnimation = false;
+    public bool EnemyHurtAnimation { get { return enemyHurtAnimation;} set { enemyHurtAnimation = value;}}
+
     private string enemyName = default(string);
     public string EnemyName { get { return enemyName;} set { enemyName = value; }}
 
@@ -89,30 +92,26 @@ public class EnemyController : MonoBehaviour
         exclamation = transform.GetChild(0).GetChild(0).GetComponent<Image>();
     }
     
-
+//enemyAnimationController.DeadAnimationStart = true;
     void Update()
     {
 
-        print(healt);
+        print(transform.name +"   "+healt);
 
-        if(deadly || healt == 1)
+        if(deadly  || healt == 0)
         {
             if(enemyName == transform.name)
             {
                 enemyAnimator.enabled = false;
                 enemyDead = true;
-                enemyAnimationController.DeadAnimationStart = true;
+                transform.GetComponent<EnemyAnimationController>().DeadAnimationStart = true;
                 enemyAttackAnimation = false;
                 exclamation.enabled = false;
+                rgb2D.velocity  =Vector2.zero;
             }
             
         }
-        else
-        {
-            enemyDead = false;
-            enemyAnimationController.DeadAnimationStart = false;
-        }
-        
+       
         if(enemyAttackAnimation)
         {
             enemyAnimationController.Attack = true;
@@ -125,7 +124,7 @@ public class EnemyController : MonoBehaviour
     
     private void LookMove()
     {
-        if(!enemyDead)
+        if(!enemyDead && !enemyHurtAnimation)
         {
             int layerMask = 1 <<10;
             layerMask = ~1 <<8;
@@ -141,6 +140,10 @@ public class EnemyController : MonoBehaviour
                     attackReady = true;
                     targetTranform = hit2D.collider.transform;
                     carpti = true;
+                }
+                else
+                {
+                    attackReady = false; // yeni eklendi
                 }
                 
             }
@@ -220,20 +223,6 @@ public class EnemyController : MonoBehaviour
         }
 
 
-        if(other.collider.CompareTag("Player"))
-        {
-          
-            if(!deadly)
-            {
-                swordStrike = true;
-            }
-            else
-            {
-                swordStrike = false;
-            }
-
-           
-        } 
         if(other.collider.CompareTag("Enemy"))
         {
             enemyReadyJump = true;
@@ -257,6 +246,7 @@ public class EnemyController : MonoBehaviour
 
     }
 
+    
     public void EnemyDirectionControl()
     {
         if (!leftPosition)
@@ -276,26 +266,15 @@ public class EnemyController : MonoBehaviour
         if(other.collider.CompareTag("Player"))
         {
 
-            if(!deadly)
+            if(!deadly && !enemyHurtAnimation)
             {
-                if(attackReady)
+                swordStrike = true;
+                if(attackReady )
                 {
                     enemyAttackAnimation = true;
                     enemyName = gameObject.transform.name;
                 }
-            }
-            else
-            {
-                if(attackReady)
-                {
-                    enemyAttackAnimation = false;
-                    enemyName = "";
-                }
-            }
 
-
-            if(!deadly)
-            {
                 SwordStrikeMethod(other);
 
                 if(swordStrike)
@@ -311,6 +290,17 @@ public class EnemyController : MonoBehaviour
                     characterCollidesWind = false;
                 }
             }
+            else
+            {
+                swordStrike = false;
+                if(attackReady)
+                {
+                    enemyAttackAnimation = false;
+                    enemyName = "";
+                }
+            }
+
+           
         }
 
         if (other.collider.gameObject.layer == LayerMask.NameToLayer("Zemin"))
@@ -456,11 +446,11 @@ public class EnemyController : MonoBehaviour
 
     public void EnemyHealthReduction()
     {
-        if(healt > 1)
+        if(healt > 0)
         {
             healt --;
         }
-        else if( healt <= 1)
+        else
         {
             deadly = true;
         }
@@ -469,7 +459,7 @@ public class EnemyController : MonoBehaviour
     private void EnemyCharacterMove()
     {   
 
-        if(!enemyDead)
+        if(!enemyDead && !enemyHurtAnimation)
         {
             if(!calculateOnce)
             {
@@ -512,7 +502,7 @@ public class EnemyController : MonoBehaviour
 
     private void EnemyJumpMove(float enemyJumpPower)
     {
-        if(!enemyDead)
+        if(!enemyDead && !enemyHurtAnimation)
         {
             if (enemyReadyJump)
             {

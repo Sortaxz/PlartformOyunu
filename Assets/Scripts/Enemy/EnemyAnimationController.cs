@@ -18,7 +18,6 @@ public class EnemyAnimationController : MonoBehaviour
     public bool Attack { get { return attack;} set { attack = value; }}
 
     float timeEnemyDead = 0f;
-    //float timeEnemyAttack = 0f;
     private float enemyDeadTimeCounter = 0f;
     private int enemyDeadSpritesIndex = 0;
 
@@ -49,7 +48,7 @@ public class EnemyAnimationController : MonoBehaviour
 
     private void EnemyDeadAnimation()
     {
-        if (deadAnimationStart)
+        if (deadAnimationStart || transform.GetComponent<EnemyController>().Healt == 0)
         {
             enemyCharacterAnimator.SetBool("IsMaleEnemyWalk",false);
             enemyDeadTimeCounter += Time.deltaTime;
@@ -86,7 +85,7 @@ public class EnemyAnimationController : MonoBehaviour
     private void EnemyAttackAnimation()
     {
 
-        if (attack)
+        if (attack && !EnemyController.Instance.EnemyHurtAnimation)
         {
             enemyAttackTimeCounter += Time.deltaTime;
             

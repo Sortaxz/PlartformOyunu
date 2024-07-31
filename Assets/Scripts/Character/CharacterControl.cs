@@ -161,16 +161,18 @@ public class CharacterControl : MonoBehaviour
         {
             if(readyToStrikeAttack || readyToAttack)
             {
-                EnemyController.Instance.EnemyHealthReduction();
-                EnemyController.Instance.EnemyDirectionControl();
+                other.gameObject.GetComponent<EnemyController>().EnemyHealthReduction();
+                other.gameObject.GetComponent<EnemyController>().EnemyDirectionControl();
 
+                other.gameObject.GetComponent<EnemyController>().EnemyHurtAnimation = true;
 
-                if (other.gameObject.GetComponent<EnemyController>().Healt == 1)
+                HurtAnimation(other);
+
+                if (other.gameObject.GetComponent<EnemyController>().Healt == 0)
                 {
                     other.gameObject.GetComponent<EnemyController>().Deadly = true;
                     other.gameObject.GetComponent<EnemyController>().EnemyName = other.gameObject.name;
                 }
-
             }
 
 
@@ -178,20 +180,28 @@ public class CharacterControl : MonoBehaviour
        
     }
 
-    private void NewMethod(Collision2D other)
+
+    private void HurtAnimation(Collision2D other)
     {
-        if (leftForce)
+        if(other.collider.gameObject.CompareTag("Enemy"))
         {
-            other.rigidbody.AddForce(Vector2.left * 60);
-
-        }
-        if (rightForce)
-        {
-            other.rigidbody.AddForce(Vector2.right * 60);
-
+            if(other.collider.gameObject.GetComponent<EnemyController>().EnemyHurtAnimation)
+            {
+                if(transform.position.x >other.collider.gameObject.transform.position.x)
+                {
+                    print("Enemy sola kuvvet uygulandi");
+                    other.collider.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.left * 600);
+                }
+                else if(transform.position.x < other.collider.gameObject.transform.position.x)
+                {
+                    print("Enemy sağa kuvvet uygulandi");
+                    other.collider.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.right * 600);
+                    
+                }
+            }
+            
         }
     }
-
 
 
     private void OnCollisionStay2D(Collision2D other) 
@@ -211,31 +221,6 @@ public class CharacterControl : MonoBehaviour
             
             startHurtAnimation  =true;
         }
-        if(other.collider.CompareTag("Enemy"))
-        {
-            NewMethod(other);
-
-            //characterHealthDecrease  =false;
-            //hitEnemy = false;
-
-            
-            /*
-            if(!EnemyController.Instance.Deadly)
-            {
-                //other.gameObject.GetComponent<EnemyController>().EnemyAttackAnimation = true;
-                //other.gameObject.GetComponent<EnemyController>().EnemyName = other.gameObject.name;
-                
-                /*
-                if(other.gameObject.GetComponent<EnemyController>().AttackReady)
-                {
-                    other.gameObject.GetComponent<EnemyController>().EnemyAttackAnimation = true;
-                    other.gameObject.GetComponent<EnemyController>().EnemyName = other.gameObject.name;
-                }
-            }
-
-                */
-            //startHurtAnimation = true;
-        }
         
     }
     private void OnCollisionExit2D(Collision2D other) 
@@ -253,7 +238,7 @@ public class CharacterControl : MonoBehaviour
             hitEnemy = false;
             leftForce = false;
             rightForce = false;
-
+            other.gameObject.GetComponent<EnemyController>().EnemyHurtAnimation = false;
         }    
         if(other.collider.CompareTag("enemyFireball"))
         {
